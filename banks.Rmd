@@ -1,0 +1,63 @@
+# "Bank Failures"
+
+Richardson and Troost bank failure data and results, which produce Figures 5.1--5.3 in *Mastering Metrics*.
+
+Derived from the [master_banks.do](http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do) file. 
+Also see the associated [documentation](http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt).
+
+```{r setup}
+library("tidyverse")
+library("lubridate")
+```
+
+Read the input data, [banks.csv]()
+```{r banks_csv}
+filename <- here::here("data", "banks.csv")
+col_types <- cols(
+  date = col_integer(),
+  weekday = col_character(),
+  day = col_integer(),
+  month = col_integer(),
+  year = col_integer(),
+  bib6 = col_integer(),
+  bio6 = col_integer(),
+  bib8 = col_integer(),
+  bio8 = col_integer()
+)
+banks <- read_csv(filename, na = "", col_types = col_types) %>%
+  filter(month == 7L, day == 1L) %>%
+  select(year, matches("bi[ob][68]")) %>%
+  arrange(year) %>%
+  mutate(diff86 = bib8[year == 1930] - bib6[year == 1930],
+         counterfactual = if_else(year > 1930, bib8 - diff86, bib6))
+         
+```
+
+```{r banks_glimpse}
+glimpse(banks)
+```
+
+Plot the lines of the 8th, 6th, and 6th counterfactuals.
+```{r}
+select(banks, year, bib8, bib6, counterfactual) %>%
+  gather(variable, value, -year) %>%
+  mutate(variable = recode(variable, bib8 = "8th district", 
+                           bib6 = "6th district",
+                           counterfactual = "Counterfactual")) %>%
+  ggplot(aes(x = year, y = value, colour = variable)) +
+  geom_point() +
+  geom_line() +
+  ylab("Number of Banks in Business") +
+  xlab("")
+```
+
+Difference in difference estimate over years,
+```{r}
+ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
+  geom_point() +
+  geom_line() +
+  ylab("DID (Number of Banks)") +
+  xlab("")
+```
+
+

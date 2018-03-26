@@ -1,0 +1,91 @@
+---
+title: "Table 1.1""
+author: "Jeffrey Arnold"
+date: "3/24/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This reproduces the analyses in Table 1.1.
+That table compares people with and without health insurance in the 2009 National Health Interview Survey (NHIS).
+
+The code is derived from  [NHIS2009_hicompare.do](http://masteringmetrics.com/wp-content/uploads/2015/01/NHIS2009_hicompare.do).
+
+First, load the prerequisite packages.
+```{r message=FALSE}
+library("tidyverse")
+library("magrittr")
+library("haven")
+```
+
+Load the data, and adjust a few of the columns to account for differences in 
+how STATA and R store data.
+```{r}
+NHIS2009_clean <-  
+  read_dta("data/NHIS/Data/NHIS2009_clean.dta") %>%
+  mutate(age = as.numeric(age),
+         serial = as.integer(serial),
+         fml = as.logical(fml),
+         marradult = as.logical(marradult))
+```
+Remove missing values.
+```{r}
+NHIS2009_clean <- NHIS2009_clean %>%
+  filter(marradult, perweight != 0) %>%
+  group_by(serial) %>%
+  mutate(hi_hsb = mean(hi_hsb1, na.rm = TRUE)) %>%
+  filter(!is.na(hi_hsb), !is.na(hi)) %>%
+  mutate(female = sum(fml)) %>%
+  filter(female == 1) %>%
+  select(-female)
+```
+
+For the sample only include those between 26 and 59, and that are married, and remove single person households.
+```{r}
+NHIS2009_clean <- NHIS2009_clean %>%
+  filter(between(age, 26, 59),
+         marradult, adltempl >= 1)
+         
+```
+Keep only single family households
+```{r}
+NHIS2009_clean %<>%
+  group_by(serial) %>%
+  filter(length(serial) > 1L) %>%
+  ungroup()
+```
+
+Tables of wives and husbands by HI status. 
+The weighting matches the original in Stata.
+```{r}
+NHIS2009_clean %>%
+  group_by(fml) %>%
+  # normalize person weights to match number of observations in each
+  # group
+  mutate(perweight = perweight / sum(perweight) * n()) %>%
+  group_by(fml, hi) %>%
+  summarise(n_wt = sum(perweight)) %>%
+  group_by(fml) %>%
+  mutate(prop = n_wt / sum(n_wt))
+
+```
+
+Comparison of stample statistics
+```{r}
+varlist <- c("hlth", "nwhite", "age", "yedu", "famsize", "empl", "inc")
+NHIS2009_clean %>%
+  # rlang::set_attrs with NULL removes attributes from columns.
+  # this avoids a warning from gather about differing attributes
+  map_dfc(~ rlang::set_attrs(.x, NULL)) %>%
+  select(fml, hi, one_of(varlist)) %>% 
+  gather(variable, value, -fml, -hi) %>%
+  group_by(fml, hi, variable) %>%
+  summarise(mean = mean(value, na.rm = TRUE), sd = sd(value, na.rm = TRUE)) %>%
+  gather(stat, value, -fml, -hi, -variable) %>%
+  unite(stat_hi, stat, hi) %>%
+  spread(stat_hi, value) %>%
+  mutate(diff = mean_1 - mean_0)
+```

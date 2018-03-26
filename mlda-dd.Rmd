@@ -1,0 +1,87 @@
+# MLDA Difference-in-Difference
+
+Derived from [analysis.do](http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do).
+This program generates Tables 5.2 and 5.3 in Mastering 'Metrics.
+
+```{r}
+library("tidyverse")
+library("haven")
+```
+
+```{r}
+deaths <- read_dta(here::here("data", "deaths.dta")) %>%
+  mutate_if(is.labelled, as_factor) %>%
+  mutate(state = as.factor(state))
+         
+```
+
+```{r}
+glimpse(deaths)
+```
+
+
+
+## Table 5.2
+
+Regression DD Estimates of MLDA-Induced Deaths among 18-20 Year Olds, from 1970-1983
+
+```{r}
+dtypes <- c("all", "MVA", "suicide", "homicide")
+```
+
+
+```{r}
+run_reg <- function(i) {
+  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i)
+
+  mods <- list(
+    "No trends, no weights" = 
+      lm(mrate ~ legal + state + year, data = mutate(data, year = factor(year))),
+    "Time trends, no weights" = 
+      lm(mrate ~ legal + state * year, data = data),
+    "No trends, weights" =
+      lm(mrate ~ legal + state + year, data = mutate(data, year = factor(year)),
+         weights = data$pop),
+    "Time trends, weights" = 
+      lm(mrate ~ legal + state * year, data = data, weights = data$pop)
+  )
+  map_df(mods, tidy) %>%
+    filter(term == "legal") %>%
+    select(estimate, std.error) %>%
+    mutate(response = i,
+           model = names(mods))
+}
+                 
+```
+
+**TODO: need to add clustering by state**
+
+```{r}
+mlda_dd <- map_df(dtypes, run_reg)
+```
+
+
+## Table 5.3
+
+Regression DD Estimates of MLDA-Induced Deaths among 18-20 Year Olds, from 1970-1983, controlling for Beer Taxes
+
+
+```{r}
+run_reg <- function(i) {
+  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i)
+
+  mods <- list(
+    "No time trends" = 
+      lm(mrate ~ legal + beertax + state + year, data = mutate(data, year = factor(year))),
+    "Time trends" = 
+      lm(mrate ~ legal + beertax + state * year, data = data),
+  )
+  map_df(mods, tidy) %>%
+    filter(term == "legal") %>%
+    select(estimate, std.error) %>%
+    mutate(response = i,
+           model = names(mods))
+}
+                 
+```
+

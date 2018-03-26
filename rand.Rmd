@@ -1,0 +1,315 @@
+# Tables 1.3 and 1.4
+
+```{r libraries,message=FALSE}
+library("tidyverse")
+library("broom")
+library("haven")
+```
+
+```{r}
+dta_variables <- function(x) {
+  stata_attrs <- c("format.stata", "label")
+  out <- map_dfr(x, function(x) {
+    as_tibble(compact(attributes(x)[stata_attrs]))
+  })
+  out[["variable"]] <- names(x)
+  out[["class"]] <- map(x, class)
+  out <- select(out, variable, everything())
+  out
+}
+```
+
+## Table 1.3
+
+```{r FILENAME}
+FILENAME <- "data/Data/rand_initial_sample_2.dta"
+```
+
+```{r rand}
+rand <- read_dta(FILENAME) %>%
+  # delete Stata attributes
+  map_dfc(~ rlang::set_attrs(.x, NULL))
+```
+
+The `plantype` variable takes four values,
+
+------- ------------------
+1       Free
+2       Deductible
+3       Coinsurance
+4       Catastrophic
+------- -------------------
+
+Create a more interpretable version of plantype, and 
+ensure that the free plan does not give 0's to anyone without a plan.
+```{r rand_plantype}
+rand <- rand %>%
+  filter(!is.na(plantype)) %>%
+  # plantype to a factor variable
+  mutate(plantype = factor(plantype, 
+                           labels = c("Free", "Deductible", 
+                                      "Coinsurance", "Catastrophic"))) %>%
+  # reorder so that "Catastrophic is first
+  mutate(plantype = fct_relevel(plantype, 
+                                "Catastrophic", "Deductible",
+                                "Coinsurance", "Free")) %>%
+  # indicator variable for any insurance
+  mutate(any_ins = plantype != "Catastrophic")
+```
+
+Calculate the number in each plan:
+```{r plantypes}
+plantypes <- count(rand, plantype) 
+```
+```{r results='asis'}
+knitr::kable(plantypes)
+```
+
+
+Create column with an integer family identifier.
+```{r rand_famid}
+rand <- mutate(rand,
+               famid = str_sub(fam_identifier, 3) %>% 
+                 str_replace("[A-Z]", "") %>%
+                 as.integer())
+```
+
+
+For variables, difference in means between plantypes
+```{r}
+varlist <- c("female", "blackhisp", "age", "educper", "income1cpi", "hosp", 
+             "ghindx", "cholest", "diastol", "systol", "mhi", "ghindxx", 
+             "cholestx", "diastolx", "systolx", "mhix")
+		
+```
+
+Column (1) with the mean and standard deviation of the "Catastrophic" plan,
+```{r catastrophic_stats}
+catastrophic_stats <- rand %>%
+  filter(plantype == "Catastrophic") %>%
+  select(one_of(varlist)) %>%
+  gather(variable, value) %>%
+  group_by(variable) %>%
+  summarise(Mean = mean(value, na.rm = TRUE), 
+            `Std. Dev.` = sd(value, na.rm = TRUE))
+```
+
+```{r catastrophic_stats_tab, results='asis'}
+knitr::kable(catastrophic_stats, digits = 3)
+
+```
+
+
+The difference in means between plans and the catastophic plan.
+```{r}
+calc_diffs <- function(x) {
+  # programmatically create the formula
+  f <- quo_squash(quo(!!sym(x) ~ plantype))
+  # this would also work
+  # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
+
+  mod <- lm(f, data = rand)
+  out <- tidy(mod)
+  out[["response"]] <- x
+  out
+}
+
+x_diffs <- map_dfr(varlist, calc_diffs) %>%
+  select(response, term, estimate, std.error) %>%
+  mutate(term = str_replace(term, "^plantype", ""))
+
+```
+Note: the above code currently does not cluster by family ID as in the original analysis
+so the standard errors will be different.
+
+Print the table. This could be done much nicer, ... but for now.
+```{r}
+fmt_num <- function(x) {
+  prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
+}
+
+x_diffs %>% 
+  mutate(estimate = str_c(fmt_num(estimate), " (", fmt_num(std.error), ")")) %>%
+  select(-std.error) %>%
+  spread(term, estimate) %>%
+  knitr::kable(digits = 3)
+
+```
+
+Plot the difference-in-means of each plantype vs. catastrophic insurance.
+```{r plot_plantype_diffs}
+ggplot(filter(x_diffs, term != "(Intercept)"), 
+              aes(x = term, y = estimate, 
+                  ymin = estimate - 2 * std.error,
+                  ymax = estimate + 2 * std.error)) +
+  geom_hline(yintercept = 0, colour = "white", size = 1) +
+  geom_pointrange() +  
+  facet_grid(response ~ . , scales = "free_y")
+  
+```
+
+
+## Table 1.4
+
+Load person-year data
+```{r person_years}
+person_years <- read_dta(here::here("data/Data/person_years.dta")) %>%
+    map_dfc(~ rlang::set_attrs(.x, NULL))
+```
+Load annual spending on hospital visits
+```{r}
+annual_spend <- read_dta(here::here("data/Data/annual_spend.dta")) %>%
+  map_dfc(~ rlang::set_attrs(.x, NULL))
+```
+
+Inner join the person-year and annual-spending data on person identifiers and years,
+```{r}
+person_spend <- inner_join(person_years, annual_spend, 
+                           by = c("person", "year"))
+```
+
+Group plans into four types
+
+- 1-Free, 
+- 2-Individual Deductible
+- 3-Cost Sharing (25%/50%)
+- 4-Catostrophic (Fam Deductible) (95%/100%)
+
+```{r person_plantype}
+person_spend <-
+  mutate(person_spend,
+         plantype = case_when(
+          plan == 24 ~ "Free",
+          plan %in% c(1, 5) ~ "Deductible",
+          plan >= 2 & plan <= 4 ~ "Catastrophic",
+          plan >= 6 & plan <= 8 ~ "Catastrophic",
+          plan >= 9 & plan <= 23 ~ "Cost Sharing"
+        )) %>%
+  # reorder levels so Catastrophic is first
+  mutate(plantype = fct_relevel(plantype, 
+                                "Catastrophic",
+                                "Deductible",
+                                "Cost Sharing",
+                                "Free"))
+```
+
+Attempt to correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
+```{r}
+person_spend <- mutate(person_spend,
+                       expyear = indv_start_year + year - 1)
+```
+
+Adjust spending for inflation.
+The CPI adjustment values below are based on the June CPI from 1991 (see table found at http://www.seattle.gov/financedepartment/cpi/historical.htm ).
+
+```{r cpi}
+cpi <- tribble(
+  ~ year, ~ cpi,
+  1973, 3.07,
+  1974, 2.76,
+  1975, 2.53,
+  1976, 2.39,
+  1977, 2.24,
+  1978, 2.09,
+  1979, 1.88,
+  1980, 1.65,
+  1981, 1.5,
+  1982, 1.41,
+  1983, 1.37,
+  1984, 1.31,
+  1985, 1.27
+)
+```
+```{r}
+person_spend <- 
+  left_join(person_spend, 
+            cpi, by = c("expyear" = "year")) %>%
+  mutate(out_inf = outsum * cpi,
+         inpdol_inf = inpdol * cpi)
+```
+
+Add a total spending variable.
+```{r}
+person_spend <- mutate(person_spend,
+                       tot_inf = inpdol_inf + out_inf)
+```
+Add a variable for any health insurance (free, Individual deductible, or cost-sharing):
+```{r}
+person_spend <- mutate(person_spend, 
+                       any_ins = plantype != "Catastrophic")
+```
+
+
+Count the number of observations in each plan-type,
+```{r person_plantype}
+count(person_spend, plantype)
+```
+and any-insurance,
+```{r person_plantype}
+count(person_spend, any_ins)
+```
+
+Create a list of response variables.
+```{r}
+varlist <- c("ftf", "out_inf", "totadm", "inpdol_inf", "tot_inf")
+```
+
+Mean and standard deviation for those receiving catastrophic insurance,
+```{r}
+person_spend %>%
+  filter(plantype == "Catastrophic") %>%
+  select(one_of(varlist)) %>%
+  gather(response, value) %>%
+  group_by(response) %>%
+  summarise(Mean = mean(value, na.rm = TRUE),
+            `Std. Dev.` = sd(value, na.rm = TRUE))
+```
+
+Calculate a difference in means for all
+The difference in means between plans and the catastophic plan.
+```{r}
+calc_diffs <- function(x) {
+  # programmatically create the formula
+  f <- quo_squash(quo(!!sym(x) ~ plantype))
+  # this would also work
+  # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
+
+  mod <- lm(f, data = person_spend)
+  out <- tidy(mod)
+  out[["response"]] <- x
+  out
+}
+
+person_diffs <- map_dfr(varlist, calc_diffs) %>%
+  select(response, term, estimate, std.error) %>%
+  mutate(term = str_replace(term, "^plantype", ""))
+
+```
+Note: the above code currently does not cluster by family ID as in the original analysis
+so the standard errors will be different.
+
+Print the table. This could be done much nicer, ... but for now.
+```{r}
+fmt_num <- function(x) {
+  prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
+}
+
+person_diffs %>% 
+  mutate(estimate = str_c(fmt_num(estimate), " (", fmt_num(std.error), ")")) %>%
+  select(-std.error) %>%
+  spread(term, estimate) %>%
+  knitr::kable(digits = 3)
+
+```
+
+Plot the difference-in-means of each plantype vs. catastrophic insurance.
+```{r plot_plantype_diffs}
+ggplot(filter(person_diffs, term != "(Intercept)"), 
+              aes(x = term, y = estimate, 
+                  ymin = estimate - 2 * std.error,
+                  ymax = estimate + 2 * std.error)) +
+  geom_hline(yintercept = 0, colour = "white", size = 1) +
+  geom_pointrange() +  
+  facet_grid(response ~ . , scales = "free_y")
+  
+```
