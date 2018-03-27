@@ -1,0 +1,24 @@
+
+---
+knit: "bookdown::render_book"
+title: "R Code for Mastering 'Metrics"
+author: ["Jeffrey B. Arnold", "Calvin H. Garner"]
+description: >
+  R code to reproduce analyses in Mastering Metrics 
+  by Angrist and Pischke.
+site: bookdown::bookdown_site
+github-repo: "jrnold/r4ds-exercise-solutions"
+url: 'http\://jrnold.github.io/r4ds-exercise-solutions'
+twitter-handle: jrnld
+documentclass: book
+---
+
+# Welcome {-}
+
+This work contains R code to reproduce many of the analyses in *Mastering 'Metrics* by Joshua D. Angrist and Jörn-Steffen Pischke, derived from the Stata code
+provided on [masteringmetrics.com](http://masteringmetrics.com/resources/).
+
+
+The text of this work is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+The R Code in this work is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+

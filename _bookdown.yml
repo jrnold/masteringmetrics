@@ -1,0 +1,18 @@
+output_dir: docs
+new_session: yes
+
+rmd_files: [
+  "index.rmd",
+  "NHIS2009.Rmd",
+  "rand.Rmd",
+  "mlda-rd.Rmd",
+  "banks.Rmd",
+  "mlda-dd.Rmd"
+]
+
+before_chapter_script: "_common.R"
+after_chapter_script: "_after.R"
+book_filename: "masteringmetrics-r"
+delete_merged_file: true
+edit: "https://github.com/jrnold/masteringmetrics/edit/master/%s"
+

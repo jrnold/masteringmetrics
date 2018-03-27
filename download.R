@@ -8,13 +8,25 @@ OUTDIR <- here::here("data")
 # Known Stata extras:
 # ssc install outreg2
 
+# dta_variables <- function(x) {
+#   stata_attrs <- c("format.stata", "label")
+#   out <- map_dfr(x, function(x) {
+#     as_tibble(compact(attributes(x)[stata_attrs]))
+#   })
+#   out[["variable"]] <- names(x)
+#   out[["class"]] <- map(x, class)
+#   out <- select(out, variable, everything())
+#   out
+# }
+
+
 URLS <- c(
   "NHIS/Data.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip",
   "ReadMe_NHIS.txt" = "http://masteringmetrics.com/wp-content/uploads/2014/12/ReadMe_NHIS.txt",
   "NHIS2009_hicompare.do" = "http://masteringmetrics.com/wp-content/uploads/2015/01/NHIS2009_hicompare.do",
   "ReadMe_RAND.txt" = "http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt",
-  "Data1.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Data1.zip",
-  "Code.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip",
+  "RAND/Data1.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Data1.zip",
+  "RAND/Code.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip",
   "ReadMe_MDVE.txt" = "http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt",
   "mdve.dta" = "http://masteringmetrics.com/wp-content/uploads/2015/02/mdve.dta",
   "MDVE_Table33.do" = "http://masteringmetrics.com/wp-content/uploads/2015/02/MDVE_Table33.do",
@@ -70,5 +82,8 @@ walk2(URLS, names(URLS), download_file)
 # Unzip files
 unzip(file.path(OUTDIR, "NHIS/Data.zip"), exdir = file.path(OUTDIR, "NHIS/"),
       overwrite = TRUE)
-
+unzip(file.path(OUTDIR, "RAND/Data1.zip"), exdir = file.path(OUTDIR, "RAND/"),
+      overwrite = TRUE)
+unzip(file.path(OUTDIR, "RAND/Code.zip"), exdir = file.path(OUTDIR, "RAND/"),
+      overwrite = TRUE)
 

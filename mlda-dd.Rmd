@@ -1,18 +1,28 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # MLDA Difference-in-Difference
 
 Derived from [analysis.do](http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do).
 This program generates Tables 5.2 and 5.3 in Mastering 'Metrics.
 
+Load necessary libraries.
 ```{r}
 library("tidyverse")
 library("haven")
+library("rlang")
+library("broom")
 ```
 
 ```{r}
-deaths <- read_dta(here::here("data", "deaths.dta")) %>%
+deaths_file <- here::here("data", "deaths.dta")
+```
+```{r deaths,cache.extra=tools::md5sum(deaths_file)}
+deaths <- read_dta(deaths_file) %>%
   mutate_if(is.labelled, as_factor) %>%
   mutate(state = as.factor(state))
-         
 ```
 
 ```{r}
@@ -33,7 +43,6 @@ dtypes <- c("all", "MVA", "suicide", "homicide")
 ```{r}
 run_reg <- function(i) {
   data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i)
-
   mods <- list(
     "No trends, no weights" = 
       lm(mrate ~ legal + state + year, data = mutate(data, year = factor(year))),
@@ -64,7 +73,6 @@ mlda_dd <- map_df(dtypes, run_reg)
 ## Table 5.3
 
 Regression DD Estimates of MLDA-Induced Deaths among 18-20 Year Olds, from 1970-1983, controlling for Beer Taxes
-
 
 ```{r}
 run_reg <- function(i) {

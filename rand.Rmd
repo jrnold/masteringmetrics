@@ -1,32 +1,25 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Tables 1.3 and 1.4
 
+Load necessary libraries.
 ```{r libraries,message=FALSE}
 library("tidyverse")
 library("broom")
 library("haven")
-```
-
-```{r}
-dta_variables <- function(x) {
-  stata_attrs <- c("format.stata", "label")
-  out <- map_dfr(x, function(x) {
-    as_tibble(compact(attributes(x)[stata_attrs]))
-  })
-  out[["variable"]] <- names(x)
-  out[["class"]] <- map(x, class)
-  out <- select(out, variable, everything())
-  out
-}
+library("rlang")
 ```
 
 ## Table 1.3
 
 ```{r FILENAME}
-FILENAME <- "data/Data/rand_initial_sample_2.dta"
+rand_filename <- here::here("data", "RAND", "Data", "rand_initial_sample_2.dta")
 ```
-
-```{r rand}
-rand <- read_dta(FILENAME) %>%
+```{r rand,cache.extra=tools::md5sum(rand_filename)}
+rand <- read_dta(rand_filename) %>%
   # delete Stata attributes
   map_dfc(~ rlang::set_attrs(.x, NULL))
 ```
@@ -66,15 +59,6 @@ knitr::kable(plantypes)
 ```
 
 
-Create column with an integer family identifier.
-```{r rand_famid}
-rand <- mutate(rand,
-               famid = str_sub(fam_identifier, 3) %>% 
-                 str_replace("[A-Z]", "") %>%
-                 as.integer())
-```
-
-
 For variables, difference in means between plantypes
 ```{r}
 varlist <- c("female", "blackhisp", "age", "educper", "income1cpi", "hosp", 
@@ -83,7 +67,7 @@ varlist <- c("female", "blackhisp", "age", "educper", "income1cpi", "hosp",
 		
 ```
 
-Column (1) with the mean and standard deviation of the "Catastrophic" plan,
+Create column (1) with the mean and standard deviation of the "Catastrophic" plan,
 ```{r catastrophic_stats}
 catastrophic_stats <- rand %>%
   filter(plantype == "Catastrophic") %>%
@@ -104,7 +88,7 @@ The difference in means between plans and the catastophic plan.
 ```{r}
 calc_diffs <- function(x) {
   # programmatically create the formula
-  f <- quo_squash(quo(!!sym(x) ~ plantype))
+  f <- quo(!!sym(x) ~ plantype)
   # this would also work
   # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
 
@@ -137,7 +121,7 @@ x_diffs %>%
 ```
 
 Plot the difference-in-means of each plantype vs. catastrophic insurance.
-```{r plot_plantype_diffs}
+```{r}
 ggplot(filter(x_diffs, term != "(Intercept)"), 
               aes(x = term, y = estimate, 
                   ymin = estimate - 2 * std.error,
@@ -151,14 +135,22 @@ ggplot(filter(x_diffs, term != "(Intercept)"),
 
 ## Table 1.4
 
-Load person-year data
-```{r person_years}
-person_years <- read_dta(here::here("data/Data/person_years.dta")) %>%
+Load person-year health insurance data.
+```{r}
+person_years_file <- here::here("data", "RAND", "Data", "person_years.dta")
+```
+
+```{r person_years,cache.extra=tools::md5sum(person_years_file)}
+person_years <- read_dta(person_years_file) %>%
     map_dfc(~ rlang::set_attrs(.x, NULL))
 ```
-Load annual spending on hospital visits
+Load annual spending on hospital visits data.
 ```{r}
-annual_spend <- read_dta(here::here("data/Data/annual_spend.dta")) %>%
+annual_spend_file <- here::here("data", "RAND", "Data", "annual_spend.dta")
+```
+
+```{r annual_spend,cache.extra=tools::md5sum(annual_spend_file)}
+annual_spend <- read_dta(annual_spend_file) %>%
   map_dfc(~ rlang::set_attrs(.x, NULL))
 ```
 
@@ -168,14 +160,15 @@ person_spend <- inner_join(person_years, annual_spend,
                            by = c("person", "year"))
 ```
 
-Group plans into four types
+There are four types of plans in RAND experiment.
 
-- 1-Free, 
-- 2-Individual Deductible
-- 3-Cost Sharing (25%/50%)
-- 4-Catostrophic (Fam Deductible) (95%/100%)
+1.  Free, 
+2.  Individual Deductible
+3.  Cost Sharing (25%/50%)
+4.  Catostrophic (Fam Deductible) (95%/100%)
 
-```{r person_plantype}
+Create a categorical variable with these categories.
+```{r person_spend}
 person_spend <-
   mutate(person_spend,
          plantype = case_when(
@@ -193,7 +186,7 @@ person_spend <-
                                 "Free"))
 ```
 
-Attempt to correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
+ correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
 ```{r}
 person_spend <- mutate(person_spend,
                        expyear = indv_start_year + year - 1)
@@ -239,13 +232,12 @@ person_spend <- mutate(person_spend,
                        any_ins = plantype != "Catastrophic")
 ```
 
-
 Count the number of observations in each plan-type,
-```{r person_plantype}
+```{r}
 count(person_spend, plantype)
 ```
 and any-insurance,
-```{r person_plantype}
+```{r}
 count(person_spend, any_ins)
 ```
 
@@ -265,8 +257,7 @@ person_spend %>%
             `Std. Dev.` = sd(value, na.rm = TRUE))
 ```
 
-Calculate a difference in means for all
-The difference in means between plans and the catastophic plan.
+Calculate the difference in means between plans and the catastophic plan.
 ```{r}
 calc_diffs <- function(x) {
   # programmatically create the formula
@@ -285,10 +276,10 @@ person_diffs <- map_dfr(varlist, calc_diffs) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 
 ```
-Note: the above code currently does not cluster by family ID as in the original analysis
+Note: the above code currently does not cluster by family identifier as in the original analysis
 so the standard errors will be different.
 
-Print the table. This could be done much nicer, ... but for now.
+Print the table. If this were an actual publication, I'd make it nicer.
 ```{r}
 fmt_num <- function(x) {
   prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
@@ -302,8 +293,8 @@ person_diffs %>%
 
 ```
 
-Plot the difference-in-means of each plantype vs. catastrophic insurance.
-```{r plot_plantype_diffs}
+Additionally we could plot the difference-in-means of each plantype vs. catastrophic insurance.
+```{r}
 ggplot(filter(person_diffs, term != "(Intercept)"), 
               aes(x = term, y = estimate, 
                   ymin = estimate - 2 * std.error,

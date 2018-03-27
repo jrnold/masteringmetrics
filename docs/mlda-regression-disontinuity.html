@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R Code for Mastering ’Metrics</title>
+  <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
+  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R Code for Mastering ’Metrics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://jrnold.github.io/r4ds-exercise-solutions" />
+  
+  <meta property="og:description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke." />
+  <meta name="github-repo" content="jrnold/r4ds-exercise-solutions" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R Code for Mastering ’Metrics" />
+  <meta name="twitter:site" content="@jrnld" />
+  <meta name="twitter:description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke." />
+  
+
+<meta name="author" content="Jeffrey B. Arnold">
+<meta name="author" content="Calvin H. Garner">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="tables-1-3-and-1-4.html">
+<link rel="next" href="bank-failures.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Mastering Metrics R Code</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="table-1-1.html"><a href="table-1-1.html"><i class="fa fa-check"></i><b>1</b> Table 1.1</a></li>
+<li class="chapter" data-level="2" data-path="tables-1-3-and-1-4.html"><a href="tables-1-3-and-1-4.html"><i class="fa fa-check"></i><b>2</b> Tables 1.3 and 1.4</a><ul>
+<li class="chapter" data-level="2.1" data-path="tables-1-3-and-1-4.html"><a href="tables-1-3-and-1-4.html#table-1.3"><i class="fa fa-check"></i><b>2.1</b> Table 1.3</a></li>
+<li class="chapter" data-level="2.2" data-path="tables-1-3-and-1-4.html"><a href="tables-1-3-and-1-4.html#table-1.4"><i class="fa fa-check"></i><b>2.2</b> Table 1.4</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="mlda-regression-disontinuity.html"><a href="mlda-regression-disontinuity.html"><i class="fa fa-check"></i><b>3</b> MLDA Regression Disontinuity</a></li>
+<li class="chapter" data-level="4" data-path="bank-failures.html"><a href="bank-failures.html"><i class="fa fa-check"></i><b>4</b> “Bank Failures”</a></li>
+<li class="chapter" data-level="5" data-path="mlda-difference-in-difference.html"><a href="mlda-difference-in-difference.html"><i class="fa fa-check"></i><b>5</b> MLDA Difference-in-Difference</a><ul>
+<li class="chapter" data-level="5.1" data-path="mlda-difference-in-difference.html"><a href="mlda-difference-in-difference.html#table-5.2"><i class="fa fa-check"></i><b>5.1</b> Table 5.2</a></li>
+<li class="chapter" data-level="5.2" data-path="mlda-difference-in-difference.html"><a href="mlda-difference-in-difference.html#table-5.3"><i class="fa fa-check"></i><b>5.2</b> Table 5.3</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R Code for Mastering ’Metrics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="mlda-regression-disontinuity" class="section level1">
+<h1><span class="header-section-number">3</span> MLDA Regression Disontinuity</h1>
+<p>MLDA Regression Discontinuity (based on data from Carpenter and Dobkin 2009) from
+Chapter 4 of <em>Mastering Metrics</em>, Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics.
+These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.</p>
+<p>Derived from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do">master_cd_rd.do</a>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.
+See the <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt">documentation</a>.</p>
+<p>Load libraries.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;rlang&quot;</span>)</a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a></code></pre></div>
+<p>Load the data from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/AEJfigs.dta">AEJfigs.dta</a>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">filename &lt;-<span class="st"> </span>here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;AEJfigs.dta&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">mlda &lt;-<span class="st"> </span><span class="kw">read_dta</span>(filename) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="st">  </span><span class="kw">map_dfc</span>(<span class="op">~</span><span class="st"> </span><span class="kw">set_attrs</span>(.x, <span class="ot">NULL</span>))</a></code></pre></div>
+<p>Add an indicator variable for individuals over 21 years of age.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">mlda &lt;-<span class="st"> </span><span class="kw">mutate</span>(mlda, </a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">               <span class="dt">age =</span> agecell <span class="op">-</span><span class="st"> </span><span class="dv">21</span>,</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">               <span class="dt">over21 =</span> <span class="kw">as.integer</span>(agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">21</span>))</a></code></pre></div>
+<p>Add a variable for other causes of death.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">mlda &lt;-<span class="st"> </span><span class="kw">mutate</span>(mlda, <span class="dt">ext_oth =</span> external <span class="op">-</span><span class="st"> </span>homicide <span class="op">-</span><span class="st"> </span>suicide <span class="op">-</span><span class="st"> </span>mva)</a></code></pre></div>
+<p>For “all causes”, “motor vehicle accidents”, and “internal causes” plot the
+linear and quadratic trends on each side of 21.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All Causes&quot;</span>, <span class="st">&quot;mva&quot;</span> =<span class="st"> &quot;Motor Vehicle Accidents&quot;</span>, </a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">             <span class="st">&quot;internal&quot;</span> =<span class="st"> &quot;Internal Causes&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">mlda <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(agecell, over21, <span class="kw">one_of</span>(<span class="kw">names</span>(varlist))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>(response, value, <span class="op">-</span>agecell, <span class="op">-</span>over21, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">response =</span> <span class="kw">recode</span>(response, <span class="op">!!!</span><span class="kw">as.list</span>(varlist))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> agecell, <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">group =</span> over21), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
+<a class="sourceLine" id="cb44-8" data-line-number="8">              <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">group =</span> over21), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
+<a class="sourceLine" id="cb44-10" data-line-number="10">              <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-11" data-line-number="11"><span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>., <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Mortality rate (per 100,000)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Age&quot;</span>)</a></code></pre></div>
+<p><img src="mlda-rd_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">responses &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mva&quot;</span>, <span class="st">&quot;suicide&quot;</span>, <span class="st">&quot;homicide&quot;</span>, <span class="st">&quot;ext_oth&quot;</span>, <span class="st">&quot;internal&quot;</span>, <span class="st">&quot;alcohol&quot;</span>)</a></code></pre></div>
+<p>Function to run four regressions for a given response</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">run_reg &lt;-<span class="st"> </span><span class="cf">function</span>(y) {</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">  mods &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">    <span class="st">&quot;Ages 19-22, Linear&quot;</span> =<span class="st"> </span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>over21), <span class="dt">data =</span> mlda),</a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">    <span class="st">&quot;Ages 19-22, Quadratic&quot;</span> =</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>over21), <span class="dt">data =</span> mlda),</a>
+<a class="sourceLine" id="cb46-7" data-line-number="7">    <span class="st">&quot;Ages 20-21, Linear&quot;</span> =</a>
+<a class="sourceLine" id="cb46-8" data-line-number="8"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>over21), </a>
+<a class="sourceLine" id="cb46-9" data-line-number="9">             <span class="dt">data =</span> <span class="kw">filter</span>(mlda, agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>, agecell <span class="op">&lt;=</span><span class="st"> </span><span class="dv">22</span>)),</a>
+<a class="sourceLine" id="cb46-10" data-line-number="10">    <span class="st">&quot;Ages 20-21, Quadratic&quot;</span> =<span class="st"> </span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>over21), </a>
+<a class="sourceLine" id="cb46-12" data-line-number="12">             <span class="dt">data =</span> <span class="kw">filter</span>(mlda, agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>, agecell <span class="op">&lt;=</span><span class="st"> </span><span class="dv">22</span>))</a>
+<a class="sourceLine" id="cb46-13" data-line-number="13">  )</a>
+<a class="sourceLine" id="cb46-14" data-line-number="14">  out &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15">    <span class="dt">model =</span> <span class="kw">names</span>(mods),</a>
+<a class="sourceLine" id="cb46-16" data-line-number="16">    <span class="dt">ages =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;19-22&quot;</span>, <span class="st">&quot;20-21&quot;</span>), <span class="dt">each =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb46-17" data-line-number="17">    <span class="dt">trend =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Linear&quot;</span>, <span class="st">&quot;Quadratic&quot;</span>), <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb46-18" data-line-number="18">    <span class="dt">model_num =</span> <span class="kw">seq_along</span>(mods)</a>
+<a class="sourceLine" id="cb46-19" data-line-number="19">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb46-20" data-line-number="20"><span class="st">  </span><span class="kw">bind_cols</span>(</a>
+<a class="sourceLine" id="cb46-21" data-line-number="21">    <span class="kw">select</span>(<span class="kw">filter</span>(<span class="kw">map_df</span>(mods, tidy), term <span class="op">==</span><span class="st"> &quot;over21&quot;</span>),  </a>
+<a class="sourceLine" id="cb46-22" data-line-number="22">           estimate, std.error)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb46-23" data-line-number="23"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> y)</a>
+<a class="sourceLine" id="cb46-24" data-line-number="24">  out[[<span class="st">&quot;df.residual&quot;</span>]] &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(mods, glance)[[<span class="st">&quot;df.residual&quot;</span>]]</a>
+<a class="sourceLine" id="cb46-25" data-line-number="25">  out</a>
+<a class="sourceLine" id="cb46-26" data-line-number="26">}</a>
+<a class="sourceLine" id="cb46-27" data-line-number="27">   </a>
+<a class="sourceLine" id="cb46-28" data-line-number="28">mlda_regs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(responses, run_reg)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">mlda_regs <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(model, response, estimate, std.error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>(stat, value, estimate, std.error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">spread</span>(model, value)</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="co">#&gt; # A tibble: 12 x 6</span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="co">#&gt;   response stat    `Ages 19-22, Line… `Ages 19-22, Quad… `Ages 20-21, Lin…</span></a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                &lt;dbl&gt;              &lt;dbl&gt;             &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="co">#&gt; 1 alcohol  estima…              0.442              0.799             0.740</span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="co">#&gt; 2 alcohol  std.er…              0.152              0.222             0.227</span></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="co">#&gt; 3 ext_oth  estima…              0.838              1.80              1.41 </span></a>
+<a class="sourceLine" id="cb47-11" data-line-number="11"><span class="co">#&gt; 4 ext_oth  std.er…              0.489              0.724             0.636</span></a>
+<a class="sourceLine" id="cb47-12" data-line-number="12"><span class="co">#&gt; 5 homicide estima…              0.104              0.200             0.164</span></a>
+<a class="sourceLine" id="cb47-13" data-line-number="13"><span class="co">#&gt; 6 homicide std.er…              0.345              0.522             0.517</span></a>
+<a class="sourceLine" id="cb47-14" data-line-number="14"><span class="co">#&gt; # ... with 6 more rows, and 1 more variable: `Ages 20-21, Quadratic` &lt;dbl&gt;</span></a></code></pre></div>
+
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Gabriel Kreindler, June 13, 2014; Modified (lightly) by Jon Petkun, January 20, 2015.<a href="mlda-regression-disontinuity.html#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tables-1-3-and-1-4.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bank-failures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jrnold/masteringmetrics/edit/master/mlda-rd.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
