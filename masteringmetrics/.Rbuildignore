@@ -1,0 +1,5 @@
+^data-raw$
+^Makefile$
+^.*\.Rproj$
+^\.Rproj\.user$
+^man-roxygen$

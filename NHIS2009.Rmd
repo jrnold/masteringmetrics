@@ -15,12 +15,7 @@ library("haven")
 Load the data (originally from http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip), and adjust a few of the columns to account for differences in 
 how STATA and R store data.
 ```{r NHIS2009_clean}
-NHIS2009_clean <-  
-  read_dta("data/NHIS/Data/NHIS2009_clean.dta") %>%
-  mutate(age = as.numeric(age),
-         serial = as.integer(serial),
-         fml = as.logical(fml),
-         marradult = as.logical(marradult))
+data("NHIS2009", package = "masteringmetrics")
 ```
 Remove missing values.
 ```{r NHIS2009_remove_missing}

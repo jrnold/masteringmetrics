@@ -1,31 +1,21 @@
-# "Bank Failures"
+# Mississipi Bank Failures in the Great Depression
 
-Richardson and Troost bank failure data and results, which produce Figures 5.1--5.3 in *Mastering Metrics*.
+A difference-in-difference analysis of Missisippi bank failures during the Greate Depression.
+This replicates Figures 5.1--5.3 in *Mastering Metrics*.
 
-Derived from the [master_banks.do](http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do) file. 
-Also see the associated [documentation](http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt).
-
-```{r setup}
+```{r setup, message=FALSE}
 library("tidyverse")
 library("lubridate")
 ```
 
-Read the input data, [banks.csv]()
-```{r banks_csv}
-filename <- here::here("data", "banks.csv")
-col_types <- cols(
-  date = col_integer(),
-  weekday = col_character(),
-  day = col_integer(),
-  month = col_integer(),
-  year = col_integer(),
-  bib6 = col_integer(),
-  bio6 = col_integer(),
-  bib8 = col_integer(),
-  bio8 = col_integer()
-)
-banks <- read_csv(filename, na = "", col_types = col_types) %>%
-  filter(month == 7L, day == 1L) %>%
+Load the `banks` data.
+```{r banks}
+data("banks", package = "masteringmetrics")
+```
+
+To simplify the problem, use only yearly data, 
+```{r}
+  filter(month(date) == 7L, mday(date) == 1L) %>%
   select(year, matches("bi[ob][68]")) %>%
   arrange(year) %>%
   mutate(diff86 = bib8[year == 1930] - bib6[year == 1930],
@@ -51,7 +41,7 @@ select(banks, year, bib8, bib6, counterfactual) %>%
   xlab("")
 ```
 
-Difference in difference estimate over years,
+Estimate the difference-in-difference estimate for all years.
 ```{r}
 ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
   geom_point() +
@@ -60,4 +50,7 @@ ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
   xlab("")
 ```
 
+## References
 
+- <http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do>
+- <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt>

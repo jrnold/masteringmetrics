@@ -1,0 +1,18 @@
+# Minneapolis Domestic Violence Experiment
+
+This replicates Table 3.3 of *Mastering Metrics*, which replicates the Minneapolis Domestic Violence Experiment.
+
+Load necessary packages.
+```{r library,message=FALSE.}
+library("tidyverse")
+```
+
+Load the MDVE data.
+```{r mdve}
+data("mdve", package = "masteringmetrics")
+```
+
+## References
+
+- http://masteringmetrics.com/wp-content/uploads/2015/02/MDVE_Table33.do
+- http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt

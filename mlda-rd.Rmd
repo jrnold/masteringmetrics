@@ -4,8 +4,7 @@ MLDA Regression Discontinuity (based on data from Carpenter and Dobkin 2009) fro
 Chapter 4 of *Mastering Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics. 
 These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
 
-Derived from [master_cd_rd.do](http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do).[^cd_rd].
-See the [documentation](http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt).
+
 
 [^cd_rd]: Gabriel Kreindler, June 13, 2014; Modified (lightly) by Jon Petkun, January 20, 2015.
 
@@ -17,13 +16,9 @@ library("rlang")
 library("broom")
 ```
 
-Load the data from [AEJfigs.dta](http://masteringmetrics.com/wp-content/uploads/2015/01/AEJfigs.dta).
+Load MLDA data
 ```{r}
-filename <- here::here("data", "AEJfigs.dta")
-```
-```{r mlda,cache.extra=tools::md5sum(filename)}
-mlda <- read_dta(filename) %>%
-  map_dfc(~ set_attrs(.x, NULL))
+data("mlda", package = "masteringmetrics")
 ```
 
 Add an indicator variable for individuals over 21 years of age.
@@ -103,3 +98,7 @@ mlda_regs %>%
   spread(model, value)
 ```
 
+## Refences
+
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>

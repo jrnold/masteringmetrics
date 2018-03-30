@@ -1,5 +1,5 @@
 Package: masteringmetrics
-Title: R Code for Mastering Metrics
+Title: Datasets for Mastering 'Metrics
 Version: 0.1
 Authors@R: c(person("Jeffrey", "Arnold", , "jeffrey.arnold@gmail.com", c("aut", "cre")),
              person("Calvin", "Garner", role = c("ctb")))
@@ -14,5 +14,7 @@ Imports:
   rlang,
   tidyverse
 Suggests:
-  bookdown
+  bookdown,
+  devtools
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
