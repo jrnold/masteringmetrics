@@ -3,32 +3,23 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
 # MLDA Difference-in-Difference
 
-Derived from [analysis.do](http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do).
-This program generates Tables 5.2 and 5.3 in Mastering 'Metrics.
+Difference-in-difference estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
+This program generates Tables 5.2 and 5.3 in *Mastering 'Metrics*.
 
 Load necessary libraries.
-```{r}
+```{r setup,message=FALSE}
 library("tidyverse")
 library("haven")
 library("rlang")
 library("broom")
 ```
 
-```{r}
-deaths_file <- here::here("data", "deaths.dta")
+```{r deaths}
+data("deaths", package = "masteringmeterics")
 ```
-```{r deaths,cache.extra=tools::md5sum(deaths_file)}
-deaths <- read_dta(deaths_file) %>%
-  mutate_if(is.labelled, as_factor) %>%
-  mutate(state = as.factor(state))
-```
-
-```{r}
-glimpse(deaths)
-```
-
 
 
 ## Table 5.2
@@ -93,3 +84,7 @@ run_reg <- function(i) {
                  
 ```
 
+## References
+
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA_DD.txt>
