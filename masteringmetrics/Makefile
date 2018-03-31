@@ -1,7 +1,7 @@
 R ?= RScript
 
 DATASETS = NHIS2009 rand_person_spend rand_sample mdve \
-	mlda banks deaths pubtwins
+	mlda banks deaths pubtwins sheepskin child_labor ak91
 
 foo = $(DATASETS:%=data/%.rda)
 
