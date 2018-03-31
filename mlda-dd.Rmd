@@ -6,8 +6,8 @@ editor_options:
 
 # MLDA Difference-in-Difference
 
-Difference-in-difference estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
-This program generates Tables 5.2 and 5.3 in *Mastering 'Metrics*.
+Difference-in-difference estimates of the effect of the minimum legal drinking age (MLDA) on mortality [@DuMouchelWilliamsZador1987,@NorbergBierutGrucza2009].
+This replicates the analyses in Tables 5.2 and 5.3 in *Mastering 'Metrics*.
 
 Load necessary libraries.
 ```{r setup,message=FALSE}

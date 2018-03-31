@@ -1,20 +1,25 @@
 output_dir: docs
 new_session: yes
 
-rmd_files: [
-  "index.rmd",
-  "ch1.Rmd",
-  "NHIS2009.Rmd",
-  "rand.Rmd",
-  "ch3.Rmd"
-  "mdve.Rmd",
-  "ch4.Rmd"
-  "mlda-rd.Rmd",
-  "ch5.Rmd",
-  "banks.Rmd",
-  "mlda-dd.Rmd",
-  "ch6.Rmd"
-]
+rmd_files:
+- "index.rmd"
+- "ch1.Rmd"
+- "NHIS2009.Rmd"
+- "rand.Rmd"
+
+#- "ch3.Rmd"
+#- "mdve.Rmd"
+#- "ch4.Rmd"
+#- "mlda-rd.Rmd"
+#- "ch5.Rmd"
+#- "banks.Rmd"
+#- "mlda-dd.Rmd"
+#- "ch6.Rmd"
+#- "twins.Rmd"
+#- "child_labor.Rmd"
+#- "ak91.Rmd"
+#- "sheepskin.Rmd"
+
 
 before_chapter_script: "_common.R"
 after_chapter_script: "_after.R"

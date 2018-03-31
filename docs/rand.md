@@ -4,7 +4,9 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-# Tables 1.3 and 1.4
+# RAND Health Insurance Experiment (HIE)
+
+This provides code replicates the Tables 1.3 and 1.4 of @AngristPischke2014 which replicate the analyses from the RAND Health Insurance Experiment [@BrookWareEtAl1983,@Aron-DineEinavEtAl2013].
 
 Load necessary libraries.
 
@@ -13,52 +15,25 @@ library("tidyverse")
 library("broom")
 library("haven")
 library("rlang")
+library("clubSandwich")
 ```
+
 
 ## Table 1.3
 
+Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).
+
+Load the `rand` data.
 
 ```r
-rand_filename <- here::here("data", "RAND", "Data", "rand_initial_sample_2.dta")
+data("rand_sample", package = "masteringmetrics")
 ```
 
-```r
-rand <- read_dta(rand_filename) %>%
-  # delete Stata attributes
-  map_dfc(~ rlang::set_attrs(.x, NULL))
-```
-
-The `plantype` variable takes four values,
-
-------- ------------------
-1       Free
-2       Deductible
-3       Coinsurance
-4       Catastrophic
-------- -------------------
-
-Create a more interpretable version of plantype, and 
-ensure that the free plan does not give 0's to anyone without a plan.
-
-```r
-rand <- rand %>%
-  filter(!is.na(plantype)) %>%
-  # plantype to a factor variable
-  mutate(plantype = factor(plantype, 
-                           labels = c("Free", "Deductible", 
-                                      "Coinsurance", "Catastrophic"))) %>%
-  # reorder so that "Catastrophic is first
-  mutate(plantype = fct_relevel(plantype, 
-                                "Catastrophic", "Deductible",
-                                "Coinsurance", "Free")) %>%
-  # indicator variable for any insurance
-  mutate(any_ins = plantype != "Catastrophic")
-```
 
 Calculate the number in each plan:
 
 ```r
-plantypes <- count(rand, plantype) 
+plantypes <- count(rand_sample, plantype) 
 ```
 
 ```r
@@ -78,8 +53,9 @@ Free            1295
 For variables, difference in means between plantypes
 
 ```r
-varlist <- c("female", "blackhisp", "age", "educper", "income1cpi", "hosp", 
-             "ghindx", "cholest", "diastol", "systol", "mhi", "ghindxx", 
+varlist <- c("female", "blackhisp", "age", "educper", 
+             "income1cpi", "hosp", "ghindx", "cholest", "diastol",
+             "systol", "mhi", "ghindxx", 
              "cholestx", "diastolx", "systolx", "mhix")
 		
 ```
@@ -87,7 +63,7 @@ varlist <- c("female", "blackhisp", "age", "educper", "income1cpi", "hosp",
 Create column (1) with the mean and standard deviation of the "Catastrophic" plan,
 
 ```r
-catastrophic_stats <- rand %>%
+catastrophic_stats <- rand_sample %>%
   filter(plantype == "Catastrophic") %>%
   select(one_of(varlist)) %>%
   gather(variable, value) %>%
@@ -132,13 +108,15 @@ calc_diffs <- function(x) {
   # this would also work
   # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
 
-  mod <- lm(f, data = rand)
+  mod <- lm(f, data = rand_sample)
   out <- tidy(mod)
   out[["response"]] <- x
   out
 }
+```
 
-x_diffs <- map_dfr(varlist, calc_diffs) %>%
+```r
+plantype_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 ```
@@ -152,7 +130,7 @@ fmt_num <- function(x) {
   prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
 }
 
-x_diffs %>% 
+plantype_diffs %>% 
   mutate(estimate = str_c(fmt_num(estimate), " (", fmt_num(std.error), ")")) %>%
   select(-std.error) %>%
   spread(term, estimate) %>%
@@ -183,7 +161,7 @@ systolx      122 (0.715)      -1.39 (0.929)       1.17 (0.969)       -0.522 (0.8
 Plot the difference-in-means of each plantype vs. catastrophic insurance.
 
 ```r
-ggplot(filter(x_diffs, term != "(Intercept)"), 
+ggplot(filter(plantype_diffs, term != "(Intercept)"), 
               aes(x = term, y = estimate, 
                   ymin = estimate - 2 * std.error,
                   ymax = estimate + 2 * std.error)) +
@@ -198,68 +176,19 @@ ggplot(filter(x_diffs, term != "(Intercept)"),
 
 ## Table 1.4
 
-Load person-year health insurance data.
-
-```r
-person_years_file <- here::here("data", "RAND", "Data", "person_years.dta")
-```
+Table 1.4 presents health outcome and health expenditure results from the RAND HIE.
 
 
 ```r
-person_years <- read_dta(person_years_file) %>%
-    map_dfc(~ rlang::set_attrs(.x, NULL))
-```
-Load annual spending on hospital visits data.
-
-```r
-annual_spend_file <- here::here("data", "RAND", "Data", "annual_spend.dta")
-```
-
-
-```r
-annual_spend <- read_dta(annual_spend_file) %>%
-  map_dfc(~ rlang::set_attrs(.x, NULL))
-```
-
-Inner join the person-year and annual-spending data on person identifiers and years,
-
-```r
-person_spend <- inner_join(person_years, annual_spend, 
-                           by = c("person", "year"))
-```
-
-There are four types of plans in RAND experiment.
-
-1.  Free, 
-2.  Individual Deductible
-3.  Cost Sharing (25%/50%)
-4.  Catostrophic (Fam Deductible) (95%/100%)
-
-Create a categorical variable with these categories.
-
-```r
-person_spend <-
-  mutate(person_spend,
-         plantype = case_when(
-          plan == 24 ~ "Free",
-          plan %in% c(1, 5) ~ "Deductible",
-          plan >= 2 & plan <= 4 ~ "Catastrophic",
-          plan >= 6 & plan <= 8 ~ "Catastrophic",
-          plan >= 9 & plan <= 23 ~ "Cost Sharing"
-        )) %>%
-  # reorder levels so Catastrophic is first
-  mutate(plantype = fct_relevel(plantype, 
-                                "Catastrophic",
-                                "Deductible",
-                                "Cost Sharing",
-                                "Free"))
+data("rand_person_spend", package = "masteringmetrics")
 ```
 
  correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
 
 ```r
-person_spend <- mutate(person_spend,
-                       expyear = indv_start_year + year - 1)
+rand_person_spend <- 
+  mutate(rand_person_spend,
+         expyear = indv_start_year + year - 1)
 ```
 
 Adjust spending for inflation.
@@ -286,8 +215,8 @@ cpi <- tribble(
 ```
 
 ```r
-person_spend <- 
-  left_join(person_spend, 
+rand_person_spend <- 
+  left_join(rand_person_spend, 
             cpi, by = c("expyear" = "year")) %>%
   mutate(out_inf = outsum * cpi,
          inpdol_inf = inpdol * cpi)
@@ -296,20 +225,20 @@ person_spend <-
 Add a total spending variable.
 
 ```r
-person_spend <- mutate(person_spend,
+rand_person_spend <- mutate(rand_person_spend,
                        tot_inf = inpdol_inf + out_inf)
 ```
 Add a variable for any health insurance (free, Individual deductible, or cost-sharing):
 
 ```r
-person_spend <- mutate(person_spend, 
+rand_person_spend <- mutate(rand_person_spend, 
                        any_ins = plantype != "Catastrophic")
 ```
 
 Count the number of observations in each plan-type,
 
 ```r
-count(person_spend, plantype)
+count(rand_person_spend, plantype)
 #> # A tibble: 4 x 2
 #>   plantype         n
 #>   <fct>        <int>
@@ -321,7 +250,7 @@ count(person_spend, plantype)
 and any-insurance,
 
 ```r
-count(person_spend, any_ins)
+count(rand_person_spend, any_ins)
 #> # A tibble: 2 x 2
 #>   any_ins     n
 #>   <lgl>   <int>
@@ -338,7 +267,7 @@ varlist <- c("ftf", "out_inf", "totadm", "inpdol_inf", "tot_inf")
 Mean and standard deviation for those receiving catastrophic insurance,
 
 ```r
-person_spend %>%
+rand_person_spend %>%
   filter(plantype == "Catastrophic") %>%
   select(one_of(varlist)) %>%
   gather(response, value) %>%
@@ -364,12 +293,14 @@ calc_diffs <- function(x) {
   # this would also work
   # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
 
-  mod <- lm(f, data = person_spend)
+  mod <- lm(f, data = rand_person_spend)
   out <- tidy(mod)
   out[["response"]] <- x
   out
 }
+```
 
+```r
 person_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
@@ -414,5 +345,11 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
   
 ```
 
-<img src="rand_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="rand_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" />
+
+## References {-}
+
+- <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
 

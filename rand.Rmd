@@ -3,7 +3,9 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-# Tables 1.3 and 1.4
+# RAND Health Insurance Experiment (HIE)
+
+This provides code replicates the Tables 1.3 and 1.4 of @AngristPischke2014 which replicate the analyses from the RAND Health Insurance Experiment [@BrookWareEtAl1983,@Aron-DineEinavEtAl2013].
 
 Load necessary libraries.
 ```{r libraries,message=FALSE}
@@ -11,11 +13,23 @@ library("tidyverse")
 library("broom")
 library("haven")
 library("rlang")
+library("clubSandwich")
 ```
+
+
+## Table 1.3
+
+Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).
+
+Load the `rand` data.
+```{r rand_sample}
+data("rand_sample", package = "masteringmetrics")
+```
+
 
 Calculate the number in each plan:
 ```{r plantypes}
-plantypes <- count(rand, plantype) 
+plantypes <- count(rand_sample, plantype) 
 ```
 ```{r results='asis'}
 knitr::kable(plantypes)
@@ -24,15 +38,16 @@ knitr::kable(plantypes)
 
 For variables, difference in means between plantypes
 ```{r}
-varlist <- c("female", "blackhisp", "age", "educper", "income1cpi", "hosp", 
-             "ghindx", "cholest", "diastol", "systol", "mhi", "ghindxx", 
+varlist <- c("female", "blackhisp", "age", "educper", 
+             "income1cpi", "hosp", "ghindx", "cholest", "diastol",
+             "systol", "mhi", "ghindxx", 
              "cholestx", "diastolx", "systolx", "mhix")
 		
 ```
 
 Create column (1) with the mean and standard deviation of the "Catastrophic" plan,
 ```{r catastrophic_stats}
-catastrophic_stats <- rand %>%
+catastrophic_stats <- rand_sample %>%
   filter(plantype == "Catastrophic") %>%
   select(one_of(varlist)) %>%
   gather(variable, value) %>%
@@ -55,13 +70,14 @@ calc_diffs <- function(x) {
   # this would also work
   # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
 
-  mod <- lm(f, data = rand)
+  mod <- lm(f, data = rand_sample)
   out <- tidy(mod)
   out[["response"]] <- x
   out
 }
-
-x_diffs <- map_dfr(varlist, calc_diffs) %>%
+```
+```{r plantype_diffs}
+plantype_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 
@@ -75,7 +91,7 @@ fmt_num <- function(x) {
   prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
 }
 
-x_diffs %>% 
+plantype_diffs %>% 
   mutate(estimate = str_c(fmt_num(estimate), " (", fmt_num(std.error), ")")) %>%
   select(-std.error) %>%
   spread(term, estimate) %>%
@@ -85,7 +101,7 @@ x_diffs %>%
 
 Plot the difference-in-means of each plantype vs. catastrophic insurance.
 ```{r}
-ggplot(filter(x_diffs, term != "(Intercept)"), 
+ggplot(filter(plantype_diffs, term != "(Intercept)"), 
               aes(x = term, y = estimate, 
                   ymin = estimate - 2 * std.error,
                   ymax = estimate + 2 * std.error)) +
@@ -98,14 +114,17 @@ ggplot(filter(x_diffs, term != "(Intercept)"),
 
 ## Table 1.4
 
+Table 1.4 presents health outcome and health expenditure results from the RAND HIE.
+
 ```{r}
 data("rand_person_spend", package = "masteringmetrics")
 ```
 
  correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
-```{r}
-person_spend <- mutate(person_spend,
-                       expyear = indv_start_year + year - 1)
+```{r person_spend_expyear}
+rand_person_spend <- 
+  mutate(rand_person_spend,
+         expyear = indv_start_year + year - 1)
 ```
 
 Adjust spending for inflation.
@@ -129,32 +148,32 @@ cpi <- tribble(
   1985, 1.27
 )
 ```
-```{r}
-person_spend <- 
-  left_join(person_spend, 
+```{r person_spend_cpi}
+rand_person_spend <- 
+  left_join(rand_person_spend, 
             cpi, by = c("expyear" = "year")) %>%
   mutate(out_inf = outsum * cpi,
          inpdol_inf = inpdol * cpi)
 ```
 
 Add a total spending variable.
-```{r}
-person_spend <- mutate(person_spend,
+```{r person_spend_tot_inf}
+rand_person_spend <- mutate(rand_person_spend,
                        tot_inf = inpdol_inf + out_inf)
 ```
 Add a variable for any health insurance (free, Individual deductible, or cost-sharing):
-```{r}
-person_spend <- mutate(person_spend, 
+```{r person_spend}
+rand_person_spend <- mutate(rand_person_spend, 
                        any_ins = plantype != "Catastrophic")
 ```
 
 Count the number of observations in each plan-type,
 ```{r}
-count(person_spend, plantype)
+count(rand_person_spend, plantype)
 ```
 and any-insurance,
 ```{r}
-count(person_spend, any_ins)
+count(rand_person_spend, any_ins)
 ```
 
 Create a list of response variables.
@@ -164,7 +183,7 @@ varlist <- c("ftf", "out_inf", "totadm", "inpdol_inf", "tot_inf")
 
 Mean and standard deviation for those receiving catastrophic insurance,
 ```{r}
-person_spend %>%
+rand_person_spend %>%
   filter(plantype == "Catastrophic") %>%
   select(one_of(varlist)) %>%
   gather(response, value) %>%
@@ -181,12 +200,13 @@ calc_diffs <- function(x) {
   # this would also work
   # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
 
-  mod <- lm(f, data = person_spend)
+  mod <- lm(f, data = rand_person_spend)
   out <- tidy(mod)
   out[["response"]] <- x
   out
 }
-
+```
+```{r}
 person_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
@@ -220,3 +240,9 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
   facet_grid(response ~ . , scales = "free_y")
   
 ```
+
+## References {-}
+
+- <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>

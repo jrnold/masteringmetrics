@@ -27,6 +27,6 @@ figures
 *.fdb_latexmk
 _bookdown_files
 libs
-bookdown4def523aea53
-.ipynb_checkpoints
+bookdown*
 *.rds
+*.bib.sav

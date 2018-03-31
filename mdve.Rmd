@@ -1,9 +1,9 @@
 # Minneapolis Domestic Violence Experiment
 
-This replicates Table 3.3 of *Mastering Metrics*, which replicates the Minneapolis Domestic Violence Experiment.
+This replicates Table 3.3 of *Mastering 'Metrics*, which replicates the Minneapolis Domestic Violence Experiment [@ShermanBerk1984,@Angrist2006].
 
 Load necessary packages.
-```{r library,message=FALSE.}
+```{r library,message=FALSE}
 library("tidyverse")
 ```
 

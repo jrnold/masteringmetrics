@@ -1,6 +1,11 @@
-# Table 1.1
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# National Health Interview Survey
 
-This reproduces the analyses in Table 1.1,
+This reproduces the analyses in Table 1.1 of @AngristPischke2014.
 which compares people with and without health insurance in the 2009 National Health Interview Survey (NHIS).
 
 The code is derived from  [NHIS2009_hicompare.do](http://masteringmetrics.com/wp-content/uploads/2015/01/NHIS2009_hicompare.do).
@@ -14,12 +19,12 @@ library("haven")
 
 Load the data (originally from http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip), and adjust a few of the columns to account for differences in 
 how STATA and R store data.
-```{r NHIS2009_clean}
+```{r NHIS2009}
 data("NHIS2009", package = "masteringmetrics")
 ```
 Remove missing values.
 ```{r NHIS2009_remove_missing}
-NHIS2009_clean <- NHIS2009_clean %>%
+NHIS2009 <- NHIS2009 %>%
   filter(marradult, perweight != 0) %>%
   group_by(serial) %>%
   mutate(hi_hsb = mean(hi_hsb1, na.rm = TRUE)) %>%
@@ -31,14 +36,14 @@ NHIS2009_clean <- NHIS2009_clean %>%
 
 For the sample only include married adults between 26 and 59 in age, and remove single person households.
 ```{r NHIS2009_sample}
-NHIS2009_clean <- NHIS2009_clean %>%
+NHIS2009 <- NHIS2009 %>%
   filter(between(age, 26, 59),
          marradult, adltempl >= 1)
          
 ```
 Keep only single family households.
 ```{r NHIS2009_single_family}
-NHIS2009_clean <- NHIS2009_clean %>%
+NHIS2009 <- NHIS2009 %>%
   group_by(serial) %>%
   filter(length(serial) > 1L) %>%
   ungroup()
@@ -47,7 +52,7 @@ NHIS2009_clean <- NHIS2009_clean %>%
 Tables of wives and husbands by health insurance. status. 
 The weighting following the "analytic" weights in the original `.do` file which weights observations by `perweight` and normalizes the weights so that the sub-samples of males and females have the same number as the original sample.
 ```{r}
-NHIS2009_clean %>%
+NHIS2009 %>%
   group_by(fml) %>%
   # normalize person weights to match number of observations in each
   # group
@@ -60,9 +65,9 @@ NHIS2009_clean %>%
 ```
 
 Compare sample statistics of mean and women, with and without health insurance.
-```{r}
+```{r NHIS2009_diff}
 varlist <- c("hlth", "nwhite", "age", "yedu", "famsize", "empl", "inc")
-NHIS2009_clean %>%
+NHIS2009_diff <- NHIS2009 %>%
   # rlang::set_attrs with NULL removes attributes from columns.
   # this avoids a warning from gather about differing attributes
   map_dfc(~ rlang::set_attrs(.x, NULL)) %>%
@@ -75,3 +80,12 @@ NHIS2009_clean %>%
   spread(stat_hi, value) %>%
   mutate(diff = mean_1 - mean_0)
 ```
+
+```{r NHIS2009_diff_table,results='asis'}
+knitr::kable(NHIS2009_diff, digits = 3)
+```
+
+## References
+
+- <http://masteringmetrics.com/wp-content/uploads/2014/12/ReadMe_NHIS.txt>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/NHIS2009_hicompare.do>

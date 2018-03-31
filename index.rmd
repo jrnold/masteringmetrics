@@ -6,17 +6,40 @@ description: >
   R code to reproduce analyses in Mastering Metrics 
   by Angrist and Pischke.
 site: bookdown::bookdown_site
+bibliography: ["masteringmetrics.bib"]
 github-repo: "jrnold/r4ds-exercise-solutions"
 url: 'http\://jrnold.github.io/r4ds-exercise-solutions'
 twitter-handle: jrnld
 documentclass: book
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Welcome {-}
 
-This work contains R code to reproduce many of the analyses in *Mastering 'Metrics* by Joshua D. Angrist and Jörn-Steffen Pischke, derived from the Stata code
-provided on [masteringmetrics.com](http://masteringmetrics.com/resources/).
+This work contains R code to reproduce many of the analyses in *Mastering 'Metrics* by Joshua D. Angrist and Jörn-Steffen Pischke [@AngristPischke2014].
+This work provides R translations of the replication code available at [masteringmetrics.com](http://masteringmetrics.com/resources/).
 
+## Install {-}
+
+To install all packages used in the examples in this work
+and the datasets from *Mastering 'Metrics* run
+```{r eval=FALSE}
+devtools::install_github("jrnold/masteringmetrics", subdir = "masteringmetrics")
+```
+
+## License {-}
 
 The text of this work is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 The R Code in this work is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+## Colonophon {-}
+
+The book is powered by <https://bookdown.org> which makes it easy to turn R markdown files into HTML, PDF, and EPUB.
+
+This book was built with:
+
+```{r}
+devtools::session_info(c("tidyverse"))
+```
+
