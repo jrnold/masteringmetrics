@@ -289,12 +289,13 @@ Calculate the difference in means between plans and the catastophic plan.
 ```r
 calc_diffs <- function(x) {
   # programmatically create the formula
-  f <- quo_squash(quo(!!sym(x) ~ plantype))
-  # this would also work
-  # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
+  f <- quo(!!sym(x) ~ plantype)
 
   mod <- lm(f, data = rand_person_spend)
-  out <- tidy(mod)
+  out <- coef_test(mod, "CR2", cluster = rand_person_spend$fam_identifier) %>% 
+    as_tibble() %>%
+    rownames_to_column(var = "term") %>%   
+    select(term, estimate = beta, std.error = SE)
   out[["response"]] <- x
   out
 }
@@ -305,8 +306,7 @@ person_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 ```
-Note: the above code currently does not cluster by family identifier as in the original analysis
-so the standard errors will be different.
+Standard errors are clustered by family identifier  using the **clubSandwich** package.
 
 Print the table. If this were an actual publication, I'd make it nicer.
 
@@ -324,13 +324,13 @@ person_diffs %>%
 
 
 
-response     (Intercept)        Cost Sharing       Deductible         Free             
------------  -----------------  -----------------  -----------------  -----------------
-ftf          2.78 (0.103)       0.481 (0.134)      0.193 (0.142)      1.66 (0.128)     
-inpdol_inf   388 (49.5)         92.5 (64.2)        72.2 (68.1)        116 (61.6)       
-out_inf      248 (9.11)         59.8 (11.8)        41.8 (12.5)        169 (11.3)       
-tot_inf      636 (52.8)         152 (68.5)         114 (72.6)         285 (65.6)       
-totadm       0.0991 (0.00674)   0.0023 (0.00873)   0.0159 (0.00927)   0.0288 (0.00837) 
+response     (Intercept)        Cost Sharing      Deductible        Free            
+-----------  -----------------  ----------------  ----------------  ----------------
+ftf          2.78 (0.178)       0.481 (0.24)      0.193 (0.247)     1.66 (0.248)    
+inpdol_inf   388 (44.9)         92.5 (72.8)       72.2 (68.6)       116 (59.8)      
+out_inf      248 (14.8)         59.8 (20.7)       41.8 (20.8)       169 (19.9)      
+tot_inf      636 (54.5)         152 (84.6)        114 (79.1)        285 (72.4)      
+totadm       0.0991 (0.00785)   0.0023 (0.0108)   0.0159 (0.0109)   0.0288 (0.0105) 
 
 Additionally we could plot the difference-in-means of each plantype vs. catastrophic insurance.
 

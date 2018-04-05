@@ -1,7 +1,7 @@
 ---
 knit: "bookdown::render_book"
 title: "R Code for Mastering 'Metrics"
-author: ["Jeffrey B. Arnold", "Calvin H. Garner"]
+author: ["Jeffrey B. Arnold"]
 description: >
   R code to reproduce analyses in Mastering Metrics 
   by Angrist and Pischke.

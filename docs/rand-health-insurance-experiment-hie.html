@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="national-health-interview-survey.html">
-
+<link rel="next" href="chapter-3-part.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -143,6 +143,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="rand-health-insurance-experiment-hie.html"><a href="rand-health-insurance-experiment-hie.html#table-1.3"><i class="fa fa-check"></i><b>3.1</b> Table 1.3</a></li>
 <li class="chapter" data-level="3.2" data-path="rand-health-insurance-experiment-hie.html"><a href="rand-health-insurance-experiment-hie.html#table-1.4"><i class="fa fa-check"></i><b>3.2</b> Table 1.4</a></li>
 <li class="chapter" data-level="" data-path="rand-health-insurance-experiment-hie.html"><a href="rand-health-insurance-experiment-hie.html#references-1"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-3-part.html"><a href="chapter-3-part.html"><i class="fa fa-check"></i><b>4</b> Chapter 3 (PART)</a></li>
+<li class="chapter" data-level="5" data-path="minneapolis-domestic-violence-experiment.html"><a href="minneapolis-domestic-violence-experiment.html"><i class="fa fa-check"></i><b>5</b> Minneapolis Domestic Violence Experiment</a><ul>
+<li class="chapter" data-level="5.1" data-path="minneapolis-domestic-violence-experiment.html"><a href="minneapolis-domestic-violence-experiment.html#references-2"><i class="fa fa-check"></i><b>5.1</b> References</a></li>
 </ul></li>
 </ul>
 
@@ -547,20 +551,20 @@ The CPI adjustment values below are based on the June CPI from 1991 (see table f
 <p>Calculate the difference in means between plans and the catastophic plan.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">calc_diffs &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
 <a class="sourceLine" id="cb32-2" data-line-number="2">  <span class="co"># programmatically create the formula</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3">  f &lt;-<span class="st"> </span><span class="kw">quo_squash</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(x) <span class="op">~</span><span class="st"> </span>plantype))</a>
-<a class="sourceLine" id="cb32-4" data-line-number="4">  <span class="co"># this would also work</span></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">  <span class="co"># f &lt;- as.formula(str_c(x, &quot; ~ plantype_1 + plantype_2 + plantype_3&quot;))</span></a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7">  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(f, <span class="dt">data =</span> rand_person_spend)</a>
-<a class="sourceLine" id="cb32-8" data-line-number="8">  out &lt;-<span class="st"> </span><span class="kw">tidy</span>(mod)</a>
-<a class="sourceLine" id="cb32-9" data-line-number="9">  out[[<span class="st">&quot;response&quot;</span>]] &lt;-<span class="st"> </span>x</a>
-<a class="sourceLine" id="cb32-10" data-line-number="10">  out</a>
-<a class="sourceLine" id="cb32-11" data-line-number="11">}</a></code></pre></div>
+<a class="sourceLine" id="cb32-3" data-line-number="3">  f &lt;-<span class="st"> </span><span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(x) <span class="op">~</span><span class="st"> </span>plantype)</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(f, <span class="dt">data =</span> rand_person_spend)</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">  out &lt;-<span class="st"> </span><span class="kw">coef_test</span>(mod, <span class="st">&quot;CR2&quot;</span>, <span class="dt">cluster =</span> rand_person_spend<span class="op">$</span>fam_identifier) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;term&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="st">    </span><span class="kw">select</span>(term, <span class="dt">estimate =</span> beta, <span class="dt">std.error =</span> SE)</a>
+<a class="sourceLine" id="cb32-10" data-line-number="10">  out[[<span class="st">&quot;response&quot;</span>]] &lt;-<span class="st"> </span>x</a>
+<a class="sourceLine" id="cb32-11" data-line-number="11">  out</a>
+<a class="sourceLine" id="cb32-12" data-line-number="12">}</a></code></pre></div>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">person_diffs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(varlist, calc_diffs) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(response, term, estimate, std.error) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">str_replace</span>(term, <span class="st">&quot;^plantype&quot;</span>, <span class="st">&quot;&quot;</span>))</a></code></pre></div>
-<p>Note: the above code currently does not cluster by family identifier as in the original analysis
-so the standard errors will be different.</p>
+<p>Standard errors are clustered by family identifier using the <strong>clubSandwich</strong> package.</p>
 <p>Print the table. If this were an actual publication, I’d make it nicer.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">fmt_num &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2">  <span class="kw">prettyNum</span>(x, <span class="dt">digits =</span> <span class="dv">3</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>, <span class="dt">big.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">drop0trailing =</span> <span class="ot">FALSE</span>)</a>
@@ -584,38 +588,38 @@ so the standard errors will be different.</p>
 <tbody>
 <tr class="odd">
 <td align="left">ftf</td>
-<td align="left">2.78 (0.103)</td>
-<td align="left">0.481 (0.134)</td>
-<td align="left">0.193 (0.142)</td>
-<td align="left">1.66 (0.128)</td>
+<td align="left">2.78 (0.178)</td>
+<td align="left">0.481 (0.24)</td>
+<td align="left">0.193 (0.247)</td>
+<td align="left">1.66 (0.248)</td>
 </tr>
 <tr class="even">
 <td align="left">inpdol_inf</td>
-<td align="left">388 (49.5)</td>
-<td align="left">92.5 (64.2)</td>
-<td align="left">72.2 (68.1)</td>
-<td align="left">116 (61.6)</td>
+<td align="left">388 (44.9)</td>
+<td align="left">92.5 (72.8)</td>
+<td align="left">72.2 (68.6)</td>
+<td align="left">116 (59.8)</td>
 </tr>
 <tr class="odd">
 <td align="left">out_inf</td>
-<td align="left">248 (9.11)</td>
-<td align="left">59.8 (11.8)</td>
-<td align="left">41.8 (12.5)</td>
-<td align="left">169 (11.3)</td>
+<td align="left">248 (14.8)</td>
+<td align="left">59.8 (20.7)</td>
+<td align="left">41.8 (20.8)</td>
+<td align="left">169 (19.9)</td>
 </tr>
 <tr class="even">
 <td align="left">tot_inf</td>
-<td align="left">636 (52.8)</td>
-<td align="left">152 (68.5)</td>
-<td align="left">114 (72.6)</td>
-<td align="left">285 (65.6)</td>
+<td align="left">636 (54.5)</td>
+<td align="left">152 (84.6)</td>
+<td align="left">114 (79.1)</td>
+<td align="left">285 (72.4)</td>
 </tr>
 <tr class="odd">
 <td align="left">totadm</td>
-<td align="left">0.0991 (0.00674)</td>
-<td align="left">0.0023 (0.00873)</td>
-<td align="left">0.0159 (0.00927)</td>
-<td align="left">0.0288 (0.00837)</td>
+<td align="left">0.0991 (0.00785)</td>
+<td align="left">0.0023 (0.0108)</td>
+<td align="left">0.0159 (0.0109)</td>
+<td align="left">0.0288 (0.0105)</td>
 </tr>
 </tbody>
 </table>
@@ -638,17 +642,6 @@ so the standard errors will be different.</p>
 <li><a href="http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip" class="uri">http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip</a></li>
 </ul>
 
-<div id="refs" class="references">
-<div>
-<p>Angrist, Joshua D., and Jörn-Steffen Pischke. 2014. <em>Mastering ’Metrics: The Path from Cause to Effect</em>. Princeton UP. <a href="https://press.princeton.edu/titles/10363.html" class="uri">https://press.princeton.edu/titles/10363.html</a>.</p>
-</div>
-<div>
-<p>Aron-Dine, Aviva, Liran Einav, and Amy Finkelstein. 2013. “The RAND Health Insurance Experiment, Three Decades Later.” <em>Journal of Economic Perspectives</em>. <a href="https://doi.org/10.1257/jep.27.1.197" class="uri">https://doi.org/10.1257/jep.27.1.197</a>.</p>
-</div>
-<div>
-<p>Brook, Robert H., Jr. John E. Ware, William H. Rogers, Emmett B. Keeler, Allyson R. Davies, Cathy A. Donald, George A. Goldberg, Kathleen N. Lohr, Patricia C. Masthay, and Joseph P. Newhouse. 1983. “Does Free Care Improve Adults’ Health? — Results from a Randomized Controlled Trial.” <em>New England Journal of Medicine</em>. <a href="https://doi.org/10.1056/NEJM198312083092305" class="uri">https://doi.org/10.1056/NEJM198312083092305</a>.</p>
-</div>
-</div>
 </div>
 </div>
             </section>
@@ -656,8 +649,8 @@ so the standard errors will be different.</p>
           </div>
         </div>
       </div>
-<a href="national-health-interview-survey.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="national-health-interview-survey.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-3-part.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -688,6 +681,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
