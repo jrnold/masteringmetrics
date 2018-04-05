@@ -12,7 +12,80 @@ Load the MDVE data.
 data("mdve", package = "masteringmetrics")
 ```
 
+Randomized assignments (i.e. what are police assigned to do) are in the `assigned` column.
+Actual outcomes (i.e. what action do the police actually take) is in the `outcome` column.
+gen outcome = "Arrest" if T_FINAL == 1
+replace outcome = "Advise" if T_FINAL == 2
+replace outcome = "Separate" if T_FINAL == 3
+replace outcome = "Other" if T_FINAL == 4
+gen total = 1
+```{r}
+mdve <- mutate(mdve, 
+               assigned = case_when(
+      T_RANDOM == 1 ~ "Arrest",
+      T_RANDOM == 2 ~ "Advise",
+      T_RANDOM == 3 ~ "Separate"
+    ),
+      outcome = case_when(
+        T_FINAL == 1 ~ "Arrest",
+        T_FINAL == 2 ~ "Advise",
+        T_FINAL == 3 ~ "Separate",
+        T_FINAL == 4 ~ "Other"
+      ),
+      coddled_a = assigned != "Arrest",
+      coddled_o = outcome != "Arrest"
+    ) %>%
+  filter(outcome != "Other")
+```
+
+Assigned and delivered treatments in the MDVE:
+```{r}
+mdve_summary <-
+  mdve %>%
+  count(assigned, outcome) %>%
+  group_by(assigned) %>%
+  mutate(p = n / sum(n))
+print(mdve_summary, n = nrow(mdve_summary))
+```
+
+Assigned proportions in the MDVE:
+```{r}
+mdve_assigned <- mdve %>%
+  count(assigned) %>%
+  mutate(p = n / sum(n))
+mdve_assigned
+```
+
+Delivered treatments in the MDVE:
+```{r}
+mdve_outcome <- mdve %>%
+  count(outcome) %>%
+  mutate(p = n / sum(n))
+mdve_outcome
+```
+
+Probability of being coddled, given being assigned the coddled treatment:
+```{r}
+mdve_coddled <- mdve %>%
+  count(coddled_a, coddled_o) %>%
+  group_by(coddled_a) %>%
+  mutate(p = n / sum(n)) 
+mdve_coddled
+```
+
+IV first stage,
+$$
+E[D_i | Z_i = 1] - E[D_i | Z_i = 0] .
+$$
+```{r}
+filter(mdve_coddled, coddled_o, coddled_a)$p -
+  filter(mdve_coddled, coddled_o, !coddled_a)$p
+stage1
+```
+
+The response variable is not provided, so the full 2SLS is not estimated here.
+
 ## References
 
-- http://masteringmetrics.com/wp-content/uploads/2015/02/MDVE_Table33.do
-- http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt
+-   <http://masteringmetrics.com/wp-content/uploads/2015/02/MDVE_Table33.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt>

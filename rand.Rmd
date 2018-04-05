@@ -196,12 +196,13 @@ Calculate the difference in means between plans and the catastophic plan.
 ```{r}
 calc_diffs <- function(x) {
   # programmatically create the formula
-  f <- quo_squash(quo(!!sym(x) ~ plantype))
-  # this would also work
-  # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
+  f <- quo(!!sym(x) ~ plantype)
 
   mod <- lm(f, data = rand_person_spend)
-  out <- tidy(mod)
+  out <- coef_test(mod, "CR2", cluster = rand_person_spend$fam_identifier) %>% 
+    as_tibble() %>%
+    rownames_to_column(var = "term") %>%   
+    select(term, estimate = beta, std.error = SE)
   out[["response"]] <- x
   out
 }
@@ -212,8 +213,7 @@ person_diffs <- map_dfr(varlist, calc_diffs) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 
 ```
-Note: the above code currently does not cluster by family identifier as in the original analysis
-so the standard errors will be different.
+Standard errors are clustered by family identifier  using the **clubSandwich** package.
 
 Print the table. If this were an actual publication, I'd make it nicer.
 ```{r}
