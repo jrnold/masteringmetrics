@@ -1,14 +1,14 @@
 
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # MLDA Regression Disontinuity
 
 MLDA Regression Discontinuity (based on data from Carpenter and Dobkin 2009) from 
 Chapter 4 of *Mastering Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics. 
 These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
-
-Derived from [master_cd_rd.do](http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do).[^cd_rd].
-See the [documentation](http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt).
-
-[^cd_rd]: Gabriel Kreindler, June 13, 2014; Modified (lightly) by Jon Petkun, January 20, 2015.
 
 Load libraries.
 
@@ -17,17 +17,14 @@ library("tidyverse")
 library("haven")
 library("rlang")
 library("broom")
+library("lmtest")
+library("sandwich")
 ```
 
-Load the data from [AEJfigs.dta](http://masteringmetrics.com/wp-content/uploads/2015/01/AEJfigs.dta).
+Load MLDA data
 
 ```r
-filename <- here::here("data", "AEJfigs.dta")
-```
-
-```r
-mlda <- read_dta(filename) %>%
-  map_dfc(~ set_attrs(.x, NULL))
+data("mlda", package = "masteringmetrics")
 ```
 
 Add an indicator variable for individuals over 21 years of age.
@@ -43,12 +40,11 @@ Add a variable for other causes of death.
 mlda <- mutate(mlda, ext_oth = external - homicide - suicide - mva)
 ```
 
-
-For "all causes", "motor vehicle accidents", and "internal causes" plot the
-linear and quadratic trends on each side of 21.
+For "all causes", "motor vehicle accidents", and "internal causes" deaths plot the linear and quadratic trends on each side of age 21.
 
 ```r
-varlist <- c("all" = "All Causes", "mva" = "Motor Vehicle Accidents", 
+varlist <- c("all" = "All Causes",
+             "mva" = "Motor Vehicle Accidents", 
              "internal" = "Internal Causes")
 ```
 
@@ -71,10 +67,16 @@ mlda %>%
 
 
 ```r
-responses <- c("mva", "suicide", "homicide", "ext_oth", "internal", "alcohol")
+responses <- c("all" = "All deaths",
+               "mva" = "Motor vehicle accidents", 
+               "suicide" = "Suicide", 
+               "homicide" = "Homocide", 
+               "ext_oth" = "Other external causes", 
+               "internal" = "All internal causes", 
+               "alcohol" = "Alcohol")
 ```
 
-Function to run four regressions for a given response
+Define a function to run four regressions for a given response variable, `y`.
 
 ```r
 run_reg <- function(y) {
@@ -91,38 +93,60 @@ run_reg <- function(y) {
              data = filter(mlda, agecell >= 20, agecell <= 22))
   )
   out <- tibble(
-    model = names(mods),
+    model_name = names(mods),
+    model = mods,
     ages = rep(c("19-22", "20-21"), each = 2),
     trend = rep(c("Linear", "Quadratic"), 2),
     model_num = seq_along(mods)
   ) %>%
-  bind_cols(
-    select(filter(map_df(mods, tidy), term == "over21"),  
-           estimate, std.error)) %>%
+    mutate(coefs = map(model, ~ tidy(coeftest(.x, vcovHC(.x))))) %>% 
+    unnest(coefs, .drop = FALSE) %>%
+    filter(term == "over21") %>%
+    select(model_name, model, term, estimate, std.error) %>%
     mutate(response = y)
-  out[["df.residual"]] <- map_dfr(mods, glance)[["df.residual"]]
+  # sample size = df.residuals + residuals  
+  out[["obs"]] <- map_dfr(mods, glance) %>%
+    mutate(obs = df.residual + df) %>%
+    pluck("obs")
   out
 }
    
-mlda_regs <- map_dfr(responses, run_reg)
+mlda_regs <- map_dfr(names(responses), run_reg) %>%
+  mutate(response = recode(response, !!!as.list(responses)))
 ```
 
 
 ```r
 mlda_regs %>%
-  select(model, response, estimate, std.error) %>%
+  select(model_name, response, estimate, std.error) %>%
   gather(stat, value, estimate, std.error) %>%
-  spread(model, value)
-#> # A tibble: 12 x 6
-#>   response stat    `Ages 19-22, Line… `Ages 19-22, Quad… `Ages 20-21, Lin…
-#>   <chr>    <chr>                <dbl>              <dbl>             <dbl>
-#> 1 alcohol  estima…              0.442              0.799             0.740
-#> 2 alcohol  std.er…              0.152              0.222             0.227
-#> 3 ext_oth  estima…              0.838              1.80              1.41 
-#> 4 ext_oth  std.er…              0.489              0.724             0.636
-#> 5 homicide estima…              0.104              0.200             0.164
-#> 6 homicide std.er…              0.345              0.522             0.517
-#> # ... with 6 more rows, and 1 more variable: `Ages 20-21, Quadratic` <dbl>
+  spread(model_name, value) %>%
+  knitr::kable()
 ```
 
+
+
+response                  stat         Ages 19-22, Linear   Ages 19-22, Quadratic   Ages 20-21, Linear   Ages 20-21, Quadratic
+------------------------  ----------  -------------------  ----------------------  -------------------  ----------------------
+Alcohol                   estimate                  0.442                   0.799                0.740                   1.028
+Alcohol                   std.error                 0.213                   0.431                0.360                   0.725
+All deaths                estimate                  7.663                   9.548                9.753                   9.611
+All deaths                std.error                 1.374                   2.231                2.279                   3.565
+All internal causes       estimate                  0.392                   1.073                1.692                   1.249
+All internal causes       std.error                 0.592                   0.931                0.877                   1.465
+Homocide                  estimate                  0.104                   0.200                0.164                  -0.453
+Homocide                  std.error                 0.394                   0.604                0.590                   1.594
+Motor vehicle accidents   estimate                  4.534                   4.663                4.759                   5.892
+Motor vehicle accidents   std.error                 0.731                   1.366                1.385                   1.937
+Other external causes     estimate                  0.838                   1.797                1.414                   1.625
+Other external causes     std.error                 0.413                   0.673                0.606                   1.245
+Suicide                   estimate                  1.794                   1.814                1.724                   1.297
+Suicide                   std.error                 0.530                   0.950                0.881                   1.661
+The robuset standard errors using the HC3 standard errors from 
+`sandwich::vcovHC` and differ from those reported in *Mastering 'Metrics*.
+
+## Refences
+
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
+- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>
 
