@@ -18,7 +18,7 @@ library("haven")
 ```
 
 Load the data (originally from http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip), and adjust a few of the columns to account for differences in 
-how STATA and R store data.
+how Stata and R store data.
 ```{r NHIS2009}
 data("NHIS2009", package = "masteringmetrics")
 ```

@@ -1,6 +1,6 @@
-# Mississipi Bank Failures in the Great Depression
+# Mississippi Bank Failures in the Great Depression
 
-A difference-in-difference analysis of Missisippi bank failures during the Greate Depression [@RichardsonTroost2009].
+A difference-in-difference analysis of Mississippi bank failures during the Great Depression [@RichardsonTroost2009].
 This replicates Figures 5.1--5.3 in *Mastering Metrics*.
 
 ```{r setup, message=FALSE}

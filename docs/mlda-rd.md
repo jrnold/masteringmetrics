@@ -4,10 +4,10 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-# MLDA Regression Disontinuity
+# MLDA Regression Discontinuity
 
-MLDA Regression Discontinuity (based on data from Carpenter and Dobkin 2009) from 
-Chapter 4 of *Mastering Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics. 
+MLDA Regression Discontinuity (based on data from @CarpenterDobkin2009) from 
+Chapter 4 of *Mastering 'Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics. 
 These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
 
 Load libraries.
@@ -142,10 +142,10 @@ Other external causes     estimate                  0.838                   1.79
 Other external causes     std.error                 0.413                   0.673                0.606                   1.245
 Suicide                   estimate                  1.794                   1.814                1.724                   1.297
 Suicide                   std.error                 0.530                   0.950                0.881                   1.661
-The robuset standard errors using the HC3 standard errors from 
+The robust standard errors using the HC3 standard errors from 
 `sandwich::vcovHC` and differ from those reported in *Mastering 'Metrics*.
 
-## Refences
+## References
 
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>

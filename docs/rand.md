@@ -50,7 +50,7 @@ Coinsurance     1022
 Free            1295
 
 
-For variables, difference in means between plantypes
+For each variable variables, estimate the the difference in means between heath insurance plan types.
 
 ```r
 varlist <- c("female", "blackhisp", "age", "educper", 
@@ -103,10 +103,8 @@ The difference in means between plans and the catastophic plan.
 
 ```r
 calc_diffs <- function(x) {
-  # programmatically create the formula
+  # programmatically create the formula for lm
   f <- quo(!!sym(x) ~ plantype)
-  # this would also work
-  # f <- as.formula(str_c(x, " ~ plantype_1 + plantype_2 + plantype_3"))
 
   mod <- lm(f, data = rand_sample)
   out <- tidy(mod)
@@ -183,7 +181,7 @@ Table 1.4 presents health outcome and health expenditure results from the RAND H
 data("rand_person_spend", package = "masteringmetrics")
 ```
 
- correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
+Correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
 
 ```r
 rand_person_spend <- 
@@ -306,7 +304,7 @@ person_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 ```
-Standard errors are clustered by family identifier  using the **clubSandwich** package.
+Standard errors are clustered by family identifier using the **clubSandwich** package.
 
 Print the table. If this were an actual publication, I'd make it nicer.
 

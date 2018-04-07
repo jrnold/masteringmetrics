@@ -24,7 +24,7 @@ data("deaths", package = "masteringmeterics")
 
 ## Table 5.2
 
-Regression DD Estimates of MLDA-Induced Deaths among 18-20 Year Olds, from 1970-1983
+Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983
 
 ```{r}
 dtypes <- c("all", "MVA", "suicide", "homicide")
@@ -63,7 +63,7 @@ mlda_dd <- map_df(dtypes, run_reg)
 
 ## Table 5.3
 
-Regression DD Estimates of MLDA-Induced Deaths among 18-20 Year Olds, from 1970-1983, controlling for Beer Taxes
+Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983, controlling for Beer Taxes
 
 ```{r}
 run_reg <- function(i) {
