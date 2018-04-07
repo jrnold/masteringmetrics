@@ -17,6 +17,7 @@ library("tidyverse")
 library("haven")
 library("rlang")
 library("broom")
+#> Warning: package 'broom' was built under R version 3.4.4
 library("lmtest")
 library("sandwich")
 ```

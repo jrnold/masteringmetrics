@@ -13,9 +13,11 @@ Load necessary libraries.
 ```r
 library("tidyverse")
 library("broom")
+#> Warning: package 'broom' was built under R version 3.4.4
 library("haven")
 library("rlang")
 library("clubSandwich")
+#> Warning: package 'clubSandwich' was built under R version 3.4.4
 ```
 
 Function to calculate sclustered standard errors and return a tidy data frame of the coefficients and standard errors.
@@ -258,8 +260,8 @@ count(rand_person_spend, any_ins)
 #> # A tibble: 2 x 2
 #>   any_ins     n
 #>   <lgl>   <int>
-#> 1 FALSE    3724
-#> 2 TRUE    16479
+#> 1 F        3724
+#> 2 T       16479
 ```
 
 Create a list of response variables.
@@ -282,9 +284,9 @@ rand_person_spend %>%
 #>   response       Mean `Std. Dev.`
 #>   <chr>         <dbl>       <dbl>
 #> 1 ftf          2.78         5.50 
-#> 2 inpdol_inf 388.        2308.   
-#> 3 out_inf    248.         488.   
-#> 4 tot_inf    636.        2535.   
+#> 2 inpdol_inf 388         2308    
+#> 3 out_inf    248          488    
+#> 4 tot_inf    636         2535    
 #> 5 totadm       0.0991       0.379
 ```
 

@@ -107,10 +107,10 @@ mdve_coddled
 #> # Groups:   coddled_a [2]
 #>   coddled_a coddled_o     n      p
 #>   <lgl>     <lgl>     <int>  <dbl>
-#> 1 FALSE     FALSE        91 0.989 
-#> 2 FALSE     TRUE          1 0.0109
-#> 3 TRUE      FALSE        45 0.203 
-#> 4 TRUE      TRUE        177 0.797
+#> 1 F         F            91 0.989 
+#> 2 F         T             1 0.0109
+#> 3 T         F            45 0.203 
+#> 4 T         T           177 0.797
 ```
 
 IV first stage,
