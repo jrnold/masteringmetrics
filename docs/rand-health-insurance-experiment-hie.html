@@ -161,7 +161,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="mlda-difference-in-difference.html"><a href="mlda-difference-in-difference.html#references-5"><i class="fa fa-check"></i><b>6.3</b> References</a></li>
 </ul></li>
 <li class="part"><span><b>V Chapter 6</b></span></li>
-<li class="chapter" data-level="" data-path="references-6.html"><a href="references-6.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>7</b> Twins and Returns to Schooling</a><ul>
+<li class="chapter" data-level="" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html#references-6"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html"><i class="fa fa-check"></i><b>8</b> Child Labor Laws as an IV</a><ul>
+<li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
+<li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>10</b> Sheepskin and Returns to Schooling</a><ul>
+<li class="chapter" data-level="" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#references-9"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-10.html"><a href="references-10.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -188,7 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;rlang&quot;</span>)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)</a></code></pre></div>
-<p>Function to calculate sclustered standard errors and return a tidy data frame of the coefficients and standard errors.</p>
+<p>Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cluster_se &lt;-<span class="st"> </span><span class="cf">function</span>(mod, cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>) {</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">  vcov &lt;-<span class="st"> </span><span class="kw">vcovCR</span>(mod, <span class="dt">cluster =</span> cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="kw">coef_test</span>(mod, <span class="dt">vcov =</span> vcov) <span class="op">%&gt;%</span></a>

@@ -37,14 +37,14 @@ Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-
 
 
 ```r
-dtypes <- c("all" = "All deaths", 
+dtypes <- c("all" = "All deaths",
             "MVA" = "Motor vehicle accidents",
-            "suicide" = "Suicide", 
+            "suicide" = "Suicide",
             "internal" = "All internal causes")
 ```
 
 Estimate the DD for MLDA for all causes of death in 18-20 year olds. 
-Run the regression with `lm` and calculatate the cluster-robust standard errors
+Run the regression with `lm` and calculate the cluster robust standard errors
 using `sandwich::vcovCL`.
 Subset the data.
 
@@ -54,11 +54,10 @@ data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == "all")
 Run the OLS model.
 
 ```r
-mod <- lm(mrate ~ 0 + legal + state + year_fct, 
-          data = data)
+mod <- lm(mrate ~ 0 + legal + state + year_fct, data = data)
 ```
-Calculate cluster robuset coefficients.
-These are calculcated using a different method than Stata's default, and thus will be slightly different than those reported in the book.
+Calculate cluster robust coefficients.
+These are calculated using a different method than Stata uses, and thus will be slightly different than those reported in the book.
 
 ```r
 vcov <- vcovCR(mod, cluster = data[["state"]],
@@ -77,7 +76,7 @@ term     estimate   std.error
 ------  ---------  ----------
 legal        10.8        4.48
 
-Function to calculate sclustered standard errors and return a tidy data frame of the coefficients and standard errors.
+Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.
 
 ```r
 cluster_se <- function(mod, cluster, type = "CR2") {
@@ -96,15 +95,20 @@ run_mlda_dd <- function(i) {
   data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i) # nolint
   mods <- tribble(
     ~ name, ~ model,
-    "No trends, no weights", lm(mrate ~ 0 + legal + state + year_fct, data = data),
+    "No trends, no weights",
+    lm(mrate ~ 0 + legal + state + year_fct, data = data),
     "Time trends, no weights",
-      lm(mrate ~ 0 + legal + year_fct + state + state:year, data = data),
+    lm(mrate ~ 0 + legal + year_fct + state + state:year, data = data),
     "No trends, weights",
-      lm(mrate ~ 0 + legal + year_fct + state, data = data, weights = pop),
+    lm(mrate ~ 0 + legal + year_fct + state, data = data, weights = pop),
+    # nolint start
     # "Time trends, weights",
-    #   lm(mrate ~ 0 + legal + year_fct + state + state:year, data = data, weights = pop)
+    #   lm(mrate ~ 0 + legal + year_fct + state + state:year, 
+    #      data = data, weights = pop)
+    # nolint end
   ) %>%
-    mutate(coefs = map(model, ~ cluster_se(.x, cluster = data[["state"]], type = "CR2"))) %>%
+    mutate(coefs = map(model, ~ cluster_se(.x, cluster = data[["state"]],
+                                           type = "CR2"))) %>%
     unnest(coefs) %>%
     filter(term == "legal") %>%
     mutate(response = i) %>%
@@ -149,20 +153,21 @@ This is the analysis presented in @AngristPischke2014 Table 5.3.
 
 ```r
 run_beertax <- function(i) {
-  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", 
+  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs",
                  dtype == i, !is.na(beertaxa))
   out <- tribble(
     ~ name, ~ model,
     "No time trends",
-      lm(mrate ~ 0 + legal + beertaxa + year_fct + state, data = data),
+    lm(mrate ~ 0 + legal + beertaxa + year_fct + state, data = data),
     "Time trends",
-      lm(mrate ~ 0 + legal + beertaxa + year_fct + state + state:year, data = data)
+    lm(mrate ~ 0 + legal + beertaxa + year_fct + state + state:year,
+       data = data)
   ) %>%
     # calc culstered standard errors
     mutate(coefs = map(model, ~ cluster_se(.x, data[["state"]]))) %>%
     unnest(coefs) %>%
     filter(term %in% c("legal", "beertaxa")) %>%
-    mutate(response = i) %>%    
+    mutate(response = i) %>%
     select(response, name, term, estimate, std.error)
 }
 ```

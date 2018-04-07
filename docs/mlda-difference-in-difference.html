@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="mississippi-bank-failures-in-the-great-depression.html">
-<link rel="next" href="references-6.html">
+<link rel="next" href="twins-and-returns-to-schooling.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -161,7 +161,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="mlda-difference-in-difference.html"><a href="mlda-difference-in-difference.html#references-5"><i class="fa fa-check"></i><b>6.3</b> References</a></li>
 </ul></li>
 <li class="part"><span><b>V Chapter 6</b></span></li>
-<li class="chapter" data-level="" data-path="references-6.html"><a href="references-6.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>7</b> Twins and Returns to Schooling</a><ul>
+<li class="chapter" data-level="" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html#references-6"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html"><i class="fa fa-check"></i><b>8</b> Child Labor Laws as an IV</a><ul>
+<li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
+<li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>10</b> Sheepskin and Returns to Schooling</a><ul>
+<li class="chapter" data-level="" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#references-9"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-10.html"><a href="references-10.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -195,20 +207,19 @@ This replicates the analyses in Tables 5.2 and 5.3 in <em>Mastering ’Metrics</
 <div id="table-5.2" class="section level2">
 <h2><span class="header-section-number">6.1</span> Table 5.2</h2>
 <p>Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">dtypes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All deaths&quot;</span>, </a>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">dtypes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All deaths&quot;</span>,</a>
 <a class="sourceLine" id="cb63-2" data-line-number="2">            <span class="st">&quot;MVA&quot;</span> =<span class="st"> &quot;Motor vehicle accidents&quot;</span>,</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3">            <span class="st">&quot;suicide&quot;</span> =<span class="st"> &quot;Suicide&quot;</span>, </a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">            <span class="st">&quot;suicide&quot;</span> =<span class="st"> &quot;Suicide&quot;</span>,</a>
 <a class="sourceLine" id="cb63-4" data-line-number="4">            <span class="st">&quot;internal&quot;</span> =<span class="st"> &quot;All internal causes&quot;</span>)</a></code></pre></div>
 <p>Estimate the DD for MLDA for all causes of death in 18-20 year olds.
-Run the regression with <code>lm</code> and calculatate the cluster-robust standard errors
+Run the regression with <code>lm</code> and calculate the cluster robust standard errors
 using <code>sandwich::vcovCL</code>.
 Subset the data.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">filter</span>(deaths, year <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1983</span>, agegr <span class="op">==</span><span class="st"> &quot;18-20 yrs&quot;</span>, dtype <span class="op">==</span><span class="st"> &quot;all&quot;</span>)</a></code></pre></div>
 <p>Run the OLS model.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">mod &lt;-<span class="st"> </span><span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>year_fct, </a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">          <span class="dt">data =</span> data)</a></code></pre></div>
-<p>Calculate cluster robuset coefficients.
-These are calculcated using a different method than Stata’s default, and thus will be slightly different than those reported in the book.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">mod &lt;-<span class="st"> </span><span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>year_fct, <span class="dt">data =</span> data)</a></code></pre></div>
+<p>Calculate cluster robust coefficients.
+These are calculated using a different method than Stata uses, and thus will be slightly different than those reported in the book.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">vcov &lt;-<span class="st"> </span><span class="kw">vcovCR</span>(mod, <span class="dt">cluster =</span> data[[<span class="st">&quot;state&quot;</span>]],</a>
 <a class="sourceLine" id="cb66-2" data-line-number="2">               <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>)</a>
 <a class="sourceLine" id="cb66-3" data-line-number="3"><span class="kw">coef_test</span>(mod, <span class="dt">vcov =</span> vcov) <span class="op">%&gt;%</span></a>
@@ -233,7 +244,7 @@ These are calculcated using a different method than Stata’s default, and thus 
 </tr>
 </tbody>
 </table>
-<p>Function to calculate sclustered standard errors and return a tidy data frame of the coefficients and standard errors.</p>
+<p>Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">cluster_se &lt;-<span class="st"> </span><span class="cf">function</span>(mod, cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>) {</a>
 <a class="sourceLine" id="cb67-2" data-line-number="2">  vcov &lt;-<span class="st"> </span><span class="kw">vcovCR</span>(mod, <span class="dt">cluster =</span> cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>)</a>
 <a class="sourceLine" id="cb67-3" data-line-number="3">  <span class="kw">coef_test</span>(mod, <span class="dt">vcov =</span> vcov) <span class="op">%&gt;%</span></a>
@@ -245,20 +256,25 @@ These are calculcated using a different method than Stata’s default, and thus 
 <a class="sourceLine" id="cb68-2" data-line-number="2">  data &lt;-<span class="st"> </span><span class="kw">filter</span>(deaths, year <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1983</span>, agegr <span class="op">==</span><span class="st"> &quot;18-20 yrs&quot;</span>, dtype <span class="op">==</span><span class="st"> </span>i) <span class="co"># nolint</span></a>
 <a class="sourceLine" id="cb68-3" data-line-number="3">  mods &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
 <a class="sourceLine" id="cb68-4" data-line-number="4">    <span class="op">~</span><span class="st"> </span>name, <span class="op">~</span><span class="st"> </span>model,</a>
-<a class="sourceLine" id="cb68-5" data-line-number="5">    <span class="st">&quot;No trends, no weights&quot;</span>, <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>year_fct, <span class="dt">data =</span> data),</a>
-<a class="sourceLine" id="cb68-6" data-line-number="6">    <span class="st">&quot;Time trends, no weights&quot;</span>,</a>
-<a class="sourceLine" id="cb68-7" data-line-number="7">      <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>state<span class="op">:</span>year, <span class="dt">data =</span> data),</a>
-<a class="sourceLine" id="cb68-8" data-line-number="8">    <span class="st">&quot;No trends, weights&quot;</span>,</a>
-<a class="sourceLine" id="cb68-9" data-line-number="9">      <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state, <span class="dt">data =</span> data, <span class="dt">weights =</span> pop),</a>
-<a class="sourceLine" id="cb68-10" data-line-number="10">    <span class="co"># &quot;Time trends, weights&quot;,</span></a>
-<a class="sourceLine" id="cb68-11" data-line-number="11">    <span class="co">#   lm(mrate ~ 0 + legal + year_fct + state + state:year, data = data, weights = pop)</span></a>
-<a class="sourceLine" id="cb68-12" data-line-number="12">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb68-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">coefs =</span> <span class="kw">map</span>(model, <span class="op">~</span><span class="st"> </span><span class="kw">cluster_se</span>(.x, <span class="dt">cluster =</span> data[[<span class="st">&quot;state&quot;</span>]], <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb68-14" data-line-number="14"><span class="st">    </span><span class="kw">unnest</span>(coefs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb68-15" data-line-number="15"><span class="st">    </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;legal&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb68-16" data-line-number="16"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> i) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb68-17" data-line-number="17"><span class="st">    </span><span class="kw">select</span>(name, response, estimate, std.error)</a>
-<a class="sourceLine" id="cb68-18" data-line-number="18">}</a></code></pre></div>
+<a class="sourceLine" id="cb68-5" data-line-number="5">    <span class="st">&quot;No trends, no weights&quot;</span>,</a>
+<a class="sourceLine" id="cb68-6" data-line-number="6">    <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>year_fct, <span class="dt">data =</span> data),</a>
+<a class="sourceLine" id="cb68-7" data-line-number="7">    <span class="st">&quot;Time trends, no weights&quot;</span>,</a>
+<a class="sourceLine" id="cb68-8" data-line-number="8">    <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>state<span class="op">:</span>year, <span class="dt">data =</span> data),</a>
+<a class="sourceLine" id="cb68-9" data-line-number="9">    <span class="st">&quot;No trends, weights&quot;</span>,</a>
+<a class="sourceLine" id="cb68-10" data-line-number="10">    <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state, <span class="dt">data =</span> data, <span class="dt">weights =</span> pop),</a>
+<a class="sourceLine" id="cb68-11" data-line-number="11">    <span class="co"># nolint start</span></a>
+<a class="sourceLine" id="cb68-12" data-line-number="12">    <span class="co"># &quot;Time trends, weights&quot;,</span></a>
+<a class="sourceLine" id="cb68-13" data-line-number="13">    <span class="co">#   lm(mrate ~ 0 + legal + year_fct + state + state:year, </span></a>
+<a class="sourceLine" id="cb68-14" data-line-number="14">    <span class="co">#      data = data, weights = pop)</span></a>
+<a class="sourceLine" id="cb68-15" data-line-number="15">    <span class="co"># nolint end</span></a>
+<a class="sourceLine" id="cb68-16" data-line-number="16">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-17" data-line-number="17"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">coefs =</span> <span class="kw">map</span>(model, <span class="op">~</span><span class="st"> </span><span class="kw">cluster_se</span>(.x, <span class="dt">cluster =</span> data[[<span class="st">&quot;state&quot;</span>]],</a>
+<a class="sourceLine" id="cb68-18" data-line-number="18">                                           <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-19" data-line-number="19"><span class="st">    </span><span class="kw">unnest</span>(coefs) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-20" data-line-number="20"><span class="st">    </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;legal&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-21" data-line-number="21"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> i) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-22" data-line-number="22"><span class="st">    </span><span class="kw">select</span>(name, response, estimate, std.error)</a>
+<a class="sourceLine" id="cb68-23" data-line-number="23">}</a></code></pre></div>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">mlda_dd &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">names</span>(dtypes), run_mlda_dd)</a></code></pre></div>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">mlda_dd <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb70-2" data-line-number="2"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre></div>
@@ -352,22 +368,23 @@ These are calculcated using a different method than Stata’s default, and thus 
 <p>Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983, controlling for Beer Taxes.
 This is the analysis presented in <span class="citation">Angrist and Pischke (2014)</span> Table 5.3.</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">run_beertax &lt;-<span class="st"> </span><span class="cf">function</span>(i) {</a>
-<a class="sourceLine" id="cb71-2" data-line-number="2">  data &lt;-<span class="st"> </span><span class="kw">filter</span>(deaths, year <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1983</span>, agegr <span class="op">==</span><span class="st"> &quot;18-20 yrs&quot;</span>, </a>
+<a class="sourceLine" id="cb71-2" data-line-number="2">  data &lt;-<span class="st"> </span><span class="kw">filter</span>(deaths, year <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1983</span>, agegr <span class="op">==</span><span class="st"> &quot;18-20 yrs&quot;</span>,</a>
 <a class="sourceLine" id="cb71-3" data-line-number="3">                 dtype <span class="op">==</span><span class="st"> </span>i, <span class="op">!</span><span class="kw">is.na</span>(beertaxa))</a>
 <a class="sourceLine" id="cb71-4" data-line-number="4">  out &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
 <a class="sourceLine" id="cb71-5" data-line-number="5">    <span class="op">~</span><span class="st"> </span>name, <span class="op">~</span><span class="st"> </span>model,</a>
 <a class="sourceLine" id="cb71-6" data-line-number="6">    <span class="st">&quot;No time trends&quot;</span>,</a>
-<a class="sourceLine" id="cb71-7" data-line-number="7">      <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>beertaxa <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state, <span class="dt">data =</span> data),</a>
+<a class="sourceLine" id="cb71-7" data-line-number="7">    <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>beertaxa <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state, <span class="dt">data =</span> data),</a>
 <a class="sourceLine" id="cb71-8" data-line-number="8">    <span class="st">&quot;Time trends&quot;</span>,</a>
-<a class="sourceLine" id="cb71-9" data-line-number="9">      <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>beertaxa <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>state<span class="op">:</span>year, <span class="dt">data =</span> data)</a>
-<a class="sourceLine" id="cb71-10" data-line-number="10">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-11" data-line-number="11"><span class="st">    </span><span class="co"># calc culstered standard errors</span></a>
-<a class="sourceLine" id="cb71-12" data-line-number="12"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">coefs =</span> <span class="kw">map</span>(model, <span class="op">~</span><span class="st"> </span><span class="kw">cluster_se</span>(.x, data[[<span class="st">&quot;state&quot;</span>]]))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-13" data-line-number="13"><span class="st">    </span><span class="kw">unnest</span>(coefs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-14" data-line-number="14"><span class="st">    </span><span class="kw">filter</span>(term <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;legal&quot;</span>, <span class="st">&quot;beertaxa&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-15" data-line-number="15"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> i) <span class="op">%&gt;%</span><span class="st">    </span></a>
-<a class="sourceLine" id="cb71-16" data-line-number="16"><span class="st">    </span><span class="kw">select</span>(response, name, term, estimate, std.error)</a>
-<a class="sourceLine" id="cb71-17" data-line-number="17">}</a></code></pre></div>
+<a class="sourceLine" id="cb71-9" data-line-number="9">    <span class="kw">lm</span>(mrate <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>legal <span class="op">+</span><span class="st"> </span>beertaxa <span class="op">+</span><span class="st"> </span>year_fct <span class="op">+</span><span class="st"> </span>state <span class="op">+</span><span class="st"> </span>state<span class="op">:</span>year,</a>
+<a class="sourceLine" id="cb71-10" data-line-number="10">       <span class="dt">data =</span> data)</a>
+<a class="sourceLine" id="cb71-11" data-line-number="11">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-12" data-line-number="12"><span class="st">    </span><span class="co"># calc culstered standard errors</span></a>
+<a class="sourceLine" id="cb71-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">coefs =</span> <span class="kw">map</span>(model, <span class="op">~</span><span class="st"> </span><span class="kw">cluster_se</span>(.x, data[[<span class="st">&quot;state&quot;</span>]]))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-14" data-line-number="14"><span class="st">    </span><span class="kw">unnest</span>(coefs) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-15" data-line-number="15"><span class="st">    </span><span class="kw">filter</span>(term <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;legal&quot;</span>, <span class="st">&quot;beertaxa&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-16" data-line-number="16"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> i) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-17" data-line-number="17"><span class="st">    </span><span class="kw">select</span>(response, name, term, estimate, std.error)</a>
+<a class="sourceLine" id="cb71-18" data-line-number="18">}</a></code></pre></div>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1">beertax &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">names</span>(dtypes), run_beertax)</a></code></pre></div>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">beertax <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb73-2" data-line-number="2"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre></div>
@@ -517,7 +534,7 @@ This is the analysis presented in <span class="citation">Angrist and Pischke (20
         </div>
       </div>
 <a href="mississippi-bank-failures-in-the-great-depression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references-6.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="twins-and-returns-to-schooling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -14,10 +14,10 @@ rmd_files:
 - "banks.Rmd"
 - "mlda-dd.Rmd"
 - "ch6.Rmd"
-#- "twins.Rmd"
-#- "child_labor.Rmd"
-#- "ak91.Rmd"
-#- "sheepskin.Rmd"
+- "twins.Rmd"
+- "child_labor.Rmd"
+- "ak91.Rmd"
+- "sheepskin.Rmd"
 - "references.Rmd"
 
 
