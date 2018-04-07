@@ -5,21 +5,7 @@ library("tidyverse")
 
 OUTDIR <- here::here("data-raw", "downloads")
 
-# Known Stata extras:
-# ssc install outreg2
-
-# dta_variables <- function(x) {
-#   stata_attrs <- c("format.stata", "label")
-#   out <- map_dfr(x, function(x) {
-#     as_tibble(compact(attributes(x)[stata_attrs]))
-#   })
-#   out[["variable"]] <- names(x)
-#   out[["class"]] <- map(x, class)
-#   out <- select(out, variable, everything())
-#   out
-# }
-
-
+# nolint start
 URLS <- c(
   "Data.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip",
   "ReadMe_NHIS.txt" = "http://masteringmetrics.com/wp-content/uploads/2014/12/ReadMe_NHIS.txt",
@@ -46,7 +32,6 @@ URLS <- c(
   "pubtwins.log" = "https://dataspace.princeton.edu/jspui/bitstream/88435/dsp01rv042t084/5/pubtwins.log",
   "twinsreg.do" = "https://dataspace.princeton.edu/jspui/bitstream/88435/dsp01rv042t084/6/twinsreg.do",
   "twinsreg.log" = "https://dataspace.princeton.edu/jspui/bitstream/88435/dsp01rv042t084/7/twinsreg.log",
-  # "oregon_puf.zip" = "http://www.nber.org/oregon/oregon_puf/oregon_puf.zip",
   "ReadMe_ChildLaborLaws.txt" = "http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_ChildLaborLaws.txt",
   "AA_small.dta_.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/02/AA_small.dta_.zip",
   "AA_regs.do" = "http://masteringmetrics.com/wp-content/uploads/2015/02/AA_regs.do",
@@ -57,6 +42,7 @@ URLS <- c(
   "clark_martorell_cellmeans.dta" = "http://masteringmetrics.com/wp-content/uploads/2015/02/clark_martorell_cellmeans.dta",
   "cm_graphs.do" = "http://masteringmetrics.com/wp-content/uploads/2015/02/cm_graphs.do"
 )
+# nolint end
 
 dir.create(OUTDIR, showWarnings = FALSE)
 
@@ -64,18 +50,17 @@ download_file <- function(url, i) {
   print(url)
   print(i)
   if (i != "") {
-    path <- file.path(OUTDIR, i)
+    path <- file.path(OUTDIR, i)  # nolint
   } else {
-    path <- file.path(OUTDIR, basename(url))
+    path <- file.path(OUTDIR, basename(url))  # nolint
   }
   if (!file.exists(path)) {
-    cat(glue("Saving {url} to {path}."), "\n")
+    cat(glue("Saving {url} to {path}."), "\n")  # nolint
     dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
-    GET(url, write_disk(path))
+    GET(url, write_disk(path))  # nolint
   } else {
-    cat(glue("{path} exists already."), "\n")
+    cat(glue("{path} exists already."), "\n")  # nolint
   }
 }
 
 walk2(URLS, names(URLS), download_file)
-

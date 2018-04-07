@@ -30,7 +30,7 @@ data("mlda", package = "masteringmetrics")
 Add an indicator variable for individuals over 21 years of age.
 
 ```r
-mlda <- mutate(mlda, 
+mlda <- mutate(mlda,
                age = agecell - 21,
                over21 = as.integer(agecell >= 21))
 ```
@@ -44,7 +44,7 @@ For "all causes", "motor vehicle accidents", and "internal causes" deaths plot t
 
 ```r
 varlist <- c("all" = "All Causes",
-             "mva" = "Motor Vehicle Accidents", 
+             "mva" = "Motor Vehicle Accidents",
              "internal" = "Internal Causes")
 ```
 
@@ -68,11 +68,11 @@ mlda %>%
 
 ```r
 responses <- c("all" = "All deaths",
-               "mva" = "Motor vehicle accidents", 
-               "suicide" = "Suicide", 
-               "homicide" = "Homocide", 
-               "ext_oth" = "Other external causes", 
-               "internal" = "All internal causes", 
+               "mva" = "Motor vehicle accidents",
+               "suicide" = "Suicide",
+               "homicide" = "Homocide",
+               "ext_oth" = "Other external causes",
+               "internal" = "All internal causes",
                "alcohol" = "Alcohol")
 ```
 
@@ -81,15 +81,15 @@ Define a function to run four regressions for a given response variable, `y`.
 ```r
 run_reg <- function(y) {
   mods <- list(
-    "Ages 19-22, Linear" = 
+    "Ages 19-22, Linear" =
       lm(quo(!!sym(y) ~ age * over21), data = mlda),
     "Ages 19-22, Quadratic" =
       lm(quo(!!sym(y) ~ poly(age, 2, raw = TRUE) * over21), data = mlda),
     "Ages 20-21, Linear" =
-      lm(quo(!!sym(y) ~ age * over21), 
+      lm(quo(!!sym(y) ~ age * over21),
              data = filter(mlda, agecell >= 20, agecell <= 22)),
-    "Ages 20-21, Quadratic" = 
-      lm(quo(!!sym(y) ~ poly(age, 2, raw = TRUE) * over21), 
+    "Ages 20-21, Quadratic" =
+      lm(quo(!!sym(y) ~ poly(age, 2, raw = TRUE) * over21),
              data = filter(mlda, agecell >= 20, agecell <= 22))
   )
   out <- tibble(
@@ -99,12 +99,12 @@ run_reg <- function(y) {
     trend = rep(c("Linear", "Quadratic"), 2),
     model_num = seq_along(mods)
   ) %>%
-    mutate(coefs = map(model, ~ tidy(coeftest(.x, vcovHC(.x))))) %>% 
+    mutate(coefs = map(model, ~ tidy(coeftest(.x, vcovHC(.x))))) %>% # nolint
     unnest(coefs, .drop = FALSE) %>%
     filter(term == "over21") %>%
     select(model_name, model, term, estimate, std.error) %>%
     mutate(response = y)
-  # sample size = df.residuals + residuals  
+  # sample size = df.residuals + residuals
   out[["obs"]] <- map_dfr(mods, glance) %>%
     mutate(obs = df.residual + df) %>%
     pluck("obs")

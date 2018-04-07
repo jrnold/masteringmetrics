@@ -37,12 +37,12 @@ banks <- banks %>%
 ```
 
 Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual. 
-This is equivalent to Figure 5.3 of @AngristPichke2014.
+This is equivalent to Figure 5.3 of @AngristPischke2014.
 
 ```r
 select(banks, year, bib8, bib6, counterfactual) %>%
   gather(variable, value, -year, na.rm = TRUE) %>%
-  mutate(variable = recode(variable, bib8 = "8th district", 
+  mutate(variable = recode(variable, bib8 = "8th district",
                            bib6 = "6th district",
                            counterfactual = "Counterfactual")) %>%
   ggplot(aes(x = year, y = value, colour = variable)) +

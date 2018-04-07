@@ -24,7 +24,7 @@ replace outcome = "Other" if T_FINAL == 4
 gen total = 1
 
 ```r
-mdve <- mutate(mdve, 
+mdve <- mutate(mdve,
                assigned = case_when(
       T_RANDOM == 1 ~ "Arrest",
       T_RANDOM == 2 ~ "Advise",
@@ -101,7 +101,7 @@ Probability of being coddled, given being assigned the coddled treatment:
 mdve_coddled <- mdve %>%
   count(coddled_a, coddled_o) %>%
   group_by(coddled_a) %>%
-  mutate(p = n / sum(n)) 
+  mutate(p = n / sum(n))
 mdve_coddled
 #> # A tibble: 4 x 4
 #> # Groups:   coddled_a [2]

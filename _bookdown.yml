@@ -12,12 +12,13 @@ rmd_files:
 - "mlda-rd.Rmd"
 - "ch5.Rmd"
 - "banks.Rmd"
-#- "mlda-dd.Rmd"
-#- "ch6.Rmd"
+- "mlda-dd.Rmd"
+- "ch6.Rmd"
 #- "twins.Rmd"
 #- "child_labor.Rmd"
 #- "ak91.Rmd"
 #- "sheepskin.Rmd"
+- "references.Rmd"
 
 
 before_chapter_script: "_common.R"

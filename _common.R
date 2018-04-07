@@ -1,20 +1,15 @@
 set.seed(1014)
 options(digits = 3)
 
-# .nojekyll <- here::here("docs", ".nojekyll")
-# if (!file.exists(.nojekyll)) {
-#   close(open(file(.nojekyll, open = "w")))
-# }
-
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
   cache = TRUE,
   autodep = TRUE,
   out.width = "70%",
-  fig.align = 'center',
+  fig.align = "center",
   fig.width = 6,
-  fig.asp = 0.618,  # 1 / phi
+  fig.asp = 0.618,
   fig.show = "hold"
 )
 

@@ -8,18 +8,7 @@ OUTDIR <- here::here("data")
 # Known Stata extras:
 # ssc install outreg2
 
-# dta_variables <- function(x) {
-#   stata_attrs <- c("format.stata", "label")
-#   out <- map_dfr(x, function(x) {
-#     as_tibble(compact(attributes(x)[stata_attrs]))
-#   })
-#   out[["variable"]] <- names(x)
-#   out[["class"]] <- map(x, class)
-#   out <- select(out, variable, everything())
-#   out
-# }
-
-
+# nolint start
 URLS <- c(
   "NHIS/Data.zip" = "http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip",
   "ReadMe_NHIS.txt" = "http://masteringmetrics.com/wp-content/uploads/2014/12/ReadMe_NHIS.txt",
@@ -57,6 +46,7 @@ URLS <- c(
   "clark_martorell_cellmeans.dta" = "http://masteringmetrics.com/wp-content/uploads/2015/02/clark_martorell_cellmeans.dta",
   "cm_graphs.do" = "http://masteringmetrics.com/wp-content/uploads/2015/02/cm_graphs.do"
 )
+# nolint end
 
 dir.create(OUTDIR, showWarnings = FALSE)
 
@@ -64,16 +54,16 @@ download_file <- function(url, i) {
   print(url)
   print(i)
   if (i != "") {
-    path <- file.path(OUTDIR, i)
+    path <- file.path(OUTDIR, i)  # nolint
   } else {
-    path <- file.path(OUTDIR, basename(url))
+    path <- file.path(OUTDIR, basename(url))  # nolint
   }
   if (!file.exists(path)) {
-    cat(glue("Saving {url} to {path}."), "\n")
+    cat(glue("Saving {url} to {path}."), "\n")   # nolint
     dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
-    GET(url, write_disk(path))
+    GET(url, write_disk(path))  # nolint
   } else {
-    cat(glue("{path} exists already."), "\n")
+    cat(glue("{path} exists already."), "\n")  # nolint
   }
 }
 
@@ -86,4 +76,3 @@ unzip(file.path(OUTDIR, "RAND/Data1.zip"), exdir = file.path(OUTDIR, "RAND/"),
       overwrite = TRUE)
 unzip(file.path(OUTDIR, "RAND/Code.zip"), exdir = file.path(OUTDIR, "RAND/"),
       overwrite = TRUE)
-

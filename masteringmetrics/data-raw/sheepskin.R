@@ -6,7 +6,8 @@ suppressPackageStartupMessages({
   library("haven")
 })
 
-sheepskin <- here::here("data-raw", "downloads", "clark_martorell_cellmeans.dta") %>%
+sheepskin <- here::here("data-raw", "downloads",
+                        "clark_martorell_cellmeans.dta") %>%
   read_dta() %>%
   mutate_if(haven::is.labelled, haven::as_factor) %>%
   map_dfc(~ rlang::set_attrs(.x, NULL))

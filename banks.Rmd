@@ -36,7 +36,7 @@ This is equivalent to Figure 5.3 of @AngristPischke2014.
 ```{r fig5.3,fig.caption="Trends in the Sixth and Eighth Federal Reserve Districts, and the Sixth District DD Counterfactual."}
 select(banks, year, bib8, bib6, counterfactual) %>%
   gather(variable, value, -year, na.rm = TRUE) %>%
-  mutate(variable = recode(variable, bib8 = "8th district", 
+  mutate(variable = recode(variable, bib8 = "8th district",
                            bib6 = "6th district",
                            counterfactual = "Counterfactual")) %>%
   ggplot(aes(x = year, y = value, colour = variable)) +

@@ -6,7 +6,7 @@ editor_options:
 
 # MLDA Difference-in-Difference
 
-Difference-in-difference estimates of the effect of the minimum legal drinking age (MLDA) on mortality [@DuMouchelWilliamsZador1987,@NorbergBierutGrucza2009].
+Difference-in-difference estimates of the effect of the minimum legal drinking age (MLDA) on mortality [@DuMouchelWilliamsZador1987;@NorbergBierutGrucza2009].
 This replicates the analyses in Tables 5.2 and 5.3 in *Mastering 'Metrics*.
 
 Load necessary libraries.
@@ -15,10 +15,15 @@ library("tidyverse")
 library("haven")
 library("rlang")
 library("broom")
+library("clubSandwich")
 ```
 
 ```{r deaths}
-data("deaths", package = "masteringmeterics")
+data("deaths", package = "masteringmetrics")
+```
+In these regressions, we will use both indicator variables for year as well as a trend, so make a factor version of the `year` variable.
+```{r deaths2}
+deaths <- mutate(deaths, year_fct = factor(year))
 ```
 
 
@@ -26,62 +31,116 @@ data("deaths", package = "masteringmeterics")
 
 Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983
 
-```{r}
-dtypes <- c("all", "MVA", "suicide", "homicide")
+```{r dtypes}
+dtypes <- c("all" = "All deaths", 
+            "MVA" = "Motor vehicle accidents",
+            "suicide" = "Suicide", 
+            "internal" = "All internal causes")
 ```
 
-```{r}
-run_reg <- function(i) {
-  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i)
-  mods <- list(
-    "No trends, no weights" = 
-      lm(mrate ~ legal + state + year, data = mutate(data, year = factor(year))),
-    "Time trends, no weights" = 
-      lm(mrate ~ legal + state * year, data = data),
-    "No trends, weights" =
-      lm(mrate ~ legal + state + year, data = mutate(data, year = factor(year)),
-         weights = data$pop),
-    "Time trends, weights" = 
-      lm(mrate ~ legal + state * year, data = data, weights = data$pop)
-  )
-  map_df(mods, tidy) %>%
-    filter(term == "legal") %>%
-    select(estimate, std.error) %>%
-    mutate(response = i,
-           model = names(mods))
+Estimate the DD for MLDA for all causes of death in 18-20 year olds. 
+Run the regression with `lm` and calculatate the cluster-robust standard errors
+using `sandwich::vcovCL`.
+Subset the data.
+```{r data}
+data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == "all")
+```
+Run the OLS model.
+```{r mod}
+mod <- lm(mrate ~ 0 + legal + state + year_fct, 
+          data = data)
+```
+Calculate cluster robuset coefficients.
+These are calculcated using a different method than Stata's default, and thus will be slightly different than those reported in the book.
+```{r vcov}
+vcov <- vcovCR(mod, cluster = data[["state"]],
+               type = "CR2")
+coef_test(mod, vcov = vcov) %>%
+  rownames_to_column(var = "term") %>%
+  as_tibble() %>%
+  select(term, estimate = beta, std.error = SE) %>%
+  filter(term == "legal") %>%
+  knitr::kable(digits = 2)
+```
+
+Function to calculate sclustered standard errors and return a tidy data frame of the coefficients and standard errors.
+```{r cluster_se}
+cluster_se <- function(mod, cluster, type = "CR2") {
+  vcov <- vcovCR(mod, cluster = cluster, type = "CR2")
+  coef_test(mod, vcov = vcov) %>%
+    rownames_to_column(var = "term") %>%
+    as_tibble() %>%
+    select(term, estimate = beta, std.error = SE)
 }
-                 
 ```
 
-**TODO: need to add clustering by state**
 
-```{r}
-mlda_dd <- map_df(dtypes, run_reg)
+```{r run_mlda_dd}
+run_mlda_dd <- function(i) {
+  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i) # nolint
+  mods <- tribble(
+    ~ name, ~ model,
+    "No trends, no weights", lm(mrate ~ 0 + legal + state + year_fct, data = data),
+    "Time trends, no weights",
+      lm(mrate ~ 0 + legal + year_fct + state + state:year, data = data),
+    "No trends, weights",
+      lm(mrate ~ 0 + legal + year_fct + state, data = data, weights = pop),
+    # "Time trends, weights",
+    #   lm(mrate ~ 0 + legal + year_fct + state + state:year, data = data, weights = pop)
+  ) %>%
+    mutate(coefs = map(model, ~ cluster_se(.x, cluster = data[["state"]], type = "CR2"))) %>%
+    unnest(coefs) %>%
+    filter(term == "legal") %>%
+    mutate(response = i) %>%
+    select(name, response, estimate, std.error)
+}
+```
+
+```{r mlda_dd}
+mlda_dd <- map_df(names(dtypes), run_mlda_dd)
+```
+
+```{r mlda_dd_table}
+mlda_dd %>%
+  knitr::kable(digits = 2)
 ```
 
 
 ## Table 5.3
 
-Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983, controlling for Beer Taxes
+Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983, controlling for Beer Taxes.
+This is the analysis presented in @AngristPischke2014 Table 5.3.
 
-```{r}
-run_reg <- function(i) {
-  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i)
-
-  mods <- list(
-    "No time trends" = 
-      lm(mrate ~ legal + beertax + state + year, data = mutate(data, year = factor(year))),
-    "Time trends" = 
-      lm(mrate ~ legal + beertax + state * year, data = data),
-  )
-  map_df(mods, tidy) %>%
-    filter(term == "legal") %>%
-    select(estimate, std.error) %>%
-    mutate(response = i,
-           model = names(mods))
+```{r run_beertax}
+run_beertax <- function(i) {
+  data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", 
+                 dtype == i, !is.na(beertaxa))
+  out <- tribble(
+    ~ name, ~ model,
+    "No time trends",
+      lm(mrate ~ 0 + legal + beertaxa + year_fct + state, data = data),
+    "Time trends",
+      lm(mrate ~ 0 + legal + beertaxa + year_fct + state + state:year, data = data)
+  ) %>%
+    # calc culstered standard errors
+    mutate(coefs = map(model, ~ cluster_se(.x, data[["state"]]))) %>%
+    unnest(coefs) %>%
+    filter(term %in% c("legal", "beertaxa")) %>%
+    mutate(response = i) %>%    
+    select(response, name, term, estimate, std.error)
 }
-                 
 ```
+
+```{r beertax}
+beertax <- map_df(names(dtypes), run_beertax)
+```
+
+```{r tbl_beertax}
+beertax %>%
+  knitr::kable(digits = 2)
+```
+
+*Note:* I had trouble getting `sandwich::vcovCL` to estimate clustered standard errors for this regression.
 
 ## References
 

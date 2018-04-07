@@ -71,7 +71,7 @@ NHIS2009_diff <- NHIS2009 %>%
   # rlang::set_attrs with NULL removes attributes from columns.
   # this avoids a warning from gather about differing attributes
   map_dfc(~ rlang::set_attrs(.x, NULL)) %>%
-  select(fml, hi, one_of(varlist)) %>% 
+  select(fml, hi, one_of(varlist)) %>%
   gather(variable, value, -fml, -hi) %>%
   group_by(fml, hi, variable) %>%
   summarise(mean = mean(value, na.rm = TRUE), sd = sd(value, na.rm = TRUE)) %>%

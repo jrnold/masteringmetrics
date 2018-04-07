@@ -1,5 +1,4 @@
 
-
 ---
 output: html_document
 editor_options: 
@@ -19,6 +18,17 @@ library("rlang")
 library("clubSandwich")
 ```
 
+Function to calculate sclustered standard errors and return a tidy data frame of the coefficients and standard errors.
+
+```r
+cluster_se <- function(mod, cluster, type = "CR2") {
+  vcov <- vcovCR(mod, cluster = cluster, type = "CR2")
+  coef_test(mod, vcov = vcov) %>%
+    rownames_to_column(var = "term") %>%
+    as_tibble() %>%
+    select(term, estimate = beta, std.error = SE)
+}
+```
 
 ## Table 1.3
 
@@ -34,7 +44,7 @@ data("rand_sample", package = "masteringmetrics")
 Calculate the number in each plan:
 
 ```r
-plantypes <- count(rand_sample, plantype) 
+plantypes <- count(rand_sample, plantype)
 ```
 
 ```r
@@ -54,12 +64,13 @@ Free            1295
 For each variable variables, estimate the the difference in means between heath insurance plan types.
 
 ```r
-varlist <- c("female", "blackhisp", "age", "educper", 
+varlist <- c("female", "blackhisp", "age", "educper",
              "income1cpi", "hosp", "ghindx", "cholest", "diastol",
-             "systol", "mhi", "ghindxx", 
+             "systol", "mhi", "ghindxx",
              "cholestx", "diastolx", "systolx", "mhix")
 		
 ```
+
 
 Create column (1) with the mean and standard deviation of the "Catastrophic" plan,
 
@@ -69,7 +80,7 @@ catastrophic_stats <- rand_sample %>%
   select(one_of(varlist)) %>%
   gather(variable, value) %>%
   group_by(variable) %>%
-  summarise(Mean = mean(value, na.rm = TRUE), 
+  summarise(Mean = mean(value, na.rm = TRUE),
             `Std. Dev.` = sd(value, na.rm = TRUE))
 ```
 
@@ -105,12 +116,8 @@ The difference in means between plans and the catastophic plan.
 calc_diffs <- function(x) {
   # programmatically create the formula for lm
   f <- quo(!!sym(x) ~ plantype)
-
-  mod <- lm(f, data = rand_sample)
-  out <- coef_test(mod, "CR2", cluster = rand_sample$fam_identifier) %>% 
-    as_tibble() %>%
-    rownames_to_column(var = "term") %>%   
-    select(term, estimate = beta, std.error = SE)  
+  mod <- lm(f, data = rand_sample)  # nolint
+  out <- cluster_se(mod, cluster = rand_sample[["fam_identifier"]])
   out[["response"]] <- x
   out
 }
@@ -129,7 +136,7 @@ fmt_num <- function(x) {
   prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
 }
 
-plantype_diffs %>% 
+plantype_diffs %>%
   mutate(estimate = str_c(fmt_num(estimate), " (", fmt_num(std.error), ")")) %>%
   select(-std.error) %>%
   spread(term, estimate) %>%
@@ -160,17 +167,17 @@ systolx      122 (0.782)      -1.39 (0.986)       1.17 (1.06)        -0.522 (0.9
 Plot the difference-in-means of each plantype vs. catastrophic insurance.
 
 ```r
-ggplot(filter(plantype_diffs, term != "(Intercept)"), 
-              aes(x = term, y = estimate, 
+ggplot(filter(plantype_diffs, term != "(Intercept)"),
+              aes(x = term, y = estimate,
                   ymin = estimate - 2 * std.error,
                   ymax = estimate + 2 * std.error)) +
   geom_hline(yintercept = 0, colour = "white", size = 1) +
-  geom_pointrange() +  
-  facet_grid(response ~ . , scales = "free_y")
+  geom_pointrange() +
+  facet_grid(response ~ ., scales = "free_y")
   
 ```
 
-<img src="rand_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="rand_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 ## Table 1.4
@@ -185,9 +192,8 @@ data("rand_person_spend", package = "masteringmetrics")
 Correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.
 
 ```r
-rand_person_spend <- 
-  mutate(rand_person_spend,
-         expyear = indv_start_year + year - 1)
+rand_person_spend <- mutate(rand_person_spend,
+                            expyear = indv_start_year + year - 1)
 ```
 
 Adjust spending for inflation.
@@ -214,9 +220,8 @@ cpi <- tribble(
 ```
 
 ```r
-rand_person_spend <- 
-  left_join(rand_person_spend, 
-            cpi, by = c("expyear" = "year")) %>%
+rand_person_spend <- left_join(rand_person_spend,
+                               cpi, by = c("expyear" = "year")) %>%
   mutate(out_inf = outsum * cpi,
          inpdol_inf = inpdol * cpi)
 ```
@@ -230,7 +235,7 @@ rand_person_spend <- mutate(rand_person_spend,
 Add a variable for any health insurance (free, Individual deductible, or cost-sharing):
 
 ```r
-rand_person_spend <- mutate(rand_person_spend, 
+rand_person_spend <- mutate(rand_person_spend,
                        any_ins = plantype != "Catastrophic")
 ```
 
@@ -290,11 +295,8 @@ calc_diffs <- function(x) {
   # programmatically create the formula
   f <- quo(!!sym(x) ~ plantype)
 
-  mod <- lm(f, data = rand_person_spend)
-  out <- coef_test(mod, "CR2", cluster = rand_person_spend$fam_identifier) %>% 
-    as_tibble() %>%
-    rownames_to_column(var = "term") %>%   
-    select(term, estimate = beta, std.error = SE)
+  mod <- lm(f, data = rand_person_spend)  # nolint
+  out <- cluster_se(mod, cluster = rand_person_spend[["fam_identifier"]])
   out[["response"]] <- x
   out
 }
@@ -314,7 +316,7 @@ fmt_num <- function(x) {
   prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
 }
 
-person_diffs %>% 
+person_diffs %>%
   mutate(estimate = str_c(fmt_num(estimate), " (", fmt_num(std.error), ")")) %>%
   select(-std.error) %>%
   spread(term, estimate) %>%
@@ -331,20 +333,19 @@ out_inf      248 (14.8)         59.8 (20.7)       41.8 (20.8)       169 (19.9)
 tot_inf      636 (54.5)         152 (84.6)        114 (79.1)        285 (72.4)      
 totadm       0.0991 (0.00785)   0.0023 (0.0108)   0.0159 (0.0109)   0.0288 (0.0105) 
 
-Additionally we could plot the difference-in-means of each plantype vs. catastrophic insurance.
+Additionally we could plot the difference-in-means of each plan type vs. catastrophic insurance.
 
 ```r
-ggplot(filter(person_diffs, term != "(Intercept)"), 
-              aes(x = term, y = estimate, 
+ggplot(filter(person_diffs, term != "(Intercept)"),
+              aes(x = term, y = estimate,
                   ymin = estimate - 2 * std.error,
                   ymax = estimate + 2 * std.error)) +
   geom_hline(yintercept = 0, colour = "white", size = 1) +
-  geom_pointrange() +  
-  facet_grid(response ~ . , scales = "free_y")
-  
+  geom_pointrange() +
+  facet_grid(response ~ ., scales = "free_y")
 ```
 
-<img src="rand_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="rand_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## References {-}
 
