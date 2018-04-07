@@ -1,7 +1,7 @@
 # Mississippi Bank Failures in the Great Depression
 
 A difference-in-difference analysis of Mississippi bank failures during the Great Depression [@RichardsonTroost2009].
-This replicates Figures 5.1--5.3 in *Mastering Metrics*.
+This replicates Figures 5.1--5.3 in *Mastering 'Metrics*.
 
 ```{r setup, message=FALSE}
 library("tidyverse")
@@ -13,24 +13,29 @@ Load the `banks` data.
 data("banks", package = "masteringmetrics")
 ```
 
-To simplify the problem, use only yearly data, 
+Only use yearly data in the difference-in-difference estimates.
+Use the number of banks on July 1st of each year.
 ```{r}
+banks <- banks %>%
   filter(month(date) == 7L, mday(date) == 1L) %>%
-  select(year, matches("bi[ob][68]")) %>%
+  mutate(year = year(date)) %>%
+  select(year, matches("bi[ob][68]"))
+```
+Generate the counterfactual using the difference between the number of banks in district 8 and district 6.
+```{r}
+banks <- banks %>%
   arrange(year) %>%
   mutate(diff86 = bib8[year == 1930] - bib6[year == 1930],
-         counterfactual = if_else(year > 1930, bib8 - diff86, bib6))
+         counterfactual = if_else(year >= 1930, bib8 - diff86, NA_integer_)) %>%
+  select(-diff86)
          
 ```
 
-```{r banks_glimpse}
-glimpse(banks)
-```
-
-Plot the lines of the 8th, 6th, and 6th counterfactuals.
-```{r}
+Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual. 
+This is equivalent to Figure 5.3 of @AngristPischke2014.
+```{r fig5.3,fig.caption="Trends in the Sixth and Eighth Federal Reserve Districts, and the Sixth District DD Counterfactual."}
 select(banks, year, bib8, bib6, counterfactual) %>%
-  gather(variable, value, -year) %>%
+  gather(variable, value, -year, na.rm = TRUE) %>%
   mutate(variable = recode(variable, bib8 = "8th district", 
                            bib6 = "6th district",
                            counterfactual = "Counterfactual")) %>%
@@ -41,8 +46,8 @@ select(banks, year, bib8, bib6, counterfactual) %>%
   xlab("")
 ```
 
-Estimate the difference-in-difference estimate for all years.
-```{r}
+Plot the difference-in-difference estimate for all years after 1930.
+```{r plot_bank_year_diff,fig.cap="Difference between Eighth District and Sixth District Counterfactual"}
 ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
   geom_point() +
   geom_line() +

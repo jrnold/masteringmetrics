@@ -1,4 +1,5 @@
 
+
 ---
 output: html_document
 editor_options: 
@@ -21,7 +22,7 @@ library("clubSandwich")
 
 ## Table 1.3
 
-Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).
+@AngristPischke2014 Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).
 
 Load the `rand` data.
 
@@ -98,7 +99,6 @@ mhix          7.55e+01    1.48e+01
 systol        1.22e+02    1.65e+01
 systolx       1.22e+02    1.87e+01
 
-
 The difference in means between plans and the catastophic plan.
 
 ```r
@@ -107,7 +107,10 @@ calc_diffs <- function(x) {
   f <- quo(!!sym(x) ~ plantype)
 
   mod <- lm(f, data = rand_sample)
-  out <- tidy(mod)
+  out <- coef_test(mod, "CR2", cluster = rand_sample$fam_identifier) %>% 
+    as_tibble() %>%
+    rownames_to_column(var = "term") %>%   
+    select(term, estimate = beta, std.error = SE)  
   out[["response"]] <- x
   out
 }
@@ -118,10 +121,8 @@ plantype_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
 ```
-Note: the above code currently does not cluster by family ID as in the original analysis
-so the standard errors will be different.
 
-Print the table. This could be done much nicer, ... but for now.
+Create a table similar to @AngristPischke2014 Table 1.3.
 
 ```r
 fmt_num <- function(x) {
@@ -139,22 +140,22 @@ plantype_diffs %>%
 
 response     (Intercept)      Coinsurance         Deductible         Free             
 -----------  ---------------  ------------------  -----------------  -----------------
-age          32.4 (0.479)     0.966 (0.632)       0.561 (0.654)      0.435 (0.603)    
-blackhisp    0.172 (0.0146)   -0.0269 (0.0192)    -0.0188 (0.0199)   -0.0281 (0.0186) 
-cholest      207 (2.07)       -1.93 (2.76)        -1.42 (2.82)       -5.25 (2.59)     
-cholestx     203 (1.77)       -2.31 (2.3)         0.691 (2.4)        -1.83 (2.19)     
-diastol      74.8 (0.55)      -0.514 (0.73)       1.22 (0.747)       -0.143 (0.685)   
-diastolx     78.8 (0.473)     -0.335 (0.615)      0.219 (0.641)      -1.03 (0.585)    
-educper      12.1 (0.116)     -0.0613 (0.153)     -0.157 (0.157)     -0.263 (0.146)   
-female       0.56 (0.0181)    -0.0247 (0.0239)    -0.0231 (0.0247)   -0.0379 (0.0228) 
-ghindx       70.9 (0.651)     0.211 (0.863)       -1.44 (0.844)      -1.31 (0.801)    
-ghindxx      68.5 (0.604)     0.612 (0.785)       -0.869 (0.82)      -0.776 (0.745)   
-hosp         0.115 (0.0117)   -0.00249 (0.0154)   0.00449 (0.0159)   0.00117 (0.0147) 
-income1cpi   31,603 (651)     970 (857)           -2,104 (891)       -976 (819)       
-mhi          73.8 (0.515)     1.19 (0.677)        -0.12 (0.7)        0.89 (0.648)     
-mhix         75.5 (0.542)     1.07 (0.705)        0.454 (0.735)      0.433 (0.669)    
-systol       122 (0.797)      0.907 (1.06)        2.32 (1.08)        1.12 (0.993)     
-systolx      122 (0.715)      -1.39 (0.929)       1.17 (0.969)       -0.522 (0.885)   
+age          32.4 (0.485)     0.966 (0.655)       0.561 (0.676)      0.435 (0.614)    
+blackhisp    0.172 (0.0199)   -0.0269 (0.025)     -0.0188 (0.0266)   -0.0281 (0.0245) 
+cholest      207 (1.99)       -1.93 (2.76)        -1.42 (2.99)       -5.25 (2.7)      
+cholestx     203 (1.87)       -2.31 (2.47)        0.691 (2.58)       -1.83 (2.39)     
+diastol      74.8 (0.569)     -0.514 (0.786)      1.22 (0.831)       -0.143 (0.721)   
+diastolx     78.8 (0.466)     -0.335 (0.617)      0.219 (0.648)      -1.03 (0.588)    
+educper      12.1 (0.14)      -0.0613 (0.186)     -0.157 (0.191)     -0.263 (0.183)   
+female       0.56 (0.0118)    -0.0247 (0.0153)    -0.0231 (0.016)    -0.0379 (0.015)  
+ghindx       70.9 (0.694)     0.211 (0.922)       -1.44 (0.952)      -1.31 (0.872)    
+ghindxx      68.5 (0.702)     0.612 (0.903)       -0.869 (0.964)     -0.776 (0.867)   
+hosp         0.115 (0.0117)   -0.00249 (0.0152)   0.00449 (0.016)    0.00117 (0.0146) 
+income1cpi   31,603 (1,073)   970 (1,391)         -2,104 (1,386)     -976 (1,346)     
+mhi          73.8 (0.619)     1.19 (0.81)         -0.12 (0.822)      0.89 (0.766)     
+mhix         75.5 (0.696)     1.07 (0.872)        0.454 (0.911)      0.433 (0.826)    
+systol       122 (0.805)      0.907 (1.08)        2.32 (1.16)        1.12 (1.01)      
+systolx      122 (0.782)      -1.39 (0.986)       1.17 (1.06)        -0.522 (0.934)   
 
 Plot the difference-in-means of each plantype vs. catastrophic insurance.
 
@@ -169,12 +170,12 @@ ggplot(filter(plantype_diffs, term != "(Intercept)"),
   
 ```
 
-<img src="rand_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="rand_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 ## Table 1.4
 
-Table 1.4 presents health outcome and health expenditure results from the RAND HIE.
+Replicate @AngristPischke2014 Table 1.4 which presents health outcome and health expenditure results from the RAND HIE.
 
 
 ```r
@@ -262,7 +263,7 @@ Create a list of response variables.
 varlist <- c("ftf", "out_inf", "totadm", "inpdol_inf", "tot_inf")
 ```
 
-Mean and standard deviation for those receiving catastrophic insurance,
+Calculate the mean and standard deviation for those receiving catastrophic insurance.
 
 ```r
 rand_person_spend %>%
@@ -350,4 +351,5 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
 - <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
+
 

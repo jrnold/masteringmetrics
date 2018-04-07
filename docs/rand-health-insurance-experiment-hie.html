@@ -151,6 +151,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="mlda-regression-discontinuity.html"><a href="mlda-regression-discontinuity.html"><i class="fa fa-check"></i><b>7</b> MLDA Regression Discontinuity</a><ul>
 <li class="chapter" data-level="7.1" data-path="mlda-regression-discontinuity.html"><a href="mlda-regression-discontinuity.html#references-3"><i class="fa fa-check"></i><b>7.1</b> References</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="chapter-5-part.html"><a href="chapter-5-part.html"><i class="fa fa-check"></i><b>8</b> Chapter 5 (PART)</a></li>
+<li class="chapter" data-level="9" data-path="mississippi-bank-failures-in-the-great-depression.html"><a href="mississippi-bank-failures-in-the-great-depression.html"><i class="fa fa-check"></i><b>9</b> Mississippi Bank Failures in the Great Depression</a><ul>
+<li class="chapter" data-level="9.1" data-path="mississippi-bank-failures-in-the-great-depression.html"><a href="mississippi-bank-failures-in-the-great-depression.html#references-4"><i class="fa fa-check"></i><b>9.1</b> References</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -172,19 +176,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> RAND Health Insurance Experiment (HIE)</h1>
 <p>This provides code replicates the Tables 1.3 and 1.4 of <span class="citation">Angrist and Pischke (2014)</span> which replicate the analyses from the RAND Health Insurance Experiment <span class="citation">(Brook et al. 1983,<span class="citation">@Aron-DineEinavEtAl2013</span>)</span>.</p>
 <p>Load necessary libraries.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;rlang&quot;</span>)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;rlang&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)</a></code></pre></div>
 <div id="table-1.3" class="section level2">
 <h2><span class="header-section-number">3.1</span> Table 1.3</h2>
-<p>Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).</p>
+<p><span class="citation">Angrist and Pischke (2014)</span> Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).</p>
 <p>Load the <code>rand</code> data.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;rand_sample&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;rand_sample&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
 <p>Calculate the number in each plan:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">plantypes &lt;-<span class="st"> </span><span class="kw">count</span>(rand_sample, plantype) </a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(plantypes)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">plantypes &lt;-<span class="st"> </span><span class="kw">count</span>(rand_sample, plantype) </a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(plantypes)</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -212,20 +216,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>For each variable variables, estimate the the difference in means between heath insurance plan types.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;blackhisp&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;educper&quot;</span>, </a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">             <span class="st">&quot;income1cpi&quot;</span>, <span class="st">&quot;hosp&quot;</span>, <span class="st">&quot;ghindx&quot;</span>, <span class="st">&quot;cholest&quot;</span>, <span class="st">&quot;diastol&quot;</span>,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">             <span class="st">&quot;systol&quot;</span>, <span class="st">&quot;mhi&quot;</span>, <span class="st">&quot;ghindxx&quot;</span>, </a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">             <span class="st">&quot;cholestx&quot;</span>, <span class="st">&quot;diastolx&quot;</span>, <span class="st">&quot;systolx&quot;</span>, <span class="st">&quot;mhix&quot;</span>)</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">        </a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;blackhisp&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;educper&quot;</span>, </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">             <span class="st">&quot;income1cpi&quot;</span>, <span class="st">&quot;hosp&quot;</span>, <span class="st">&quot;ghindx&quot;</span>, <span class="st">&quot;cholest&quot;</span>, <span class="st">&quot;diastol&quot;</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">             <span class="st">&quot;systol&quot;</span>, <span class="st">&quot;mhi&quot;</span>, <span class="st">&quot;ghindxx&quot;</span>, </a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">             <span class="st">&quot;cholestx&quot;</span>, <span class="st">&quot;diastolx&quot;</span>, <span class="st">&quot;systolx&quot;</span>, <span class="st">&quot;mhix&quot;</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">        </a></code></pre></div>
 <p>Create column (1) with the mean and standard deviation of the “Catastrophic” plan,</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">catastrophic_stats &lt;-<span class="st"> </span>rand_sample <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(plantype <span class="op">==</span><span class="st"> &quot;Catastrophic&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(<span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">  </span><span class="kw">gather</span>(variable, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(variable) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">            <span class="st">`</span><span class="dt">Std. Dev.</span><span class="st">`</span> =<span class="st"> </span><span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(catastrophic_stats, <span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">catastrophic_stats &lt;-<span class="st"> </span>rand_sample <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(plantype <span class="op">==</span><span class="st"> &quot;Catastrophic&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(<span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">gather</span>(variable, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(variable) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">            <span class="st">`</span><span class="dt">Std. Dev.</span><span class="st">`</span> =<span class="st"> </span><span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(catastrophic_stats, <span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -318,30 +322,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The difference in means between plans and the catastophic plan.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">calc_diffs &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="co"># programmatically create the formula for lm</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">  f &lt;-<span class="st"> </span><span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(x) <span class="op">~</span><span class="st"> </span>plantype)</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(f, <span class="dt">data =</span> rand_sample)</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">  out &lt;-<span class="st"> </span><span class="kw">tidy</span>(mod)</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7">  out[[<span class="st">&quot;response&quot;</span>]] &lt;-<span class="st"> </span>x</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8">  out</a>
-<a class="sourceLine" id="cb18-9" data-line-number="9">}</a></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">plantype_diffs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(varlist, calc_diffs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(response, term, estimate, std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">str_replace</span>(term, <span class="st">&quot;^plantype&quot;</span>, <span class="st">&quot;&quot;</span>))</a></code></pre></div>
-<p>Note: the above code currently does not cluster by family ID as in the original analysis
-so the standard errors will be different.</p>
-<p>Print the table. This could be done much nicer, … but for now.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">fmt_num &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">  <span class="kw">prettyNum</span>(x, <span class="dt">digits =</span> <span class="dv">3</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>, <span class="dt">big.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">drop0trailing =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">plantype_diffs <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">estimate =</span> <span class="kw">str_c</span>(<span class="kw">fmt_num</span>(estimate), <span class="st">&quot; (&quot;</span>, <span class="kw">fmt_num</span>(std.error), <span class="st">&quot;)&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="st">  </span><span class="kw">spread</span>(term, estimate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">calc_diffs &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="co"># programmatically create the formula for lm</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">  f &lt;-<span class="st"> </span><span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(x) <span class="op">~</span><span class="st"> </span>plantype)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(f, <span class="dt">data =</span> rand_sample)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  out &lt;-<span class="st"> </span><span class="kw">coef_test</span>(mod, <span class="st">&quot;CR2&quot;</span>, <span class="dt">cluster =</span> rand_sample<span class="op">$</span>fam_identifier) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;term&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="st">    </span><span class="kw">select</span>(term, <span class="dt">estimate =</span> beta, <span class="dt">std.error =</span> SE)  </a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  out[[<span class="st">&quot;response&quot;</span>]] &lt;-<span class="st"> </span>x</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  out</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">plantype_diffs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(varlist, calc_diffs) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(response, term, estimate, std.error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">str_replace</span>(term, <span class="st">&quot;^plantype&quot;</span>, <span class="st">&quot;&quot;</span>))</a></code></pre></div>
+<p>Create a table similar to <span class="citation">Angrist and Pischke (2014)</span> Table 1.3.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">fmt_num &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="kw">prettyNum</span>(x, <span class="dt">digits =</span> <span class="dv">3</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>, <span class="dt">big.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">drop0trailing =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">plantype_diffs <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">estimate =</span> <span class="kw">str_c</span>(<span class="kw">fmt_num</span>(estimate), <span class="st">&quot; (&quot;</span>, <span class="kw">fmt_num</span>(std.error), <span class="st">&quot;)&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>std.error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="st">  </span><span class="kw">spread</span>(term, estimate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -355,227 +360,227 @@ so the standard errors will be different.</p>
 <tbody>
 <tr class="odd">
 <td align="left">age</td>
-<td align="left">32.4 (0.479)</td>
-<td align="left">0.966 (0.632)</td>
-<td align="left">0.561 (0.654)</td>
-<td align="left">0.435 (0.603)</td>
+<td align="left">32.4 (0.485)</td>
+<td align="left">0.966 (0.655)</td>
+<td align="left">0.561 (0.676)</td>
+<td align="left">0.435 (0.614)</td>
 </tr>
 <tr class="even">
 <td align="left">blackhisp</td>
-<td align="left">0.172 (0.0146)</td>
-<td align="left">-0.0269 (0.0192)</td>
-<td align="left">-0.0188 (0.0199)</td>
-<td align="left">-0.0281 (0.0186)</td>
+<td align="left">0.172 (0.0199)</td>
+<td align="left">-0.0269 (0.025)</td>
+<td align="left">-0.0188 (0.0266)</td>
+<td align="left">-0.0281 (0.0245)</td>
 </tr>
 <tr class="odd">
 <td align="left">cholest</td>
-<td align="left">207 (2.07)</td>
+<td align="left">207 (1.99)</td>
 <td align="left">-1.93 (2.76)</td>
-<td align="left">-1.42 (2.82)</td>
-<td align="left">-5.25 (2.59)</td>
+<td align="left">-1.42 (2.99)</td>
+<td align="left">-5.25 (2.7)</td>
 </tr>
 <tr class="even">
 <td align="left">cholestx</td>
-<td align="left">203 (1.77)</td>
-<td align="left">-2.31 (2.3)</td>
-<td align="left">0.691 (2.4)</td>
-<td align="left">-1.83 (2.19)</td>
+<td align="left">203 (1.87)</td>
+<td align="left">-2.31 (2.47)</td>
+<td align="left">0.691 (2.58)</td>
+<td align="left">-1.83 (2.39)</td>
 </tr>
 <tr class="odd">
 <td align="left">diastol</td>
-<td align="left">74.8 (0.55)</td>
-<td align="left">-0.514 (0.73)</td>
-<td align="left">1.22 (0.747)</td>
-<td align="left">-0.143 (0.685)</td>
+<td align="left">74.8 (0.569)</td>
+<td align="left">-0.514 (0.786)</td>
+<td align="left">1.22 (0.831)</td>
+<td align="left">-0.143 (0.721)</td>
 </tr>
 <tr class="even">
 <td align="left">diastolx</td>
-<td align="left">78.8 (0.473)</td>
-<td align="left">-0.335 (0.615)</td>
-<td align="left">0.219 (0.641)</td>
-<td align="left">-1.03 (0.585)</td>
+<td align="left">78.8 (0.466)</td>
+<td align="left">-0.335 (0.617)</td>
+<td align="left">0.219 (0.648)</td>
+<td align="left">-1.03 (0.588)</td>
 </tr>
 <tr class="odd">
 <td align="left">educper</td>
-<td align="left">12.1 (0.116)</td>
-<td align="left">-0.0613 (0.153)</td>
-<td align="left">-0.157 (0.157)</td>
-<td align="left">-0.263 (0.146)</td>
+<td align="left">12.1 (0.14)</td>
+<td align="left">-0.0613 (0.186)</td>
+<td align="left">-0.157 (0.191)</td>
+<td align="left">-0.263 (0.183)</td>
 </tr>
 <tr class="even">
 <td align="left">female</td>
-<td align="left">0.56 (0.0181)</td>
-<td align="left">-0.0247 (0.0239)</td>
-<td align="left">-0.0231 (0.0247)</td>
-<td align="left">-0.0379 (0.0228)</td>
+<td align="left">0.56 (0.0118)</td>
+<td align="left">-0.0247 (0.0153)</td>
+<td align="left">-0.0231 (0.016)</td>
+<td align="left">-0.0379 (0.015)</td>
 </tr>
 <tr class="odd">
 <td align="left">ghindx</td>
-<td align="left">70.9 (0.651)</td>
-<td align="left">0.211 (0.863)</td>
-<td align="left">-1.44 (0.844)</td>
-<td align="left">-1.31 (0.801)</td>
+<td align="left">70.9 (0.694)</td>
+<td align="left">0.211 (0.922)</td>
+<td align="left">-1.44 (0.952)</td>
+<td align="left">-1.31 (0.872)</td>
 </tr>
 <tr class="even">
 <td align="left">ghindxx</td>
-<td align="left">68.5 (0.604)</td>
-<td align="left">0.612 (0.785)</td>
-<td align="left">-0.869 (0.82)</td>
-<td align="left">-0.776 (0.745)</td>
+<td align="left">68.5 (0.702)</td>
+<td align="left">0.612 (0.903)</td>
+<td align="left">-0.869 (0.964)</td>
+<td align="left">-0.776 (0.867)</td>
 </tr>
 <tr class="odd">
 <td align="left">hosp</td>
 <td align="left">0.115 (0.0117)</td>
-<td align="left">-0.00249 (0.0154)</td>
-<td align="left">0.00449 (0.0159)</td>
-<td align="left">0.00117 (0.0147)</td>
+<td align="left">-0.00249 (0.0152)</td>
+<td align="left">0.00449 (0.016)</td>
+<td align="left">0.00117 (0.0146)</td>
 </tr>
 <tr class="even">
 <td align="left">income1cpi</td>
-<td align="left">31,603 (651)</td>
-<td align="left">970 (857)</td>
-<td align="left">-2,104 (891)</td>
-<td align="left">-976 (819)</td>
+<td align="left">31,603 (1,073)</td>
+<td align="left">970 (1,391)</td>
+<td align="left">-2,104 (1,386)</td>
+<td align="left">-976 (1,346)</td>
 </tr>
 <tr class="odd">
 <td align="left">mhi</td>
-<td align="left">73.8 (0.515)</td>
-<td align="left">1.19 (0.677)</td>
-<td align="left">-0.12 (0.7)</td>
-<td align="left">0.89 (0.648)</td>
+<td align="left">73.8 (0.619)</td>
+<td align="left">1.19 (0.81)</td>
+<td align="left">-0.12 (0.822)</td>
+<td align="left">0.89 (0.766)</td>
 </tr>
 <tr class="even">
 <td align="left">mhix</td>
-<td align="left">75.5 (0.542)</td>
-<td align="left">1.07 (0.705)</td>
-<td align="left">0.454 (0.735)</td>
-<td align="left">0.433 (0.669)</td>
+<td align="left">75.5 (0.696)</td>
+<td align="left">1.07 (0.872)</td>
+<td align="left">0.454 (0.911)</td>
+<td align="left">0.433 (0.826)</td>
 </tr>
 <tr class="odd">
 <td align="left">systol</td>
-<td align="left">122 (0.797)</td>
-<td align="left">0.907 (1.06)</td>
-<td align="left">2.32 (1.08)</td>
-<td align="left">1.12 (0.993)</td>
+<td align="left">122 (0.805)</td>
+<td align="left">0.907 (1.08)</td>
+<td align="left">2.32 (1.16)</td>
+<td align="left">1.12 (1.01)</td>
 </tr>
 <tr class="even">
 <td align="left">systolx</td>
-<td align="left">122 (0.715)</td>
-<td align="left">-1.39 (0.929)</td>
-<td align="left">1.17 (0.969)</td>
-<td align="left">-0.522 (0.885)</td>
+<td align="left">122 (0.782)</td>
+<td align="left">-1.39 (0.986)</td>
+<td align="left">1.17 (1.06)</td>
+<td align="left">-0.522 (0.934)</td>
 </tr>
 </tbody>
 </table>
 <p>Plot the difference-in-means of each plantype vs. catastrophic insurance.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(plantype_diffs, term <span class="op">!=</span><span class="st"> &quot;(Intercept)&quot;</span>), </a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">              <span class="kw">aes</span>(<span class="dt">x =</span> term, <span class="dt">y =</span> estimate, </a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">                  <span class="dt">ymin =</span> estimate <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error,</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4">                  <span class="dt">ymax =</span> estimate <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_pointrange</span>() <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>. , <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>)</a>
-<a class="sourceLine" id="cb21-8" data-line-number="8">  </a></code></pre></div>
-<p><img src="rand_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(plantype_diffs, term <span class="op">!=</span><span class="st"> &quot;(Intercept)&quot;</span>), </a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">              <span class="kw">aes</span>(<span class="dt">x =</span> term, <span class="dt">y =</span> estimate, </a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">                  <span class="dt">ymin =</span> estimate <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error,</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                  <span class="dt">ymax =</span> estimate <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_pointrange</span>() <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>. , <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>)</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">  </a></code></pre></div>
+<p><img src="rand_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="table-1.4" class="section level2">
 <h2><span class="header-section-number">3.2</span> Table 1.4</h2>
-<p>Table 1.4 presents health outcome and health expenditure results from the RAND HIE.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;rand_person_spend&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<p>Replicate <span class="citation">Angrist and Pischke (2014)</span> Table 1.4 which presents health outcome and health expenditure results from the RAND HIE.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;rand_person_spend&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
 <p>Correlate year variable from annual expenditures data to correct calendar year in order to adjust for inflation.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(rand_person_spend,</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">         <span class="dt">expyear =</span> indv_start_year <span class="op">+</span><span class="st"> </span>year <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(rand_person_spend,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">         <span class="dt">expyear =</span> indv_start_year <span class="op">+</span><span class="st"> </span>year <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
 <p>Adjust spending for inflation.
 The CPI adjustment values below are based on the June CPI from 1991 (see table found at <a href="http://www.seattle.gov/financedepartment/cpi/historical.htm" class="uri">http://www.seattle.gov/financedepartment/cpi/historical.htm</a> ).</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">cpi &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="op">~</span><span class="st"> </span>year, <span class="op">~</span><span class="st"> </span>cpi,</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="dv">1973</span>, <span class="fl">3.07</span>,</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dv">1974</span>, <span class="fl">2.76</span>,</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">  <span class="dv">1975</span>, <span class="fl">2.53</span>,</a>
-<a class="sourceLine" id="cb24-6" data-line-number="6">  <span class="dv">1976</span>, <span class="fl">2.39</span>,</a>
-<a class="sourceLine" id="cb24-7" data-line-number="7">  <span class="dv">1977</span>, <span class="fl">2.24</span>,</a>
-<a class="sourceLine" id="cb24-8" data-line-number="8">  <span class="dv">1978</span>, <span class="fl">2.09</span>,</a>
-<a class="sourceLine" id="cb24-9" data-line-number="9">  <span class="dv">1979</span>, <span class="fl">1.88</span>,</a>
-<a class="sourceLine" id="cb24-10" data-line-number="10">  <span class="dv">1980</span>, <span class="fl">1.65</span>,</a>
-<a class="sourceLine" id="cb24-11" data-line-number="11">  <span class="dv">1981</span>, <span class="fl">1.5</span>,</a>
-<a class="sourceLine" id="cb24-12" data-line-number="12">  <span class="dv">1982</span>, <span class="fl">1.41</span>,</a>
-<a class="sourceLine" id="cb24-13" data-line-number="13">  <span class="dv">1983</span>, <span class="fl">1.37</span>,</a>
-<a class="sourceLine" id="cb24-14" data-line-number="14">  <span class="dv">1984</span>, <span class="fl">1.31</span>,</a>
-<a class="sourceLine" id="cb24-15" data-line-number="15">  <span class="dv">1985</span>, <span class="fl">1.27</span></a>
-<a class="sourceLine" id="cb24-16" data-line-number="16">)</a></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span><span class="kw">left_join</span>(rand_person_spend, </a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">            cpi, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;expyear&quot;</span> =<span class="st"> &quot;year&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">out_inf =</span> outsum <span class="op">*</span><span class="st"> </span>cpi,</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">         <span class="dt">inpdol_inf =</span> inpdol <span class="op">*</span><span class="st"> </span>cpi)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">cpi &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="op">~</span><span class="st"> </span>year, <span class="op">~</span><span class="st"> </span>cpi,</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dv">1973</span>, <span class="fl">3.07</span>,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dv">1974</span>, <span class="fl">2.76</span>,</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dv">1975</span>, <span class="fl">2.53</span>,</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">  <span class="dv">1976</span>, <span class="fl">2.39</span>,</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="dv">1977</span>, <span class="fl">2.24</span>,</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="dv">1978</span>, <span class="fl">2.09</span>,</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">  <span class="dv">1979</span>, <span class="fl">1.88</span>,</a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">  <span class="dv">1980</span>, <span class="fl">1.65</span>,</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">  <span class="dv">1981</span>, <span class="fl">1.5</span>,</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">  <span class="dv">1982</span>, <span class="fl">1.41</span>,</a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">  <span class="dv">1983</span>, <span class="fl">1.37</span>,</a>
+<a class="sourceLine" id="cb14-14" data-line-number="14">  <span class="dv">1984</span>, <span class="fl">1.31</span>,</a>
+<a class="sourceLine" id="cb14-15" data-line-number="15">  <span class="dv">1985</span>, <span class="fl">1.27</span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16">)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw">left_join</span>(rand_person_spend, </a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">            cpi, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;expyear&quot;</span> =<span class="st"> &quot;year&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">out_inf =</span> outsum <span class="op">*</span><span class="st"> </span>cpi,</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">         <span class="dt">inpdol_inf =</span> inpdol <span class="op">*</span><span class="st"> </span>cpi)</a></code></pre></div>
 <p>Add a total spending variable.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span><span class="kw">mutate</span>(rand_person_spend,</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">                       <span class="dt">tot_inf =</span> inpdol_inf <span class="op">+</span><span class="st"> </span>out_inf)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span><span class="kw">mutate</span>(rand_person_spend,</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">                       <span class="dt">tot_inf =</span> inpdol_inf <span class="op">+</span><span class="st"> </span>out_inf)</a></code></pre></div>
 <p>Add a variable for any health insurance (free, Individual deductible, or cost-sharing):</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span><span class="kw">mutate</span>(rand_person_spend, </a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">                       <span class="dt">any_ins =</span> plantype <span class="op">!=</span><span class="st"> &quot;Catastrophic&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">rand_person_spend &lt;-<span class="st"> </span><span class="kw">mutate</span>(rand_person_spend, </a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">                       <span class="dt">any_ins =</span> plantype <span class="op">!=</span><span class="st"> &quot;Catastrophic&quot;</span>)</a></code></pre></div>
 <p>Count the number of observations in each plan-type,</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">count</span>(rand_person_spend, plantype)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt;   plantype         n</span></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co">#&gt;   &lt;fct&gt;        &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt; 1 Catastrophic  3724</span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co">#&gt; 2 Deductible    4175</span></a>
-<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co">#&gt; 3 Cost Sharing  5464</span></a>
-<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="co">#&gt; 4 Free          6840</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">count</span>(rand_person_spend, plantype)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt;   plantype         n</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt;   &lt;fct&gt;        &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt; 1 Catastrophic  3724</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; 2 Deductible    4175</span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&gt; 3 Cost Sharing  5464</span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&gt; 4 Free          6840</span></a></code></pre></div>
 <p>and any-insurance,</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">count</span>(rand_person_spend, any_ins)</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt;   any_ins     n</span></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt;   &lt;lgl&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co">#&gt; 1 FALSE    3724</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#&gt; 2 TRUE    16479</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">count</span>(rand_person_spend, any_ins)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt;   any_ins     n</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt;   &lt;lgl&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; 1 FALSE    3724</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; 2 TRUE    16479</span></a></code></pre></div>
 <p>Create a list of response variables.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ftf&quot;</span>, <span class="st">&quot;out_inf&quot;</span>, <span class="st">&quot;totadm&quot;</span>, <span class="st">&quot;inpdol_inf&quot;</span>, <span class="st">&quot;tot_inf&quot;</span>)</a></code></pre></div>
-<p>Mean and standard deviation for those receiving catastrophic insurance,</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">rand_person_spend <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(plantype <span class="op">==</span><span class="st"> &quot;Catastrophic&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(<span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="st">  </span><span class="kw">gather</span>(response, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(response) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb31-7" data-line-number="7">            <span class="st">`</span><span class="dt">Std. Dev.</span><span class="st">`</span> =<span class="st"> </span><span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; # A tibble: 5 x 3</span></a>
-<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co">#&gt;   response       Mean `Std. Dev.`</span></a>
-<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co">#&gt; 1 ftf          2.78         5.50 </span></a>
-<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="co">#&gt; 2 inpdol_inf 388.        2308.   </span></a>
-<a class="sourceLine" id="cb31-13" data-line-number="13"><span class="co">#&gt; 3 out_inf    248.         488.   </span></a>
-<a class="sourceLine" id="cb31-14" data-line-number="14"><span class="co">#&gt; 4 tot_inf    636.        2535.   </span></a>
-<a class="sourceLine" id="cb31-15" data-line-number="15"><span class="co">#&gt; 5 totadm       0.0991       0.379</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ftf&quot;</span>, <span class="st">&quot;out_inf&quot;</span>, <span class="st">&quot;totadm&quot;</span>, <span class="st">&quot;inpdol_inf&quot;</span>, <span class="st">&quot;tot_inf&quot;</span>)</a></code></pre></div>
+<p>Calculate the mean and standard deviation for those receiving catastrophic insurance.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">rand_person_spend <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(plantype <span class="op">==</span><span class="st"> &quot;Catastrophic&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(<span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">  </span><span class="kw">gather</span>(response, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(response) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">            <span class="st">`</span><span class="dt">Std. Dev.</span><span class="st">`</span> =<span class="st"> </span><span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt; # A tibble: 5 x 3</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt;   response       Mean `Std. Dev.`</span></a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="co">#&gt; 1 ftf          2.78         5.50 </span></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="co">#&gt; 2 inpdol_inf 388.        2308.   </span></a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="co">#&gt; 3 out_inf    248.         488.   </span></a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co">#&gt; 4 tot_inf    636.        2535.   </span></a>
+<a class="sourceLine" id="cb21-15" data-line-number="15"><span class="co">#&gt; 5 totadm       0.0991       0.379</span></a></code></pre></div>
 <p>Calculate the difference in means between plans and the catastophic plan.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">calc_diffs &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2">  <span class="co"># programmatically create the formula</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3">  f &lt;-<span class="st"> </span><span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(x) <span class="op">~</span><span class="st"> </span>plantype)</a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(f, <span class="dt">data =</span> rand_person_spend)</a>
-<a class="sourceLine" id="cb32-6" data-line-number="6">  out &lt;-<span class="st"> </span><span class="kw">coef_test</span>(mod, <span class="st">&quot;CR2&quot;</span>, <span class="dt">cluster =</span> rand_person_spend<span class="op">$</span>fam_identifier) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;term&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></a>
-<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="st">    </span><span class="kw">select</span>(term, <span class="dt">estimate =</span> beta, <span class="dt">std.error =</span> SE)</a>
-<a class="sourceLine" id="cb32-10" data-line-number="10">  out[[<span class="st">&quot;response&quot;</span>]] &lt;-<span class="st"> </span>x</a>
-<a class="sourceLine" id="cb32-11" data-line-number="11">  out</a>
-<a class="sourceLine" id="cb32-12" data-line-number="12">}</a></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">person_diffs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(varlist, calc_diffs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(response, term, estimate, std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">str_replace</span>(term, <span class="st">&quot;^plantype&quot;</span>, <span class="st">&quot;&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">calc_diffs &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">  <span class="co"># programmatically create the formula</span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">  f &lt;-<span class="st"> </span><span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(x) <span class="op">~</span><span class="st"> </span>plantype)</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(f, <span class="dt">data =</span> rand_person_spend)</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">  out &lt;-<span class="st"> </span><span class="kw">coef_test</span>(mod, <span class="st">&quot;CR2&quot;</span>, <span class="dt">cluster =</span> rand_person_spend<span class="op">$</span>fam_identifier) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;term&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></a>
+<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="st">    </span><span class="kw">select</span>(term, <span class="dt">estimate =</span> beta, <span class="dt">std.error =</span> SE)</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10">  out[[<span class="st">&quot;response&quot;</span>]] &lt;-<span class="st"> </span>x</a>
+<a class="sourceLine" id="cb22-11" data-line-number="11">  out</a>
+<a class="sourceLine" id="cb22-12" data-line-number="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">person_diffs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(varlist, calc_diffs) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(response, term, estimate, std.error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">str_replace</span>(term, <span class="st">&quot;^plantype&quot;</span>, <span class="st">&quot;&quot;</span>))</a></code></pre></div>
 <p>Standard errors are clustered by family identifier using the <strong>clubSandwich</strong> package.</p>
 <p>Print the table. If this were an actual publication, I’d make it nicer.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">fmt_num &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">  <span class="kw">prettyNum</span>(x, <span class="dt">digits =</span> <span class="dv">3</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>, <span class="dt">big.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">drop0trailing =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb34-5" data-line-number="5">person_diffs <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">estimate =</span> <span class="kw">str_c</span>(<span class="kw">fmt_num</span>(estimate), <span class="st">&quot; (&quot;</span>, <span class="kw">fmt_num</span>(std.error), <span class="st">&quot;)&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">  </span><span class="kw">spread</span>(term, estimate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-9" data-line-number="9"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">fmt_num &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="kw">prettyNum</span>(x, <span class="dt">digits =</span> <span class="dv">3</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>, <span class="dt">big.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">drop0trailing =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">person_diffs <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">estimate =</span> <span class="kw">str_c</span>(<span class="kw">fmt_num</span>(estimate), <span class="st">&quot; (&quot;</span>, <span class="kw">fmt_num</span>(std.error), <span class="st">&quot;)&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>std.error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="st">  </span><span class="kw">spread</span>(term, estimate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -625,14 +630,14 @@ The CPI adjustment values below are based on the June CPI from 1991 (see table f
 </tbody>
 </table>
 <p>Additionally we could plot the difference-in-means of each plantype vs. catastrophic insurance.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(person_diffs, term <span class="op">!=</span><span class="st"> &quot;(Intercept)&quot;</span>), </a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">              <span class="kw">aes</span>(<span class="dt">x =</span> term, <span class="dt">y =</span> estimate, </a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">                  <span class="dt">ymin =</span> estimate <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error,</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">                  <span class="dt">ymax =</span> estimate <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_pointrange</span>() <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>. , <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>)</a>
-<a class="sourceLine" id="cb35-8" data-line-number="8">  </a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(person_diffs, term <span class="op">!=</span><span class="st"> &quot;(Intercept)&quot;</span>), </a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">              <span class="kw">aes</span>(<span class="dt">x =</span> term, <span class="dt">y =</span> estimate, </a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">                  <span class="dt">ymin =</span> estimate <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error,</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">                  <span class="dt">ymax =</span> estimate <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>std.error)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_pointrange</span>() <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>. , <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>)</a>
+<a class="sourceLine" id="cb25-8" data-line-number="8">  </a></code></pre></div>
 <p><img src="rand_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="references-1" class="section level2 unnumbered">
@@ -682,19 +687,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

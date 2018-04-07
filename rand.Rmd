@@ -1,3 +1,28 @@
+```{r include=FALSE, cache=FALSE}
+set.seed(1014)
+options(digits = 3)
+
+# .nojekyll <- here::here("docs", ".nojekyll")
+# if (!file.exists(.nojekyll)) {
+#   close(open(file(.nojekyll, open = "w")))
+# }
+
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  cache = TRUE,
+  autodep = TRUE,
+  out.width = "70%",
+  fig.align = 'center',
+  fig.width = 6,
+  fig.asp = 0.618,  # 1 / phi
+  fig.show = "hold"
+)
+
+options(dplyr.print_min = 6, dplyr.print_max = 6)
+
+is_html <- knitr::opts_knit$get("rmarkdown.pandoc.to") == "html"
+```
 ---
 output: html_document
 editor_options: 
@@ -19,7 +44,7 @@ library("clubSandwich")
 
 ## Table 1.3
 
-Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).
+@AngristPischke2014 Table 1.3 presents demographic and baseline health characteristics for subjects of the RAND Health Insurance Experiment (HIE).
 
 Load the `rand` data.
 ```{r rand_sample}
@@ -58,9 +83,7 @@ catastrophic_stats <- rand_sample %>%
 
 ```{r catastrophic_stats_tab, results='asis'}
 knitr::kable(catastrophic_stats, digits = 3)
-
 ```
-
 
 The difference in means between plans and the catastophic plan.
 ```{r}
@@ -69,7 +92,10 @@ calc_diffs <- function(x) {
   f <- quo(!!sym(x) ~ plantype)
 
   mod <- lm(f, data = rand_sample)
-  out <- tidy(mod)
+  out <- coef_test(mod, "CR2", cluster = rand_sample$fam_identifier) %>% 
+    as_tibble() %>%
+    rownames_to_column(var = "term") %>%   
+    select(term, estimate = beta, std.error = SE)  
   out[["response"]] <- x
   out
 }
@@ -78,12 +104,9 @@ calc_diffs <- function(x) {
 plantype_diffs <- map_dfr(varlist, calc_diffs) %>%
   select(response, term, estimate, std.error) %>%
   mutate(term = str_replace(term, "^plantype", ""))
-
 ```
-Note: the above code currently does not cluster by family ID as in the original analysis
-so the standard errors will be different.
 
-Print the table. This could be done much nicer, ... but for now.
+Create a table similar to @AngristPischke2014 Table 1.3.
 ```{r}
 fmt_num <- function(x) {
   prettyNum(x, digits = 3, format = "f", big.mark = ",", drop0trailing = FALSE)
@@ -112,9 +135,9 @@ ggplot(filter(plantype_diffs, term != "(Intercept)"),
 
 ## Table 1.4
 
-Table 1.4 presents health outcome and health expenditure results from the RAND HIE.
+Replicate @AngristPischke2014 Table 1.4 which presents health outcome and health expenditure results from the RAND HIE.
 
-```{r}
+```{r rand_person_spend}
 data("rand_person_spend", package = "masteringmetrics")
 ```
 
@@ -179,7 +202,7 @@ Create a list of response variables.
 varlist <- c("ftf", "out_inf", "totadm", "inpdol_inf", "tot_inf")
 ```
 
-Mean and standard deviation for those receiving catastrophic insurance,
+Calculate the mean and standard deviation for those receiving catastrophic insurance.
 ```{r}
 rand_person_spend %>%
   filter(plantype == "Catastrophic") %>%
@@ -244,3 +267,5 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
 - <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
+```{r include=FALSE, cache=FALSE}
+```

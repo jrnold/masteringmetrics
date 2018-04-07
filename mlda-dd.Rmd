@@ -30,7 +30,6 @@ Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-
 dtypes <- c("all", "MVA", "suicide", "homicide")
 ```
 
-
 ```{r}
 run_reg <- function(i) {
   data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i)
