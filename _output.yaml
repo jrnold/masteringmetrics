@@ -10,10 +10,9 @@ bookdown::gitbook:
     sharing: no
   md_extensions: "+native_divs"
   download: ["pdf"]
+  keep_md: yes
 
 bookdown::pdf_book:
   keep_tex: yes
   md_extensions: ""
   latex_engine: "xelatex"
-  includes:
-    in_header: "r4ds.tex"

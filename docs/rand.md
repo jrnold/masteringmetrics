@@ -52,13 +52,19 @@ knitr::kable(plantypes)
 ```
 
 
-
-plantype           n
--------------  -----
-Catastrophic     759
-Deductible       881
-Coinsurance     1022
-Free            1295
+\begin{tabular}{l|r}
+\hline
+plantype & n\\
+\hline
+Catastrophic & 759\\
+\hline
+Deductible & 881\\
+\hline
+Coinsurance & 1022\\
+\hline
+Free & 1295\\
+\hline
+\end{tabular}
 
 
 For each variable variables, estimate the the difference in means between heath insurance plan types.
@@ -90,25 +96,43 @@ knitr::kable(catastrophic_stats, digits = 3)
 ```
 
 
-
-variable          Mean   Std. Dev.
------------  ---------  ----------
-age           3.24e+01    1.29e+01
-blackhisp     1.72e-01    3.77e-01
-cholest       2.07e+02    3.99e+01
-cholestx      2.03e+02    4.21e+01
-diastol       7.48e+01    1.10e+01
-diastolx      7.88e+01    1.20e+01
-educper       1.21e+01    2.88e+00
-female        5.60e-01    4.97e-01
-ghindx        7.09e+01    1.49e+01
-ghindxx       6.85e+01    1.59e+01
-hosp          1.15e-01    3.20e-01
-income1cpi    3.16e+04    1.81e+04
-mhi           7.38e+01    1.43e+01
-mhix          7.55e+01    1.48e+01
-systol        1.22e+02    1.65e+01
-systolx       1.22e+02    1.87e+01
+\begin{tabular}{l|r|r}
+\hline
+variable & Mean & Std. Dev.\\
+\hline
+age & 3.24e+01 & 1.29e+01\\
+\hline
+blackhisp & 1.72e-01 & 3.77e-01\\
+\hline
+cholest & 2.07e+02 & 3.99e+01\\
+\hline
+cholestx & 2.03e+02 & 4.21e+01\\
+\hline
+diastol & 7.48e+01 & 1.10e+01\\
+\hline
+diastolx & 7.88e+01 & 1.20e+01\\
+\hline
+educper & 1.21e+01 & 2.88e+00\\
+\hline
+female & 5.60e-01 & 4.97e-01\\
+\hline
+ghindx & 7.09e+01 & 1.49e+01\\
+\hline
+ghindxx & 6.85e+01 & 1.59e+01\\
+\hline
+hosp & 1.15e-01 & 3.20e-01\\
+\hline
+income1cpi & 3.16e+04 & 1.81e+04\\
+\hline
+mhi & 7.38e+01 & 1.43e+01\\
+\hline
+mhix & 7.55e+01 & 1.48e+01\\
+\hline
+systol & 1.22e+02 & 1.65e+01\\
+\hline
+systolx & 1.22e+02 & 1.87e+01\\
+\hline
+\end{tabular}
 
 The difference in means between plans and the catastophic plan.
 
@@ -144,25 +168,43 @@ plantype_diffs %>%
 ```
 
 
-
-response     (Intercept)      Coinsurance         Deductible         Free             
------------  ---------------  ------------------  -----------------  -----------------
-age          32.4 (0.485)     0.966 (0.655)       0.561 (0.676)      0.435 (0.614)    
-blackhisp    0.172 (0.0199)   -0.0269 (0.025)     -0.0188 (0.0266)   -0.0281 (0.0245) 
-cholest      207 (1.99)       -1.93 (2.76)        -1.42 (2.99)       -5.25 (2.7)      
-cholestx     203 (1.87)       -2.31 (2.47)        0.691 (2.58)       -1.83 (2.39)     
-diastol      74.8 (0.569)     -0.514 (0.786)      1.22 (0.831)       -0.143 (0.721)   
-diastolx     78.8 (0.466)     -0.335 (0.617)      0.219 (0.648)      -1.03 (0.588)    
-educper      12.1 (0.14)      -0.0613 (0.186)     -0.157 (0.191)     -0.263 (0.183)   
-female       0.56 (0.0118)    -0.0247 (0.0153)    -0.0231 (0.016)    -0.0379 (0.015)  
-ghindx       70.9 (0.694)     0.211 (0.922)       -1.44 (0.952)      -1.31 (0.872)    
-ghindxx      68.5 (0.702)     0.612 (0.903)       -0.869 (0.964)     -0.776 (0.867)   
-hosp         0.115 (0.0117)   -0.00249 (0.0152)   0.00449 (0.016)    0.00117 (0.0146) 
-income1cpi   31,603 (1,073)   970 (1,391)         -2,104 (1,386)     -976 (1,346)     
-mhi          73.8 (0.619)     1.19 (0.81)         -0.12 (0.822)      0.89 (0.766)     
-mhix         75.5 (0.696)     1.07 (0.872)        0.454 (0.911)      0.433 (0.826)    
-systol       122 (0.805)      0.907 (1.08)        2.32 (1.16)        1.12 (1.01)      
-systolx      122 (0.782)      -1.39 (0.986)       1.17 (1.06)        -0.522 (0.934)   
+\begin{tabular}{l|l|l|l|l}
+\hline
+response & (Intercept) & Coinsurance & Deductible & Free\\
+\hline
+age & 32.4 (0.485) & 0.966 (0.655) & 0.561 (0.676) & 0.435 (0.614)\\
+\hline
+blackhisp & 0.172 (0.0199) & -0.0269 (0.025) & -0.0188 (0.0266) & -0.0281 (0.0245)\\
+\hline
+cholest & 207 (1.99) & -1.93 (2.76) & -1.42 (2.99) & -5.25 (2.7)\\
+\hline
+cholestx & 203 (1.87) & -2.31 (2.47) & 0.691 (2.58) & -1.83 (2.39)\\
+\hline
+diastol & 74.8 (0.569) & -0.514 (0.786) & 1.22 (0.831) & -0.143 (0.721)\\
+\hline
+diastolx & 78.8 (0.466) & -0.335 (0.617) & 0.219 (0.648) & -1.03 (0.588)\\
+\hline
+educper & 12.1 (0.14) & -0.0613 (0.186) & -0.157 (0.191) & -0.263 (0.183)\\
+\hline
+female & 0.56 (0.0118) & -0.0247 (0.0153) & -0.0231 (0.016) & -0.0379 (0.015)\\
+\hline
+ghindx & 70.9 (0.694) & 0.211 (0.922) & -1.44 (0.952) & -1.31 (0.872)\\
+\hline
+ghindxx & 68.5 (0.702) & 0.612 (0.903) & -0.869 (0.964) & -0.776 (0.867)\\
+\hline
+hosp & 0.115 (0.0117) & -0.00249 (0.0152) & 0.00449 (0.016) & 0.00117 (0.0146)\\
+\hline
+income1cpi & 31,603 (1,073) & 970 (1,391) & -2,104 (1,386) & -976 (1,346)\\
+\hline
+mhi & 73.8 (0.619) & 1.19 (0.81) & -0.12 (0.822) & 0.89 (0.766)\\
+\hline
+mhix & 75.5 (0.696) & 1.07 (0.872) & 0.454 (0.911) & 0.433 (0.826)\\
+\hline
+systol & 122 (0.805) & 0.907 (1.08) & 2.32 (1.16) & 1.12 (1.01)\\
+\hline
+systolx & 122 (0.782) & -1.39 (0.986) & 1.17 (1.06) & -0.522 (0.934)\\
+\hline
+\end{tabular}
 
 Plot the difference-in-means of each plantype vs. catastrophic insurance.
 
@@ -177,7 +219,9 @@ ggplot(filter(plantype_diffs, term != "(Intercept)"),
   
 ```
 
-<img src="rand_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{rand_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 
 ## Table 1.4
@@ -236,7 +280,7 @@ Add a variable for any health insurance (free, Individual deductible, or cost-sh
 
 ```r
 rand_person_spend <- mutate(rand_person_spend,
-                       any_ins = plantype != "Catastrophic")
+                            any_ins = plantype != "Catastrophic")
 ```
 
 Count the number of observations in each plan-type,
@@ -324,14 +368,21 @@ person_diffs %>%
 ```
 
 
-
-response     (Intercept)        Cost Sharing      Deductible        Free            
------------  -----------------  ----------------  ----------------  ----------------
-ftf          2.78 (0.178)       0.481 (0.24)      0.193 (0.247)     1.66 (0.248)    
-inpdol_inf   388 (44.9)         92.5 (72.8)       72.2 (68.6)       116 (59.8)      
-out_inf      248 (14.8)         59.8 (20.7)       41.8 (20.8)       169 (19.9)      
-tot_inf      636 (54.5)         152 (84.6)        114 (79.1)        285 (72.4)      
-totadm       0.0991 (0.00785)   0.0023 (0.0108)   0.0159 (0.0109)   0.0288 (0.0105) 
+\begin{tabular}{l|l|l|l|l}
+\hline
+response & (Intercept) & Cost Sharing & Deductible & Free\\
+\hline
+ftf & 2.78 (0.178) & 0.481 (0.24) & 0.193 (0.247) & 1.66 (0.248)\\
+\hline
+inpdol\_inf & 388 (44.9) & 92.5 (72.8) & 72.2 (68.6) & 116 (59.8)\\
+\hline
+out\_inf & 248 (14.8) & 59.8 (20.7) & 41.8 (20.8) & 169 (19.9)\\
+\hline
+tot\_inf & 636 (54.5) & 152 (84.6) & 114 (79.1) & 285 (72.4)\\
+\hline
+totadm & 0.0991 (0.00785) & 0.0023 (0.0108) & 0.0159 (0.0109) & 0.0288 (0.0105)\\
+\hline
+\end{tabular}
 
 Additionally we could plot the difference-in-means of each plan type vs. catastrophic insurance.
 
@@ -345,12 +396,13 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
   facet_grid(response ~ ., scales = "free_y")
 ```
 
-<img src="rand_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{rand_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 ## References {-}
 
 - <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
-
 

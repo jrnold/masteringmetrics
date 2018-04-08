@@ -8,6 +8,7 @@
 #'
 #' @source <http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip>
 #' @references
+#' -   Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 #' -   <https://nhis.ipums.org/nhis/>
 #'
 #' @template mm

@@ -23,21 +23,21 @@ data("pubtwins", package = "masteringmetrics")
 Run a regression of log wage on controls (Column 1 of Table 6.2).
 ```{r mod1}
 mod1 <- lm(lwage ~ educ + poly(age, 2) + female + white, data = pubtwins)
-coeftest(mod1, vcov = vcovHC(mod1))
+coeftest(mod1, vcov = sandwich)
 ```
 *Note:* The `age` coefficients are different (but equivalent) to those reported in the Table due to the the use of `poly(age, .)`, which calculates orthogonal polynomials.
 
 Run regression of the difference in log wage between twins on the difference in education (Column 2 of Table 6.2).
 ```{r mod2}
 mod2 <- lm(dlwage ~ deduc, data = filter(pubtwins, first == 1))
-coeftest(mod2, vcov = vcovHC(mod2))
+coeftest(mod2, vcov = sandwich)
 ```
 
 Run a regression of log wage on controls, instrumenting education with twin's education (Column 3 of Table 6.2).
 ```{r mod3}
-mod3 <- ivreg(lwage ~ educ + poly(age, 2) + female + white | 
+mod3 <- ivreg(lwage ~ educ + poly(age, 2) + female + white |
                 . - educ + educt, data = pubtwins)
-coeftest(mod3, vcov = vcovHC(mod3))
+summary(mod3, vcov = sandwich, diagnostics = TRUE)
 ```
 *Note:* The coefficient for years of education is slightly different than that reported in the book.
 
@@ -45,7 +45,7 @@ Run a regression of the difference in wage, instrumenting the difference in year
 ```{r mod4}
 mod4 <- ivreg(dlwage ~ deduc | deduct,
               data = filter(pubtwins, first == 1))
-coeftest(mod4, vcov = vcovHC(mod4))
+summary(mod4, vcov = sandwich, diagnostics = TRUE)
 ```
 *Note:* The coefficient for years of education is slightly different than that reported in the book.
 

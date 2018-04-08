@@ -19,6 +19,7 @@ years of schooling. These data is used in Table 6.3 of
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item Acemoglu, D., Angrist, J. (2000) \dQuote{How Large Are Human-Capital Externalities? Evidence From Compulsory Schooling Laws}, \emph{NBER Macroeconomics Annual} \href{https://doi.org/10.1086/654403}{DOI:10.1086/654403}
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_ChildLaborLaws.txt}
 }

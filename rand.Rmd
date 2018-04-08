@@ -165,7 +165,7 @@ rand_person_spend <- mutate(rand_person_spend,
 Add a variable for any health insurance (free, Individual deductible, or cost-sharing):
 ```{r person_spend}
 rand_person_spend <- mutate(rand_person_spend,
-                       any_ins = plantype != "Catastrophic")
+                            any_ins = plantype != "Catastrophic")
 ```
 
 Count the number of observations in each plan-type,
@@ -243,5 +243,3 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
 - <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
 - <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
-```{r include=FALSE, cache=FALSE}
-```

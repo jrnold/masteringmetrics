@@ -8,8 +8,8 @@
 #' @source <http://masteringmetrics.com/wp-content/uploads/2015/02/mdve.dta>
 #'
 #' @references
+#' -   Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 #' -   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt>
-#'
 #' -   Angrist, J. (2006) \dQuote{Instrumental variables methods in experimental criminological research: what, why and how}.
 #' *Journal of Experimental Criminology* [DOI:10.1007/s11292-005-5126-x](https://dx.doi.org/10.1007/s11292-005-5126-x)
 #'

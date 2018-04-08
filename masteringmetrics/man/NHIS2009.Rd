@@ -21,6 +21,7 @@ This is used in Table 1.1 of \emph{Mastering 'Metrics}.
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item \url{https://nhis.ipums.org/nhis/}
 }
 }

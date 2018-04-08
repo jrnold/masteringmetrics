@@ -17,6 +17,7 @@ used in Table 3.3 of \emph{Mastering 'Metrics}.
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt}
 \item Angrist, J. (2006) \dQuote{Instrumental variables methods in experimental criminological research: what, why and how}.
 \emph{Journal of Experimental Criminology} \href{https://dx.doi.org/10.1007/s11292-005-5126-x}{DOI:10.1007/s11292-005-5126-x}

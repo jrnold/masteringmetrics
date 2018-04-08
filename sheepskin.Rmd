@@ -42,7 +42,7 @@ fig1_data <- sheepskin %>%
 ```
 
 Figure 6.3.
-```{r fig_6_3, fig.cap="Last-chance exams and Texas sheepskin",message=FALSE,warning=FALSE}
+```{r fig.6.3, fig.cap="Last-chance exams and Texas sheepskin",message=FALSE,warning=FALSE}
 ggplot(fig1_data, aes(x = minscore)) +
   geom_vline(xintercept = 0, color = "white", size = 2) +
   geom_point(mapping = aes(y = receivehsd), color = "gray") +
@@ -75,7 +75,7 @@ fig2_data <- sheepskin %>%
 ```
 
 Figure 6.4.
-```{r fig_6_4, fig.cap="The effect of last-chance exam scores on earnings",message=FALSE,warning=FALSE}
+```{r fig.6.4, fig.cap="The effect of last-chance exam scores on earnings",message=FALSE,warning=FALSE}
 ggplot(fig2_data, aes(x = minscore)) +
   geom_vline(xintercept = 0, color = "white", size = 2) +
   geom_point(mapping = aes(y = avgearnings), color = "gray") +

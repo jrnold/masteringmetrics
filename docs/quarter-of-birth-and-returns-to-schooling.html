@@ -6,20 +6,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
-  <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="description" content="<p>R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.</p>">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="http://jrnold.github.io/r4ds-exercise-solutions" />
   
-  <meta property="og:description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke." />
+  <meta property="og:description" content="<p>R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.</p>" />
   <meta name="github-repo" content="jrnold/r4ds-exercise-solutions" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="R Code for Mastering ’Metrics" />
   <meta name="twitter:site" content="@jrnld" />
-  <meta name="twitter:description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke." />
+  <meta name="twitter:description" content="<p>R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.</p>" />
   
 
 <meta name="author" content="Jeffrey B. Arnold">
@@ -49,69 +49,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 </head>
@@ -166,10 +138,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html"><i class="fa fa-check"></i><b>8</b> Child Labor Laws as an IV</a><ul>
 <li class="chapter" data-level="8.1" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#first-stages-and-reduced-forms"><i class="fa fa-check"></i><b>8.1</b> First stages and reduced forms</a></li>
-<li class="chapter" data-level="8.2" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#ols-and-iv-returns"><i class="fa fa-check"></i><b>8.2</b> OLS and IV returns</a></li>
+<li class="chapter" data-level="8.2" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#iv-returns"><i class="fa fa-check"></i><b>8.2</b> IV returns</a></li>
 <li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
+<li class="chapter" data-level="9.1" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#table-6.5."><i class="fa fa-check"></i><b>9.1</b> Table 6.5.</a></li>
+<li class="chapter" data-level="9.2" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#figures"><i class="fa fa-check"></i><b>9.2</b> Figures</a></li>
 <li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>10</b> Sheepskin and Returns to Schooling</a><ul>
@@ -197,11 +171,211 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="quarter-of-birth-and-returns-to-schooling" class="section level1">
 <h1><span class="header-section-number">9</span> Quarter of Birth and Returns to Schooling</h1>
-<p>This replicates Tables 6.4 and 6.5, and Figures 6.1 and 6.2 of <em>Mastering ’Metrics</em>.
-These present an IV analysis of the returns to schooling using quarters of birth (QOB) as instruments for years of schooling <span class="citation">(Angrist and Krueger 1991)</span>.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
+<p>This replicates Tables 6.4 and 6.5, and Figures 6.1 and 6.2 of <em>Mastering ’Metrics</em>. These present an IV analysis of the returns to schooling using quarters of birth (QOB) as instruments for years of schooling <span class="citation">(J. D. Angrist and Krueger 1991)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;AER&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</code></pre></div>
 <p>Load <code>twins</code> data.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;ak91&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;ak91&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre></div>
+<p>Some cleaning of the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ak91 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ak91,
+               <span class="dt">qob_fct =</span> <span class="kw">factor</span>(qob),
+               <span class="dt">q4 =</span> <span class="kw">as.integer</span>(qob <span class="op">==</span><span class="st"> &quot;4&quot;</span>),
+               <span class="dt">yob_fct =</span> <span class="kw">factor</span>(yob))</code></pre></div>
+<p>Table 6.4. IV recipe for returns to schooling using a single QOB instrument. Regress log wages on 4th quarter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnw <span class="op">~</span><span class="st"> </span>q4, <span class="dt">data =</span> ak91)
+<span class="kw">coeftest</span>(mod1, <span class="dt">vcov =</span> sandwich)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; t test of coefficients:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)  5.89827    0.00136 4329.13   &lt;2e-16 ***</span>
+<span class="co">#&gt; q4           0.00681    0.00274    2.48    0.013 *  </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></code></pre></div>
+<p>Regress years of schooling on 4th quarter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(s <span class="op">~</span><span class="st"> </span>q4, <span class="dt">data =</span> ak91)
+<span class="kw">coeftest</span>(mod2, <span class="dt">vcov =</span> sandwich)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; t test of coefficients:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept) 12.74731    0.00661    1929  &lt; 2e-16 ***</span>
+<span class="co">#&gt; q4           0.09212    0.01316       7  2.6e-12 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></code></pre></div>
+<p>IV regression of log wages on years of schooling, with 4th quarter as an instrument for years of schooling.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod3 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnw <span class="op">~</span><span class="st"> </span>s <span class="op">|</span><span class="st"> </span>q4, <span class="dt">data =</span> ak91)
+<span class="kw">coeftest</span>(mod3, <span class="dt">vcov =</span> sandwich)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; t test of coefficients:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)    4.955      0.358   13.85   &lt;2e-16 ***</span>
+<span class="co">#&gt; s              0.074      0.028    2.64   0.0083 ** </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></code></pre></div>
+<div id="table-6.5." class="section level2">
+<h2><span class="header-section-number">9.1</span> Table 6.5.</h2>
+<p>Regression Estimates of Returns to Schooling using Quarter of Birth Instruments</p>
+<p>Column 1. OLS</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnw <span class="op">~</span><span class="st"> </span>s, <span class="dt">data =</span> ak91)
+<span class="kw">coeftest</span>(mod4, <span class="dt">vcov =</span> sandwich)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; t test of coefficients:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept) 4.995182   0.005074     984   &lt;2e-16 ***</span>
+<span class="co">#&gt; s           0.070851   0.000381     186   &lt;2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></code></pre></div>
+<p>Column 2. IV with only the 4th quarter as an instrument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod5 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnw <span class="op">~</span><span class="st"> </span>s <span class="op">|</span><span class="st"> </span>q4, <span class="dt">data =</span> ak91)
+<span class="kw">summary</span>(mod5, <span class="dt">vcov =</span> sandwich, <span class="dt">diagnostics =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; ivreg(formula = lnw ~ s | q4, data = ak91)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -8.7765 -0.2393  0.0713  0.3326  4.6536 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)    4.955      0.358   13.85   &lt;2e-16 ***</span>
+<span class="co">#&gt; s              0.074      0.028    2.64   0.0083 ** </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Diagnostic tests:</span>
+<span class="co">#&gt;                     df1    df2 statistic p-value    </span>
+<span class="co">#&gt; Weak instruments      1 329507     48.99 2.6e-12 ***</span>
+<span class="co">#&gt; Wu-Hausman            1 329506      0.01    0.91    </span>
+<span class="co">#&gt; Sargan                0     NA        NA      NA    </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 0.638 on 329507 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-Squared: 0.117,   Adjusted R-squared: 0.117 </span>
+<span class="co">#&gt; Wald test: 6.97 on 1 and 329507 DF,  p-value: 0.00829</span></code></pre></div>
+<p>The argument <code>diagnostics = TRUE</code> will run an F-test on the first stage which is reported as the “Weak instruments” diagnostic.</p>
+<p>Column 3. OLS. Controls for year of birth.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod6 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnw <span class="op">~</span><span class="st"> </span>s <span class="op">+</span><span class="st"> </span>yob_fct, <span class="dt">data =</span> ak91)
+<span class="kw">coeftest</span>(mod6, <span class="dt">vcov =</span> sandwich)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; t test of coefficients:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)  5.017348   0.006019  833.65  &lt; 2e-16 ***</span>
+<span class="co">#&gt; s            0.071081   0.000381  186.34  &lt; 2e-16 ***</span>
+<span class="co">#&gt; yob_fct1931 -0.006387   0.005123   -1.25  0.21251    </span>
+<span class="co">#&gt; yob_fct1932 -0.014838   0.005052   -2.94  0.00331 ** </span>
+<span class="co">#&gt; yob_fct1933 -0.017583   0.005068   -3.47  0.00052 ***</span>
+<span class="co">#&gt; yob_fct1934 -0.020999   0.005062   -4.15  3.3e-05 ***</span>
+<span class="co">#&gt; yob_fct1935 -0.032895   0.005039   -6.53  6.7e-11 ***</span>
+<span class="co">#&gt; yob_fct1936 -0.031781   0.004970   -6.39  1.6e-10 ***</span>
+<span class="co">#&gt; yob_fct1937 -0.036712   0.004894   -7.50  6.4e-14 ***</span>
+<span class="co">#&gt; yob_fct1938 -0.036890   0.004856   -7.60  3.1e-14 ***</span>
+<span class="co">#&gt; yob_fct1939 -0.048164   0.004833   -9.96  &lt; 2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></code></pre></div>
+<p>Column 4. IV reg using only the 4th quarter as an instrument. Controls for year of birth.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod7 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnw <span class="op">~</span><span class="st"> </span>s <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">|</span><span class="st"> </span>q4 <span class="op">+</span><span class="st"> </span>yob_fct, <span class="dt">data =</span> ak91)
+<span class="kw">summary</span>(mod7, <span class="dt">vcov =</span> sandwich, <span class="dt">diagnostics =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; ivreg(formula = lnw ~ s + yob_fct | q4 + yob_fct, data = ak91)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -8.7785 -0.2346  0.0719  0.3405  4.6687 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)  4.96599    0.35393   14.03   &lt;2e-16 ***</span>
+<span class="co">#&gt; s            0.07520    0.02841    2.65   0.0081 ** </span>
+<span class="co">#&gt; yob_fct1931 -0.00696    0.00647   -1.08   0.2819    </span>
+<span class="co">#&gt; yob_fct1932 -0.01557    0.00708   -2.20   0.0279 *  </span>
+<span class="co">#&gt; yob_fct1933 -0.01855    0.00833   -2.23   0.0259 *  </span>
+<span class="co">#&gt; yob_fct1934 -0.02209    0.00909   -2.43   0.0151 *  </span>
+<span class="co">#&gt; yob_fct1935 -0.03425    0.01061   -3.23   0.0012 ** </span>
+<span class="co">#&gt; yob_fct1936 -0.03338    0.01208   -2.76   0.0057 ** </span>
+<span class="co">#&gt; yob_fct1937 -0.03857    0.01368   -2.82   0.0048 ** </span>
+<span class="co">#&gt; yob_fct1938 -0.03910    0.01596   -2.45   0.0143 *  </span>
+<span class="co">#&gt; yob_fct1939 -0.05053    0.01705   -2.96   0.0030 ** </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Diagnostic tests:</span>
+<span class="co">#&gt;                     df1    df2 statistic p-value    </span>
+<span class="co">#&gt; Weak instruments      1 329498     47.73 4.9e-12 ***</span>
+<span class="co">#&gt; Wu-Hausman            1 329497      0.02    0.88    </span>
+<span class="co">#&gt; Sargan                0     NA        NA      NA    </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 0.638 on 329498 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-Squared: 0.117,   Adjusted R-squared: 0.117 </span>
+<span class="co">#&gt; Wald test: 1.81 on 10 and 329498 DF,  p-value: 0.054</span></code></pre></div>
+<p>Column 4. IV reg using all quarters as instruments. Controls for year of birth.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod8 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnw <span class="op">~</span><span class="st"> </span>s <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">|</span><span class="st"> </span>qob_fct <span class="op">+</span><span class="st"> </span>yob_fct, <span class="dt">data =</span> ak91)
+<span class="kw">summary</span>(mod8, <span class="dt">vcov =</span> sandwich, <span class="dt">diagnostics =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; ivreg(formula = lnw ~ s + yob_fct | qob_fct + yob_fct, data = ak91)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -8.9945 -0.2544  0.0676  0.3509  4.8425 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)  4.59174    0.25057   18.32  &lt; 2e-16 ***</span>
+<span class="co">#&gt; s            0.10525    0.02012    5.23  1.7e-07 ***</span>
+<span class="co">#&gt; yob_fct1931 -0.01111    0.00591   -1.88  0.05988 .  </span>
+<span class="co">#&gt; yob_fct1932 -0.02089    0.00623   -3.35  0.00080 ***</span>
+<span class="co">#&gt; yob_fct1933 -0.02556    0.00698   -3.66  0.00025 ***</span>
+<span class="co">#&gt; yob_fct1934 -0.03007    0.00742   -4.05  5.1e-05 ***</span>
+<span class="co">#&gt; yob_fct1935 -0.04414    0.00836   -5.28  1.3e-07 ***</span>
+<span class="co">#&gt; yob_fct1936 -0.04501    0.00930   -4.84  1.3e-06 ***</span>
+<span class="co">#&gt; yob_fct1937 -0.05207    0.01034   -5.04  4.7e-07 ***</span>
+<span class="co">#&gt; yob_fct1938 -0.05518    0.01184   -4.66  3.1e-06 ***</span>
+<span class="co">#&gt; yob_fct1939 -0.06780    0.01259   -5.39  7.2e-08 ***</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Diagnostic tests:</span>
+<span class="co">#&gt;                     df1    df2 statistic p-value    </span>
+<span class="co">#&gt; Weak instruments      3 329496     32.32  &lt;2e-16 ***</span>
+<span class="co">#&gt; Wu-Hausman            1 329497      2.98   0.084 .  </span>
+<span class="co">#&gt; Sargan                2     NA      3.26   0.196    </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 0.647 on 329498 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-Squared: 0.0905,  Adjusted R-squared: 0.0905 </span>
+<span class="co">#&gt; Wald test: 3.79 on 10 and 329498 DF,  p-value: 3.9e-05</span></code></pre></div>
+</div>
+<div id="figures" class="section level2">
+<h2><span class="header-section-number">9.2</span> Figures</h2>
+<p>Summarize the average wages by age:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ak91_age &lt;-<span class="st"> </span>ak91 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(qob, yob) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">lnw =</span> <span class="kw">mean</span>(lnw), <span class="dt">s =</span> <span class="kw">mean</span>(s)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">q4 =</span> (qob <span class="op">==</span><span class="st"> </span><span class="dv">4</span>))</code></pre></div>
+<p>Average years of schooling by quarter of birth for men born in 1930-39 in the 1980 US Census.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(ak91_age, <span class="kw">aes</span>(<span class="dt">x =</span> yob <span class="op">+</span><span class="st"> </span>(qob <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="dv">4</span>, <span class="dt">y =</span> s)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_label</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">label =</span> qob, <span class="dt">color =</span> q4)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Year of birth&quot;</span>, <span class="dt">breaks =</span> <span class="dv">1930</span><span class="op">:</span><span class="dv">1940</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Years of Education&quot;</span>, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="fl">12.2</span>, <span class="fl">13.2</span>, <span class="dt">by =</span> <span class="fl">0.2</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">12.2</span>, <span class="fl">13.2</span>))</code></pre></div>
+<p><img src="ak91_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Average log wages by quarter of birth for men born in 1930-39 in the 1980 US Census.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(ak91_age, <span class="kw">aes</span>(<span class="dt">x =</span> yob <span class="op">+</span><span class="st"> </span>(qob <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="dv">4</span>, <span class="dt">y =</span> lnw)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_label</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">label =</span> qob, <span class="dt">color =</span> q4)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Year of birth&quot;</span>, <span class="dt">breaks =</span> <span class="dv">1930</span><span class="op">:</span><span class="dv">1940</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Log weekly wages&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</code></pre></div>
+<p><img src="ak91_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
 <div id="references-8" class="section level2 unnumbered">
 <h2>References</h2>
 <ul>
@@ -253,7 +427,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

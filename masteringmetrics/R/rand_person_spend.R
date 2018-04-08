@@ -17,8 +17,8 @@
 #' @source <http://masteringmetrics.com/wp-content/uploads/2015/01/Data1.zip>
 #'
 #' @references
+#' -   Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 #' -   <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
-#'
 #' -   Aron-Dine, A., Einav, L., Finkelstein, A. (2013) \dQuote{The RAND Health Insurance Experiment, Three Decades Later}
 #'     *Journal of Economic Perspectives*
 #'

@@ -19,6 +19,7 @@ Richardson and Troost (2009) and used in Ch. 5 of
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item Richardson, G., Troost, W. (2009) \dQuote{Monetary Intervention Mitigated Banking Panics during the Great Depression: Quasi-Experimental Evidence from a Federal Reserve District Border, 1929-1933}, \emph{Journal of Political Economy} \href{https://doi.org/10.1086/649603}{DOI:10.1086/649603}
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA_DD.txt}
 }
