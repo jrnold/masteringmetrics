@@ -165,12 +165,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html#references-6"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html"><i class="fa fa-check"></i><b>8</b> Child Labor Laws as an IV</a><ul>
+<li class="chapter" data-level="8.1" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#first-stages-and-reduced-forms"><i class="fa fa-check"></i><b>8.1</b> First stages and reduced forms</a></li>
+<li class="chapter" data-level="8.2" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#ols-and-iv-returns"><i class="fa fa-check"></i><b>8.2</b> OLS and IV returns</a></li>
 <li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
 <li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>10</b> Sheepskin and Returns to Schooling</a><ul>
+<li class="chapter" data-level="10.1" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#figure-1"><i class="fa fa-check"></i><b>10.1</b> Figure 1</a></li>
+<li class="chapter" data-level="10.2" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#figure-2"><i class="fa fa-check"></i><b>10.2</b> Figure 2</a></li>
 <li class="chapter" data-level="" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#references-9"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-10.html"><a href="references-10.html"><i class="fa fa-check"></i>References</a></li>
@@ -195,9 +199,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">8</span> Child Labor Laws as an IV</h1>
 <p>2SLS estimates of the returns to schooling using child labor laws as instruments for years of schooling <span class="citation">(Acemoglu and Angrist 2000)</span>.
 This replicates Table 6.3 of <em>Mastering ’Metrics</em>.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb80-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a>
+<a class="sourceLine" id="cb80-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)</a></code></pre></div>
+<p>Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">cluster_se &lt;-<span class="st"> </span><span class="cf">function</span>(mod, cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>) {</a>
+<a class="sourceLine" id="cb81-2" data-line-number="2">  vcov &lt;-<span class="st"> </span><span class="kw">vcovCR</span>(mod, <span class="dt">cluster =</span> cluster, <span class="dt">type =</span> type)</a>
+<a class="sourceLine" id="cb81-3" data-line-number="3">  <span class="kw">coef_test</span>(mod, <span class="dt">vcov =</span> vcov) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb81-4" data-line-number="4"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;term&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb81-5" data-line-number="5"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb81-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(term, <span class="dt">estimate =</span> beta, <span class="dt">std.error =</span> SE)</a>
+<a class="sourceLine" id="cb81-7" data-line-number="7">}</a></code></pre></div>
 <p>Load the <code>child_labor</code> data.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;child_labor&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;child_labor&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a>
+<a class="sourceLine" id="cb82-2" data-line-number="2">child_labor &lt;-<span class="st"> </span><span class="kw">mutate</span>(child_labor,</a>
+<a class="sourceLine" id="cb82-3" data-line-number="3">                      <span class="dt">year =</span> <span class="kw">factor</span>(year),</a>
+<a class="sourceLine" id="cb82-4" data-line-number="4">                      <span class="dt">yob_fct =</span> <span class="kw">factor</span>(yob),</a>
+<a class="sourceLine" id="cb82-5" data-line-number="5">                      <span class="dt">sob =</span> <span class="kw">factor</span>(sob))</a></code></pre></div>
+<div id="first-stages-and-reduced-forms" class="section level2">
+<h2><span class="header-section-number">8.1</span> First stages and reduced forms</h2>
+<p>Column 1. Years of Schooling.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(indEduc <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2">           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a></code></pre></div>
+<p>In Stata, these are estimated with <code>[pw=weight]</code>.</p>
+</div>
+<div id="ols-and-iv-returns" class="section level2">
+<h2><span class="header-section-number">8.2</span> OLS and IV returns</h2>
+</div>
 <div id="references-7" class="section level2 unnumbered">
 <h2>References</h2>
 <ul>

@@ -28,7 +28,7 @@ cluster_se <- function(mod, cluster, type = "CR2") {
 Load the `child_labor` data.
 ```{r child_labor}
 data("child_labor", package = "masteringmetrics")
-child_labor <- mutate(child_labor, 
+child_labor <- mutate(child_labor,
                       year = factor(year),
                       yob_fct = factor(yob),
                       sob = factor(sob))
@@ -36,15 +36,19 @@ child_labor <- mutate(child_labor,
 
 ## First stages and reduced forms
 
-Column 1. Years of Shooling.
+Column 1. Years of Schooling.
 ```{r tab.6.3.1.1stage}
-mod1 <- lm(indEduc ~ year + yob_fct + sob + cl7 + cl8 + cl9, data = child_labor, weights = weight)
-cluster_se(mod1, cluster = child_labor$sob) %>%
-  filter()
+mod1 <- lm(indEduc ~ year + yob_fct + sob + cl7 + cl8 + cl9,
+           data = child_labor, weights = weight)
+```
+```{r eval=FALSE,include=FALSE}
+# nolint start
+# cluster_se(mod1, cluster = child_labor$sob) %>%
+#  filter()
+# nolint end
 ```
 
 In Stata, these are estimated with `[pw=weight]`.
-
 
 
 ## OLS and IV returns

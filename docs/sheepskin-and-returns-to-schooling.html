@@ -165,12 +165,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html#references-6"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html"><i class="fa fa-check"></i><b>8</b> Child Labor Laws as an IV</a><ul>
+<li class="chapter" data-level="8.1" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#first-stages-and-reduced-forms"><i class="fa fa-check"></i><b>8.1</b> First stages and reduced forms</a></li>
+<li class="chapter" data-level="8.2" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#ols-and-iv-returns"><i class="fa fa-check"></i><b>8.2</b> OLS and IV returns</a></li>
 <li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
 <li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>10</b> Sheepskin and Returns to Schooling</a><ul>
+<li class="chapter" data-level="10.1" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#figure-1"><i class="fa fa-check"></i><b>10.1</b> Figure 1</a></li>
+<li class="chapter" data-level="10.2" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#figure-2"><i class="fa fa-check"></i><b>10.2</b> Figure 2</a></li>
 <li class="chapter" data-level="" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#references-9"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-10.html"><a href="references-10.html"><i class="fa fa-check"></i>References</a></li>
@@ -195,9 +199,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">10</span> Sheepskin and Returns to Schooling</h1>
 <p>This replicates Figures 6.3 and 6.4 of <em>Mastering ’Metrics</em>.
 These analyses use a fuzzy RD design to analyze the “sheepskin effects” of a high school diploma <span class="citation">(Clark and Martorell 2014)</span>.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
 <p>Load <code>sheepskin</code> data.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;sheepskin&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;sheepskin&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<p>Create indicator variable for passing the test.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">sheepskin &lt;-<span class="st"> </span><span class="kw">mutate</span>(sheepskin, <span class="dt">test_lcs_pass =</span> (minscore <span class="op">&gt;=</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
+<div id="figure-1" class="section level2">
+<h2><span class="header-section-number">10.1</span> Figure 1</h2>
+<p>Figure 1. Regression discontinuity</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">mod1_lhs &lt;-<span class="st"> </span><span class="kw">lm</span>(receivehsd <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(minscore, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">               <span class="dt">data =</span> <span class="kw">filter</span>(sheepskin, minscore <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>), <span class="dt">weights =</span> n)</a>
+<a class="sourceLine" id="cb89-3" data-line-number="3">mod1_rhs &lt;-<span class="st"> </span><span class="kw">lm</span>(receivehsd <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(minscore, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb89-4" data-line-number="4">               <span class="dt">data =</span> <span class="kw">filter</span>(sheepskin, minscore <span class="op">&gt;=</span><span class="st"> </span><span class="dv">0</span>), <span class="dt">weights =</span> n)</a></code></pre></div>
+<p>Append fitted values to the original dataset</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1">fig1_data &lt;-<span class="st"> </span>sheepskin <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb90-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(minscore, receivehsd, n) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb90-3" data-line-number="3"><span class="st">  </span>modelr<span class="op">::</span><span class="kw">add_predictions</span>(mod1_lhs, <span class="dt">var =</span> <span class="st">&quot;fit_hsd2_l&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb90-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fit_hsd2_l =</span> <span class="kw">if_else</span>(minscore <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA_real_</span>, fit_hsd2_l)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb90-5" data-line-number="5"><span class="st">  </span>modelr<span class="op">::</span><span class="kw">add_predictions</span>(mod1_rhs, <span class="dt">var =</span> <span class="st">&quot;fit_hsd2_r&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb90-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fit_hsd2_r =</span> <span class="kw">if_else</span>(minscore <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA_real_</span>, fit_hsd2_r))</a></code></pre></div>
+<p>Figure 6.3.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">ggplot</span>(fig1_data, <span class="kw">aes</span>(<span class="dt">x =</span> minscore)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb91-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb91-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> receivehsd), <span class="dt">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb91-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> fit_hsd2_l)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb91-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> fit_hsd2_r)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb91-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Test Scores Relative to Cutoff&quot;</span>,</a>
+<a class="sourceLine" id="cb91-7" data-line-number="7">                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">15</span>, <span class="dt">by =</span> <span class="dv">5</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">15</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb91-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Fraction Receiving Diplomas&quot;</span>,</a>
+<a class="sourceLine" id="cb91-9" data-line-number="9">                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.2</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="sheepskin_files/figure-html/fig_6_3-1.png" alt="Last-chance exams and Texas sheepskin" width="70%" />
+<p class="caption">
+(#fig:fig_6_3)Last-chance exams and Texas sheepskin
+</p>
+</div>
+</div>
+<div id="figure-2" class="section level2">
+<h2><span class="header-section-number">10.2</span> Figure 2</h2>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1">mod2_lhs &lt;-<span class="st"> </span><span class="kw">lm</span>(avgearnings <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(minscore, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb92-2" data-line-number="2">               <span class="dt">data =</span> <span class="kw">filter</span>(sheepskin, minscore <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb92-3" data-line-number="3">               <span class="dt">weights =</span> n)</a>
+<a class="sourceLine" id="cb92-4" data-line-number="4">mod2_rhs &lt;-<span class="st"> </span><span class="kw">lm</span>(avgearnings <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(minscore, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb92-5" data-line-number="5">               <span class="dt">data =</span> <span class="kw">filter</span>(sheepskin, minscore <span class="op">&gt;=</span><span class="st"> </span><span class="dv">0</span>), <span class="dt">weights =</span> n)</a></code></pre></div>
+<p>Append fitted values to the original dataset</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">fig2_data &lt;-<span class="st"> </span>sheepskin <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb93-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(minscore, avgearnings, n) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb93-3" data-line-number="3"><span class="st">  </span>modelr<span class="op">::</span><span class="kw">add_predictions</span>(mod2_lhs, <span class="dt">var =</span> <span class="st">&quot;fit_l&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb93-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fit_l =</span> <span class="kw">if_else</span>(minscore <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA_real_</span>, fit_l)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb93-5" data-line-number="5"><span class="st">  </span>modelr<span class="op">::</span><span class="kw">add_predictions</span>(mod2_rhs, <span class="dt">var =</span> <span class="st">&quot;fit_r&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb93-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fit_r =</span> <span class="kw">if_else</span>(minscore <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">NA_real_</span>, fit_r))</a></code></pre></div>
+<p>Figure 6.4.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="kw">ggplot</span>(fig2_data, <span class="kw">aes</span>(<span class="dt">x =</span> minscore)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> avgearnings), <span class="dt">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> fit_l)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">y =</span> fit_r)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Test Scores Relative to Cutoff&quot;</span>,</a>
+<a class="sourceLine" id="cb94-7" data-line-number="7">                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">15</span>, <span class="dt">by =</span> <span class="dv">5</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">15</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Annual Earnings&quot;</span>, <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">8000</span>, <span class="dv">18000</span>, <span class="dt">by =</span> <span class="dv">2000</span>),</a>
+<a class="sourceLine" id="cb94-9" data-line-number="9">                     <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">8000</span>, <span class="dv">18000</span>), <span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">comma_format</span>())</a></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="sheepskin_files/figure-html/fig_6_4-1.png" alt="The effect of last-chance exam scores on earnings" width="70%" />
+<p class="caption">
+(#fig:fig_6_4)The effect of last-chance exam scores on earnings
+</p>
+</div>
+</div>
 <div id="references-9" class="section level2 unnumbered">
 <h2>References</h2>
 <ul>

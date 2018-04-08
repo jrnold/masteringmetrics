@@ -9,12 +9,17 @@ Depends: R (>= 3.4.0)
 URL: https://github.com/jrnold/masteringmetrics
 License: file LICENSE
 Imports:
+  AER,
   broom,
+  clubSandwich,
   haven,
   rlang,
+  sandwich,
   tidyverse
 Suggests:
   bookdown,
-  devtools
+  devtools,
+  lintr,
+  spelling
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)

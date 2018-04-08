@@ -22,7 +22,7 @@ Function to calculate clustered standard errors and return a tidy data frame of 
 
 ```r
 cluster_se <- function(mod, cluster, type = "CR2") {
-  vcov <- vcovCR(mod, cluster = cluster, type = "CR2")
+  vcov <- vcovCR(mod, cluster = cluster, type = type)
   coef_test(mod, vcov = vcov) %>%
     rownames_to_column(var = "term") %>%
     as_tibble() %>%

@@ -165,12 +165,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="twins-and-returns-to-schooling.html"><a href="twins-and-returns-to-schooling.html#references-6"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html"><i class="fa fa-check"></i><b>8</b> Child Labor Laws as an IV</a><ul>
+<li class="chapter" data-level="8.1" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#first-stages-and-reduced-forms"><i class="fa fa-check"></i><b>8.1</b> First stages and reduced forms</a></li>
+<li class="chapter" data-level="8.2" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#ols-and-iv-returns"><i class="fa fa-check"></i><b>8.2</b> OLS and IV returns</a></li>
 <li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
 <li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>10</b> Sheepskin and Returns to Schooling</a><ul>
+<li class="chapter" data-level="10.1" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#figure-1"><i class="fa fa-check"></i><b>10.1</b> Figure 1</a></li>
+<li class="chapter" data-level="10.2" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#figure-2"><i class="fa fa-check"></i><b>10.2</b> Figure 2</a></li>
 <li class="chapter" data-level="" data-path="sheepskin-and-returns-to-schooling.html"><a href="sheepskin-and-returns-to-schooling.html#references-9"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-10.html"><a href="references-10.html"><i class="fa fa-check"></i>References</a></li>
@@ -202,7 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)</a></code></pre></div>
 <p>Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cluster_se &lt;-<span class="st"> </span><span class="cf">function</span>(mod, cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>) {</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  vcov &lt;-<span class="st"> </span><span class="kw">vcovCR</span>(mod, <span class="dt">cluster =</span> cluster, <span class="dt">type =</span> <span class="st">&quot;CR2&quot;</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  vcov &lt;-<span class="st"> </span><span class="kw">vcovCR</span>(mod, <span class="dt">cluster =</span> cluster, <span class="dt">type =</span> type)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="kw">coef_test</span>(mod, <span class="dt">vcov =</span> vcov) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;term&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>

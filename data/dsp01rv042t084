@@ -1,0 +1,514 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataSpace: Twins</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="Generator" content="DSpace 5.5-SNAPSHOT" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+
+        <link rel="shortcut icon" href="/jspui/favicon.ico" type="image/x-icon"/>
+
+        <!-- Princeton University Customization to add rendering of mathematical formulae by MathJAX -->
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="/jspui/static/css/bootstrap/dspace-theme.css" type="text/css" />
+
+        <link rel="search" type="application/opensearchdescription+xml" href="/jspui/open-search/description.xml" title="DSpace"/>
+
+
+<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<meta name="DC.contributor.author" content="Rouse, Cecilia" />
+<meta name="DCTERMS.dateAccepted" content="2012-01-23T19:06:05Z" scheme="DCTERMS.W3CDTF" />
+<meta name="DCTERMS.available" content="2012-01-23T19:06:05Z" scheme="DCTERMS.W3CDTF" />
+<meta name="DCTERMS.issued" content="2012-01-23" scheme="DCTERMS.W3CDTF" />
+<meta name="DC.identifier" content="http://arks.princeton.edu/ark:/88435/dsp01rv042t084" scheme="DCTERMS.URI" />
+<meta name="DCTERMS.abstract" content="Ashenfelter and Rouse Twinsburg Data" />
+<meta name="DC.language" content="en_US" xml:lang="en_US" scheme="DCTERMS.RFC1766" />
+<meta name="DC.title" content="Twins" xml:lang="en_US" />
+<meta name="DC.type" content="Dataset" xml:lang="en_US" />
+
+<meta name="citation_author" content="Rouse, Cecilia" />
+<meta name="citation_date" content="2012-01-23" />
+<meta name="citation_abstract_html_url" content="http://dataspace.princeton.edu/jspui/handle/88435/dsp01rv042t084" />
+<meta name="citation_language" content="en_US" />
+<meta name="citation_pdf_url" content="http://dataspace.princeton.edu/jspui/bitstream/88435/dsp01rv042t084/1/_notes.zip" />
+<meta name="citation_keywords" content="Dataset" />
+<meta name="citation_title" content="Twins" />
+
+
+
+	<script type='text/javascript' src='/jspui/static/js/holder.js'></script>
+	<script type="text/javascript" src="/jspui/utils.js"></script>
+    <script type="text/javascript" src="/jspui/static/js/choice-support.js"> </script>
+    
+    
+    
+    
+    
+    
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="/jspui/static/js/html5shiv.js"></script>
+  <script src="/jspui/static/js/respond.min.js"></script>
+<![endif]-->
+    </head>
+
+    
+    
+    <body class='undernavigation  '>
+    <a class="sr-only" href="#content">Skip navigation</a>
+    <header class="navbar navbar-dspace navbar-fixed-top">
+        <div class="container">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/jspui">
+        <span class="glyphicon glyphicon-home"> </span>
+        DataSpace
+    </a>
+</div>
+<nav class="collapse navbar-collapse bs-navbar-collapse">
+    <ul class="nav navbar-nav">
+
+        <li class='' >
+        <a href="/jspui/about"> About </a>
+        </li>
+
+        <li>
+            <a href="mailto:dspadmin@princeton.edu"> Contact </a>
+        </li>
+
+        <li class="">
+            <a href="/jspui/help/index.html" target="dspacepopup">
+                Help
+            </a>
+        </li>
+    </ul>
+
+    <div class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <!-- SEARCH -->
+            <li>
+                <a href="/jspui/simple-search">
+                    <span class="glyphicon glyphicon-search"></span> Search </a>
+            </li>
+
+            <!-- BROWSE -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Explore <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/jspui/community-list">All Communities &amp; Collections</a></li>
+                    
+                    <li class="divider"></li>
+                    
+                    
+                    <li><a href="/jspui/handle/88435/dsp01k643b120w">
+                        Astrophysical Sciences</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01bg257f052">
+                        Civil and Environmental Engineering</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp012b88qf40b">
+                        Department of Geosciences</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp011z40ks889">
+                        Department of Slavic Languages and Literatures</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01th83kz360">
+                        Education Research Section</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01st74cq47h">
+                        Faculty Publications</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01c821gj770">
+                        Industrial Relations Section</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp013t945t431">
+                        Lewis-Sigler Institute for Integrative Genomics</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01m326m175b">
+                        Liechtenstein Institute on Self-Determination</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01gf06g506n">
+                        Mechanical and Aerospace Engineering</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp014q77fr339">
+                        Office of Information Technology</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp0147429c369">
+                        Princeton Neuroscience Institute</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01pz50gz45g">
+                        Princeton Plasma Physics Laboratory</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01td96k251d">
+                        Princeton University Doctoral Dissertations, 2011-2017</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01g732d9019">
+                        Princeton University Library</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp019c67wm88m">
+                        Princeton University Undergraduate Senior Theses, 1924-2017</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01h989r3236">
+                        Seeger Center for Hellenic Studies</a></li>
+                    
+                    <li><a href="/jspui/handle/88435/dsp01g445cd134">
+                        Woodrow Wilson School of Public and International Affairs</a></li>
+                    
+                    
+                    
+                    </ul>
+            </li>
+
+            <!-- LOGIN or USER-SPECIFIC-MENU -->
+            <li class="dropdown">
+                
+                <ul class="dropdown-menu">
+                    <li><a href="/jspui/mydspace">My DataSpace</a></li>
+                    
+
+                </ul>
+            </li>
+
+
+        </ul>
+    </div>
+
+
+</nav>
+
+
+        </div>
+    </header>
+
+
+
+<main id="content" class="MAIN  hdl-88435-dsp01g445cd15f hdl-88435-dsp01c821gj770">
+
+
+<div class="container">
+    
+
+
+
+
+
+    
+    <ol class="breadcrumb btn-success">
+        <li>
+                <a href="/jspui">
+                <span class="glyphicon glyphicon-home"> </span>
+            </a>
+        </li>
+
+       <li><a href="/jspui/handle/88435/dsp01c821gj770">Industrial Relations Section</a></li>    <li><a href="/jspui/handle/88435/dsp01g445cd15f">Data Sets</a></li> 
+
+    </ol>
+
+
+</div>
+
+
+        
+<div class="container">
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ITEM DISPLAY -->
+    <div class="col-md-9 main">
+
+		
+
+		
+		
+
+                
+                <div class="well">Please use this identifier to cite or link to this item:
+                <code>http://arks.princeton.edu/ark:/88435/dsp01rv042t084</code></div>
+
+
+    
+    <table class='table itemDisplayTable'>
+<tr class='dc-title'><td class='metadataFieldLabel'>Title:&nbsp;</td><td class="metadataFieldValue">Twins</td></tr>
+<tr class='dc-contributor-*'><td class='metadataFieldLabel'>Contributors:&nbsp;</td><td class="metadataFieldValue">Rouse,&#x20;Cecilia</td></tr>
+<tr class='dc-date-issued'><td class='metadataFieldLabel'>Issue Date:&nbsp;</td><td class="metadataFieldValue">23-Jan-2012</td></tr>
+<tr class='dc-description-abstract'><td class='metadataFieldLabel'>Abstract:&nbsp;</td><td class="metadataFieldValue">Ashenfelter&#x20;and&#x20;Rouse&#x20;Twinsburg&#x20;Data</td></tr>
+<tr class='dc-identifier-uri'><td class='metadataFieldLabel'>URI:&nbsp;</td><td class="metadataFieldValue"><a href="http://arks.princeton.edu/ark:/88435/dsp01rv042t084">http:&#x2F;&#x2F;arks.princeton.edu&#x2F;ark:&#x2F;88435&#x2F;dsp01rv042t084</a></td></tr>
+<tr><td class="metadataFieldLabel">Appears in Collections:</td><td class="metadataFieldValue"><a href="/jspui/handle/88435/dsp01g445cd15f">Data Sets</a><br/></td></tr>
+</table><br/>
+<div class="panel panel-info"><div class="panel-heading">Files in This Item:</div>
+<table class="table panel-body"><tr><th id="t1" class="standard">File</th>
+<th id="t2" class="standard">Description</th>
+<th id="t3" class="standard">Size</th><th id="t4" class="standard">Format</th><th>&nbsp;</th></tr>
+<tr><td headers="t1" class="standard">_notes.zip</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">403 B</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/1/_notes.zip">View/Download</a></td></tr><tr><td headers="t1" class="standard">coefint.ado</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">1010 B</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/2/coefint.ado">View/Download</a></td></tr><tr><td headers="t1" class="standard">pubtwins.do</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">3.1 kB</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/3/pubtwins.do">View/Download</a></td></tr><tr><td headers="t1" class="standard">pubtwins.dta</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">98.16 kB</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/4/pubtwins.dta">View/Download</a></td></tr><tr><td headers="t1" class="standard">pubtwins.log</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">5.42 kB</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/5/pubtwins.log">View/Download</a></td></tr><tr><td headers="t1" class="standard">twinsreg.do</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">1.46 kB</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/6/twinsreg.do">View/Download</a></td></tr><tr><td headers="t1" class="standard">twinsreg.log</td><td headers="t2" class="standard"></td><td headers="t3" class="standard">14.37 kB</td><td headers="t4" class="standard">unknown</td><td class="standard" align="center"><a class="btn btn-primary" target="_blank" href="/jspui/bitstream/88435/dsp01rv042t084/7/twinsreg.log">View/Download</a></td></tr></table>
+</div>
+
+<div class="container row">
+
+
+    <a class="btn btn-default" href="/jspui/handle/88435/dsp01rv042t084?mode=full">
+        Show full item record
+    </a>
+
+
+    
+    
+
+</div>
+<br/>
+    
+
+<br/>
+    
+
+    <p class="submitFormHelp alert alert-info">Items in Dataspace are protected by copyright, with all rights reserved, unless otherwise indicated.</p>
+
+    </div>
+    <!-- END ITEM DISPLAY -->
+
+
+    <div class="col-md-3 sidebar">
+
+        
+
+        
+
+        
+
+
+
+
+
+
+
+
+<div class="search-buttons panel">
+    <div class="row panel-heading btn-primary">
+        <div class="btn-lbl btn-block">Search</div>
+    </div>
+
+    <div class="row panel-body btn-default">
+
+        
+        <form method="get" action="/jspui/simple-search">
+            <div>
+
+                <input type="text"
+                       placeholder="Type Search Term" name="query" id="tequery"
+                       size="20"/>
+
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+
+            </div>
+            
+            <div>
+                <select id="tlocation" name="location">
+                    <option value="/">All of DataSpace</option>
+
+                    <option value="88435/dsp01g445cd15f" selected="selected">
+                        
+                        This Collection
+                        
+                    </option>
+
+                </select>
+
+            </div>
+            
+            <div>
+                <label>
+                    
+                    <!-- need to make sure we propagate searchThis  -->
+                    <a href="/jspui/simple-search?location=88435/dsp01g445cd15f">
+                        Advanced Search </a>
+                </label>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+        
+
+
+
+
+
+
+<div class="browse-buttons panel">
+    <div class="row panel-heading btn-primary">
+        <div class="btn-lbl btn-block">Browse</div>
+    </div>
+    <div class="row panel-body btn-default">
+        
+        
+        <form method="get" class="graduation"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="graduation"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Class Year"/>
+        </form>
+        
+        <form method="get" class="dateissued"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="dateissued"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Issue Date"/>
+        </form>
+        
+        <form method="get" class="author"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="author"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Author"/>
+        </form>
+        
+        <form method="get" class="advisor"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="advisor"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Academic Advisor"/>
+        </form>
+        
+        <form method="get" class="title"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="title"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Title"/>
+        </form>
+        
+        <form method="get" class="subject"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="subject"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Subject"/>
+        </form>
+        
+        <form method="get" class="certificate"
+              action="/jspui/handle/88435/dsp01g445cd15f/browse">
+            <input type="hidden" name="type" value="certificate"/>
+
+            <input class="btn btn-default btn-block" type="submit" name="submit_browse"
+                   value="Certificate Program"/>
+        </form>
+        
+    </div>
+</div>
+
+
+        
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+</div>
+</main>
+            
+             <footer class="navbar navbar-inverse navbar-bottom">
+             <div id="designedby" class="container text-muted">
+             Theme by <a href="http://www.cineca.it"><img
+                                    src="/jspui/image/logo-cineca-small.png"
+                                    alt="Logo CINECA" /></a>
+			<div id="footer_feedback" class="pull-right">                                    
+                                <p class="text-muted"><a target="_blank" href="http://www.dspace.org/">DSpace Software</a> Copyright&nbsp;&copy;&nbsp;2002-2013&nbsp; <a target="_blank" href="http://www.duraspace.org/">Duraspace</a>&nbsp;-
+                                <a target="_blank" href="/jspui/feedback">Feedback</a>
+                                <a href="/jspui/htmlmap"></a></p>
+                                </div>
+			</div>
+    </footer>
+    </body>
+</html>
