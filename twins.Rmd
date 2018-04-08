@@ -10,12 +10,42 @@ This replicates the analysis in Table 6.2 of *Mastering 'Metrics*.
 
 ```{r setup,message=FALSE}
 library("tidyverse")
+library("sandwich")
+library("lmtest")
+library("AER")
 ```
 
 Load `twins` data.
 ```{r pubtwins}
 data("pubtwins", package = "masteringmetrics")
 ```
+
+Run a regression of log wage on controls (Column 1 of Table 6.2).
+```{r}
+mod1 <- lm(lwage ~ educ + poly(age, 2) + female + white, data = pubtwins)
+coeftest(mod1, vcov = vcovHAC(mod1))
+```
+*Note:* The `age` coefficients are different (but equivalent) to those reported in the Table due to the the use of `poly(age, .)`, which calculates orthogonal polynomials.
+
+Run regression of the difference in log wage between twins on the difference in education (Column 2 of Table 6.2).
+```{r}
+mod2 <- lm(dlwage ~ deduc, data = filter(pubtwins, first == 1))
+coeftest(mod2, vcov = vcovHAC(mod2))
+```
+
+Run a regression of log wage on controls, instrumenting education with twin's education (Column 3 of Table 6.2).
+```{r}
+mod3 <- ivreg(lwage ~ educ + poly(age, 2) + female + white | . - educ + educt, data = pubtwins)
+coeftest(mod3, vcov = vcovHAC(mod3))
+```
+*Note:* The coefficient for years of education is slightly different than that reported in the book.
+
+Run a regression of the difference in wage, instrumenting the difference in years of education with twin's education (Column 4 of Table 6.2).
+```{r}
+mod4 <- ivreg(dlwage ~ deduc | deduct, data = filter(pubtwins, first == 1))
+coeftest(mod4, vcov = vcovHAC(mod4))
+```
+*Note:* The coefficient for years of education is slightly different than that reported in the book.
 
 ## References {-}
 
