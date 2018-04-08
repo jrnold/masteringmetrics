@@ -30,3 +30,4 @@ libs
 bookdown*
 *.rds
 *.bib.sav
+data

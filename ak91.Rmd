@@ -10,13 +10,85 @@ These present an IV analysis of the returns to schooling using quarters of birth
 
 
 ```{r setup,message=FALSE}
+library("AER")
+library("sandwich")
+library("lmtest")
 library("tidyverse")
+library("broom")
+
 ```
 
 Load `twins` data.
 ```{r pubtwins}
 data("ak91", package = "masteringmetrics")
 ```
+
+Some cleaning of the data.
+```{r}
+ak91 <- 
+mutate(ak91, 
+       q = factor(qob),
+       q4 = as.integer(qob == 4),
+       age = ((79 - yob) * 4 + 5 - qob) / 4,
+       yob = factor(yob))
+```
+
+
+Table 6.4. IV recipe for returns to schooling using a single QOB instrument.
+Regress log wages on 4th quarter.
+```{r mod1}
+mod1 <- lm(lnw ~ q4, data = ak91)
+coeftest(mod1, vcov = vcovHC(mod1))
+```
+Regress years of schooling on 4th quarter.
+```{r mod2}
+mod2 <- lm(s ~ q4, data = ak91)
+coeftest(mod2, vcov = vcovHC(mod2))
+```
+IV regression of log wages on years of schooling, with 4th quarter as an instrument for years of schooling.
+```{r mod3}
+mod3 <- ivreg(lnw ~ s | q4, data = ak91)
+# coeftest(mod3, vcov = vcovHC(mod3))
+```
+*WARNING:* There maybe an issue with robust standard errors and `ivreg`.
+
+## Table 6.5. 
+
+Regression Estimates of Returns to Schooling using Quarter of Birth Instruments
+
+Column 1. OLS
+```{r}
+mod4 <- lm(lnw ~ s, data = ak91)
+coeftest(mod4, vcov = vcovHC(mod4))
+```
+
+
+Column 2. IV with only Q4 as an instrument.
+```{r}
+mod5 <- ivreg(lnw ~ s | q4, data = ak91)
+# coeftest(mod5, vcov = vcovHC(mod5))
+```
+
+Column 3. OLS. Controls for year of birth.
+```{r}
+mod6 <- lm(lnw ~ s + yob, data = ak91)
+coeftest(mod6, vcov = vcovHC(mod6))
+```
+
+
+Column 4. IV reg using only QUB instruments. Controls for year of birth.
+```{r}
+mod7 <- ivreg(lnw ~ s + yob | q4, data = ak91)
+# coeftest(mod7, vcov = vcovHC(mod7))
+```
+
+Column 4. IV reg using all quarters as instruments. Controls for year of birth.
+```{r}
+mod8 <- ivreg(lnw ~ s + yob | q, data = ak91)
+# coeftest(mod8, vcov = vcovHC(mod8))
+```
+
+
 
 ## References {-}
 
