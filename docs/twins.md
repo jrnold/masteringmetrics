@@ -6,7 +6,7 @@ editor_options:
 ---
 # Twins and Returns to Schooling
 
-Estimates of the returns to schooling for Twinsburg twins [@AshenfelterKrueger1994,@AshenfelterRouse1998].
+Estimates of the returns to schooling for Twinsburg twins [@AshenfelterKrueger1994;@AshenfelterRouse1998].
 This replicates the analysis in Table 6.2 of *Mastering 'Metrics*.
 
 

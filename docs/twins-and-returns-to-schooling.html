@@ -197,70 +197,70 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="twins-and-returns-to-schooling" class="section level1">
 <h1><span class="header-section-number">7</span> Twins and Returns to Schooling</h1>
-<p>Estimates of the returns to schooling for Twinsburg twins <span class="citation">(Ashenfelter and Krueger 1994,<span class="citation">@AshenfelterRouse1998</span>)</span>.
+<p>Estimates of the returns to schooling for Twinsburg twins <span class="citation">(Ashenfelter and Krueger 1994; Ashenfelter and Rouse 1998)</span>.
 This replicates the analysis in Table 6.2 of <em>Mastering ’Metrics</em>.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb74-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</a>
-<a class="sourceLine" id="cb74-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)</a>
-<a class="sourceLine" id="cb74-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;AER&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;AER&quot;</span>)</a></code></pre></div>
 <p>Load <code>twins</code> data.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;pubtwins&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;pubtwins&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
 <p>Run a regression of log wage on controls (Column 1 of Table 6.2).</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(lwage <span class="op">~</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>white, <span class="dt">data =</span> pubtwins)</a>
-<a class="sourceLine" id="cb76-2" data-line-number="2"><span class="kw">coeftest</span>(mod1, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod1))</a>
-<a class="sourceLine" id="cb76-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb76-4" data-line-number="4"><span class="co">#&gt; t test of coefficients:</span></a>
-<a class="sourceLine" id="cb76-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb76-6" data-line-number="6"><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
-<a class="sourceLine" id="cb76-7" data-line-number="7"><span class="co">#&gt; (Intercept)     1.1791     0.1656    7.12  2.7e-12 ***</span></a>
-<a class="sourceLine" id="cb76-8" data-line-number="8"><span class="co">#&gt; educ            0.1100     0.0106   10.41  &lt; 2e-16 ***</span></a>
-<a class="sourceLine" id="cb76-9" data-line-number="9"><span class="co">#&gt; poly(age, 2)1   4.9643     0.5810    8.54  &lt; 2e-16 ***</span></a>
-<a class="sourceLine" id="cb76-10" data-line-number="10"><span class="co">#&gt; poly(age, 2)2  -4.2957     0.6074   -7.07  3.8e-12 ***</span></a>
-<a class="sourceLine" id="cb76-11" data-line-number="11"><span class="co">#&gt; female         -0.3180     0.0401   -7.92  9.6e-15 ***</span></a>
-<a class="sourceLine" id="cb76-12" data-line-number="12"><span class="co">#&gt; white          -0.1001     0.0698   -1.43     0.15    </span></a>
-<a class="sourceLine" id="cb76-13" data-line-number="13"><span class="co">#&gt; ---</span></a>
-<a class="sourceLine" id="cb76-14" data-line-number="14"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(lwage <span class="op">~</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>white, <span class="dt">data =</span> pubtwins)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">coeftest</span>(mod1, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod1))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; t test of coefficients:</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; (Intercept)     1.1791     0.1656    7.12  2.7e-12 ***</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; educ            0.1100     0.0106   10.41  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; poly(age, 2)1   4.9643     0.5810    8.54  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; poly(age, 2)2  -4.2957     0.6074   -7.07  3.8e-12 ***</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; female         -0.3180     0.0401   -7.92  9.6e-15 ***</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; white          -0.1001     0.0698   -1.43     0.15    </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
 <p><em>Note:</em> The <code>age</code> coefficients are different (but equivalent) to those reported in the Table due to the the use of <code>poly(age, .)</code>, which calculates orthogonal polynomials.</p>
 <p>Run regression of the difference in log wage between twins on the difference in education (Column 2 of Table 6.2).</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(dlwage <span class="op">~</span><span class="st"> </span>deduc, <span class="dt">data =</span> <span class="kw">filter</span>(pubtwins, first <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb77-2" data-line-number="2"><span class="kw">coeftest</span>(mod2, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod2))</a>
-<a class="sourceLine" id="cb77-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb77-4" data-line-number="4"><span class="co">#&gt; t test of coefficients:</span></a>
-<a class="sourceLine" id="cb77-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb77-6" data-line-number="6"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)   </span></a>
-<a class="sourceLine" id="cb77-7" data-line-number="7"><span class="co">#&gt; (Intercept)   0.0296     0.0277    1.07   0.2866   </span></a>
-<a class="sourceLine" id="cb77-8" data-line-number="8"><span class="co">#&gt; deduc         0.0610     0.0201    3.03   0.0026 **</span></a>
-<a class="sourceLine" id="cb77-9" data-line-number="9"><span class="co">#&gt; ---</span></a>
-<a class="sourceLine" id="cb77-10" data-line-number="10"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(dlwage <span class="op">~</span><span class="st"> </span>deduc, <span class="dt">data =</span> <span class="kw">filter</span>(pubtwins, first <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">coeftest</span>(mod2, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod2))</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; t test of coefficients:</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)   </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; (Intercept)   0.0296     0.0277    1.07   0.2866   </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; deduc         0.0610     0.0201    3.03   0.0026 **</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
 <p>Run a regression of log wage on controls, instrumenting education with twin’s education (Column 3 of Table 6.2).</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">mod3 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lwage <span class="op">~</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>white <span class="op">|</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="st">                </span>. <span class="op">-</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>educt, <span class="dt">data =</span> pubtwins)</a>
-<a class="sourceLine" id="cb78-3" data-line-number="3"><span class="kw">coeftest</span>(mod3, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod3))</a>
-<a class="sourceLine" id="cb78-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb78-5" data-line-number="5"><span class="co">#&gt; t test of coefficients:</span></a>
-<a class="sourceLine" id="cb78-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb78-7" data-line-number="7"><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
-<a class="sourceLine" id="cb78-8" data-line-number="8"><span class="co">#&gt; (Intercept)     1.0636     0.2143    4.96  8.8e-07 ***</span></a>
-<a class="sourceLine" id="cb78-9" data-line-number="9"><span class="co">#&gt; educ            0.1179     0.0139    8.51  &lt; 2e-16 ***</span></a>
-<a class="sourceLine" id="cb78-10" data-line-number="10"><span class="co">#&gt; poly(age, 2)1   5.0367     0.5922    8.50  &lt; 2e-16 ***</span></a>
-<a class="sourceLine" id="cb78-11" data-line-number="11"><span class="co">#&gt; poly(age, 2)2  -4.2897     0.6086   -7.05  4.5e-12 ***</span></a>
-<a class="sourceLine" id="cb78-12" data-line-number="12"><span class="co">#&gt; female         -0.3149     0.0407   -7.74  3.7e-14 ***</span></a>
-<a class="sourceLine" id="cb78-13" data-line-number="13"><span class="co">#&gt; white          -0.0974     0.0701   -1.39     0.17    </span></a>
-<a class="sourceLine" id="cb78-14" data-line-number="14"><span class="co">#&gt; ---</span></a>
-<a class="sourceLine" id="cb78-15" data-line-number="15"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">mod3 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lwage <span class="op">~</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>white <span class="op">|</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">                </span>. <span class="op">-</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>educt, <span class="dt">data =</span> pubtwins)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">coeftest</span>(mod3, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod3))</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; t test of coefficients:</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; (Intercept)     1.0636     0.2143    4.96  8.8e-07 ***</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; educ            0.1179     0.0139    8.51  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; poly(age, 2)1   5.0367     0.5922    8.50  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; poly(age, 2)2  -4.2897     0.6086   -7.05  4.5e-12 ***</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; female         -0.3149     0.0407   -7.74  3.7e-14 ***</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; white          -0.0974     0.0701   -1.39     0.17    </span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
 <p><em>Note:</em> The coefficient for years of education is slightly different than that reported in the book.</p>
 <p>Run a regression of the difference in wage, instrumenting the difference in years of education with twin’s education (Column 4 of Table 6.2).</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">mod4 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(dlwage <span class="op">~</span><span class="st"> </span>deduc <span class="op">|</span><span class="st"> </span>deduct,</a>
-<a class="sourceLine" id="cb79-2" data-line-number="2">              <span class="dt">data =</span> <span class="kw">filter</span>(pubtwins, first <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb79-3" data-line-number="3"><span class="kw">coeftest</span>(mod4, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod4))</a>
-<a class="sourceLine" id="cb79-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb79-5" data-line-number="5"><span class="co">#&gt; t test of coefficients:</span></a>
-<a class="sourceLine" id="cb79-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb79-7" data-line-number="7"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)   </span></a>
-<a class="sourceLine" id="cb79-8" data-line-number="8"><span class="co">#&gt; (Intercept)   0.0274     0.0279    0.98   0.3272   </span></a>
-<a class="sourceLine" id="cb79-9" data-line-number="9"><span class="co">#&gt; deduc         0.1070     0.0348    3.07   0.0023 **</span></a>
-<a class="sourceLine" id="cb79-10" data-line-number="10"><span class="co">#&gt; ---</span></a>
-<a class="sourceLine" id="cb79-11" data-line-number="11"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">mod4 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(dlwage <span class="op">~</span><span class="st"> </span>deduc <span class="op">|</span><span class="st"> </span>deduct,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">              <span class="dt">data =</span> <span class="kw">filter</span>(pubtwins, first <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">coeftest</span>(mod4, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(mod4))</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; t test of coefficients:</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)   </span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; (Intercept)   0.0274     0.0279    0.98   0.3272   </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; deduc         0.1070     0.0348    3.07   0.0023 **</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a></code></pre></div>
 <p><em>Note:</em> The coefficient for years of education is slightly different than that reported in the book.</p>
 <div id="references-6" class="section level2 unnumbered">
 <h2>References</h2>
@@ -308,19 +308,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
