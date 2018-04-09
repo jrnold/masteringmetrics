@@ -1,8 +1,7 @@
 Package: masteringmetrics
 Title: Datasets for Mastering 'Metrics
 Version: 0.1
-Authors@R: c(person("Jeffrey", "Arnold", , "jeffrey.arnold@gmail.com", c("aut", "cre")),
-             person("Calvin", "Garner", role = c("ctb")))
+Authors@R: c(person("Jeffrey", "Arnold", , "jeffrey.arnold@gmail.com", c("aut", "cre"))
 Description: Dependencies for R code to replicate the analyses
   in Angrist and Pischke, "Mastering 'Metrics".
 Depends: R (>= 3.4.0)
