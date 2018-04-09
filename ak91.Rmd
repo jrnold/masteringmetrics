@@ -10,13 +10,112 @@ These present an IV analysis of the returns to schooling using quarters of birth
 
 
 ```{r setup,message=FALSE}
+library("AER")
+library("sandwich")
+library("lmtest")
 library("tidyverse")
+library("broom")
 ```
 
 Load `twins` data.
-```{r pubtwins}
+```{r ak91}
 data("ak91", package = "masteringmetrics")
 ```
+
+Some cleaning of the data.
+```{r ak91-2}
+ak91 <- mutate(ak91,
+               qob_fct = factor(qob),
+               q4 = as.integer(qob == "4"),
+               yob_fct = factor(yob))
+```
+
+
+Table 6.4. IV recipe for returns to schooling using a single QOB instrument.
+Regress log wages on 4th quarter.
+```{r mod1}
+mod1 <- lm(lnw ~ q4, data = ak91)
+coeftest(mod1, vcov = sandwich)
+```
+Regress years of schooling on 4th quarter.
+```{r mod2}
+mod2 <- lm(s ~ q4, data = ak91)
+coeftest(mod2, vcov = sandwich)
+```
+IV regression of log wages on years of schooling, with 4th quarter as an instrument for years of schooling.
+```{r mod3}
+mod3 <- ivreg(lnw ~ s | q4, data = ak91)
+coeftest(mod3, vcov = sandwich)
+```
+
+## Table 6.5. 
+
+Regression Estimates of Returns to Schooling using Quarter of Birth Instruments
+
+Column 1. OLS
+```{r}
+mod4 <- lm(lnw ~ s, data = ak91)
+coeftest(mod4, vcov = sandwich)
+```
+
+Column 2. IV with only the 4th quarter as an instrument.
+```{r}
+mod5 <- ivreg(lnw ~ s | q4, data = ak91)
+summary(mod5, vcov = sandwich, diagnostics = TRUE)
+```
+The argument `diagnostics = TRUE` will run an F-test on the first stage which is reported as the "Weak instruments" diagnostic.
+
+Column 3. OLS. Controls for year of birth.
+```{r}
+mod6 <- lm(lnw ~ s + yob_fct, data = ak91)
+coeftest(mod6, vcov = sandwich)
+```
+
+
+Column 4. IV reg using only the 4th quarter as an instrument. Controls for year of birth.
+```{r}
+mod7 <- ivreg(lnw ~ s + yob_fct | q4 + yob_fct, data = ak91)
+summary(mod7, vcov = sandwich, diagnostics = TRUE)
+```
+
+Column 4. IV reg using all quarters as instruments. Controls for year of birth.
+```{r}
+mod8 <- ivreg(lnw ~ s + yob_fct | qob_fct + yob_fct, data = ak91)
+summary(mod8, vcov = sandwich, diagnostics = TRUE)
+```
+
+## Figures
+
+Summarize the average wages by age:
+```{r}
+ak91_age <- ak91 %>%
+  group_by(qob, yob) %>%
+  summarise(lnw = mean(lnw), s = mean(s)) %>%
+  mutate(q4 = (qob == 4))
+```
+
+Average years of schooling by quarter of birth for men born in 1930-39 in the 1980 US Census.
+```{r}
+ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s)) +
+  geom_line() +
+  geom_label(mapping = aes(label = qob, color = q4)) +
+  theme(legend.position = "none") +
+  scale_x_continuous("Year of birth", breaks = 1930:1940) +
+  scale_y_continuous("Years of Education", breaks = seq(12.2, 13.2, by = 0.2),
+                     limits = c(12.2, 13.2))
+```
+
+Average log wages by quarter of birth for men born in 1930-39 in the 1980 US Census.
+```{r}
+ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
+  geom_line() +
+  geom_label(mapping = aes(label = qob, color = q4)) +
+  scale_x_continuous("Year of birth", breaks = 1930:1940) +
+  scale_y_continuous("Log weekly wages") +
+  theme(legend.position = "none")
+```
+
+
 
 ## References {-}
 

@@ -11,21 +11,11 @@ This replicates Table 6.3 of *Mastering 'Metrics*.
 
 
 ```r
+library("AER")
+library("sandwich")
+library("clubSandwich")
 library("tidyverse")
 library("broom")
-library("clubSandwich")
-```
-
-Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.
-
-```r
-cluster_se <- function(mod, cluster, type = "CR2") {
-  vcov <- vcovCR(mod, cluster = cluster, type = type)
-  coef_test(mod, vcov = vcov) %>%
-    rownames_to_column(var = "term") %>%
-    as_tibble() %>%
-    select(term, estimate = beta, std.error = SE)
-}
 ```
 
 Load the `child_labor` data.
@@ -45,13 +35,54 @@ Column 1. Years of Schooling.
 ```r
 mod1 <- lm(indEduc ~ year + yob_fct + sob + cl7 + cl8 + cl9,
            data = child_labor, weights = weight)
+# coef_test(mod1, vcov = vcovCR(mod1, cluster = child_labor[["sob"]]))
+```
+
+Column 2. Years of Schooling. State of birth dummies x linear year of birth trends.
+
+```r
+mod2 <- lm(indEduc ~ year + yob_fct + sob + sob:yob + cl7 + cl8 + cl9,
+           data = child_labor, weights = weight)
+# coef_test(mod2, vcov = vcovCR(mod2, cluster = child_labor[["sob"]]))
+```
+
+Column 3. Log weekly wages.
+
+```r
+mod3 <- lm(lnwkwage ~ year + yob_fct + sob + cl7 + cl8 + cl9,
+           data = child_labor, weights = weight)
+# coef_test(mod3, vcov = vcovCR(mod1), cluster = child_labor[["state"]])
+```
+
+Column 4. Log weekly wages. State of birth dummies x linear year of birth trends.
+
+```r
+mod4 <- lm(lnwkwage ~ year + yob_fct + sob + sob:yob + cl7 + cl8 + cl9,
+           data = child_labor, weights = weight)
+# coef_test(mod4, vcov = vcovCR(mod2), cluster = child_labor[["state"]])
 ```
 
 
-In Stata, these are estimated with `[pw=weight]`.
+## IV returns
 
+Column 3. Log weekly wages.
 
-## OLS and IV returns
+```r
+mod5 <- ivreg(lnwkwage ~ year + yob_fct + sob + indEduc |
+               . - indEduc + cl7 + cl8 + cl9,
+              data = child_labor, weights = weight)
+# coef_test(mod5, vcov = vcovCR(mod1), cluster = child_labor[["state"]])
+```
+
+Column 4. Log weekly wages. State of birth dummies x linear year of birth trends.
+
+```r
+mod6 <- ivreg(lnwkwage ~ year + yob_fct + sob + sob:yob + indEduc |
+               . - indEduc + cl7 + cl8 + cl9,
+              data = child_labor, weights = weight)
+# coef_test(mod6, vcov = vcovCR(mod2), cluster = child_labor[["state"]])
+```
+
 
 ## References {-}
 

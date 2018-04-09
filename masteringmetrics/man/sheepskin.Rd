@@ -18,6 +18,7 @@ This data was used in Figures 6.3 and 6.4 of \emph{Mastering 'Metrics}.
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_Sheepskin.txt}
 \item Clark, D., Martorell, P. (2014) \dQuote{The Signaling Value of a High School Diploma}, \emph{Journal of Political Economy} \href{https://doi.org/10.1086/675238}{DOI:10.1086/675238}
 }

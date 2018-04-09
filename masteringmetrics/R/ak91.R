@@ -7,7 +7,8 @@
 #' @format A data frame.
 #' @source <http://masteringmetrics.com/wp-content/uploads/2015/02/ak91.dta>
 #' @references
+#' -   Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 #' -   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_QOB.txt>
 #' -   <http://masteringmetrics.com/resources/>
-#' -   Angrist, J. D., and Krueger, A. B. (1991) \dQuote{Does Compulsory School Attendance Affect Schooling and Earnings}, *Quarterly Journal of Economics* []()
+#' -   Angrist, J. D., Krueger, A. B. (1991) \dQuote{Does Compulsory School Attendance Affect Schooling and Earnings}, *Quarterly Journal of Economics* []()
 "ak91"

@@ -1,6 +1,8 @@
 set.seed(1014)
 options(digits = 3)
 
+dir.create(here::here("docs"), showWarnings = FALSE)
+
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,

@@ -8,6 +8,7 @@
 #' @format A data frame.
 #' @source <http://masteringmetrics.com/wp-content/uploads/2015/02/AA_small.dta_.zip>
 #' @references
+#' -   Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 #' -   Acemoglu, D., Angrist, J. (2000) \dQuote{How Large Are Human-Capital Externalities? Evidence From Compulsory Schooling Laws}, *NBER Macroeconomics Annual* [DOI:10.1086/654403](https://doi.org/10.1086/654403)
 #' -   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_ChildLaborLaws.txt>
 "child_labor"

@@ -18,9 +18,10 @@ These data are used in Tables 6.4. and 6.5 and Figures 6.1 and 6.2 of \emph{Mast
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_QOB.txt}
 \item \url{http://masteringmetrics.com/resources/}
-\item Angrist, J. D., and Krueger, A. B. (1991) \dQuote{Does Compulsory School Attendance Affect Schooling and Earnings}, \emph{Quarterly Journal of Economics} \url{}
+\item Angrist, J. D., Krueger, A. B. (1991) \dQuote{Does Compulsory School Attendance Affect Schooling and Earnings}, \emph{Quarterly Journal of Economics} \url{}
 }
 }
 \keyword{datasets}

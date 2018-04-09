@@ -12,11 +12,12 @@
 pubtwins
 }
 \description{
-Returns to schooling for the Twinsburg Twisn used in
+Returns to schooling for the Twinsburg Twins used in
 Ashenfelter and Krueger (1994) and Ashenfelter and Rouse (1998).
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item Ashenfelter, O., Krueger, A. (1994) "Estimates of the Economic Return to Schooling from a New Sample of Twins", \emph{American Economic Review} \url{http://www.jstor.org/stable/2117766}
 \item Ashenfelter, O., Krueger, A. (1998) "Income, Schooling, and Ability: Evidence from a New Sample of Identical Twins", \emph{Quarterly Journal of Economics} \href{https://doi.org/10.1162/003355398555577}{DOI:10.1162/003355398555577}
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/02/banks.csv}

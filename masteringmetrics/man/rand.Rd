@@ -30,6 +30,7 @@ This was generated from \code{person_years.dta} and \code{annual_spend.dta}.
 }
 \references{
 \itemize{
+\item Angrist, J., Pischke, J.-S. (2014) \dQuote{Mastering 'Metrics: The Path from Cause to Effect}.
 \item \url{http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt}
 \item Aron-Dine, A., Einav, L., Finkelstein, A. (2013) \dQuote{The RAND Health Insurance Experiment, Three Decades Later}
 \emph{Journal of Economic Perspectives}

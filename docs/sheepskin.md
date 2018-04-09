@@ -61,10 +61,14 @@ ggplot(fig1_data, aes(x = minscore)) +
                      breaks = seq(0, 1, by = 0.2), limits = c(0, 1))
 ```
 
-<div class="figure" style="text-align: center">
-<img src="sheepskin_files/figure-html/fig_6_3-1.png" alt="Last-chance exams and Texas sheepskin" width="70%" />
-<p class="caption">(\#fig:fig_6_3)Last-chance exams and Texas sheepskin</p>
-</div>
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{sheepskin_files/figure-latex/fig.6.3-1} 
+
+}
+
+\caption{Last-chance exams and Texas sheepskin}(\#fig:fig.6.3)
+\end{figure}
 
 
 ## Figure 2
@@ -102,10 +106,14 @@ ggplot(fig2_data, aes(x = minscore)) +
                      limits = c(8000, 18000), labels = scales::comma_format())
 ```
 
-<div class="figure" style="text-align: center">
-<img src="sheepskin_files/figure-html/fig_6_4-1.png" alt="The effect of last-chance exam scores on earnings" width="70%" />
-<p class="caption">(\#fig:fig_6_4)The effect of last-chance exam scores on earnings</p>
-</div>
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{sheepskin_files/figure-latex/fig.6.4-1} 
+
+}
+
+\caption{The effect of last-chance exam scores on earnings}(\#fig:fig.6.4)
+\end{figure}
 
 
 ## References {-}

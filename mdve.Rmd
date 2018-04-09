@@ -88,3 +88,5 @@ The response variable is not provided, so the full 2SLS is not estimated here.
 
 -   <http://masteringmetrics.com/wp-content/uploads/2015/02/MDVE_Table33.do>
 -   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_MDVE.txt>
+```{r include=FALSE, cache=FALSE}
+```

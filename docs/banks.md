@@ -52,7 +52,9 @@ select(banks, year, bib8, bib6, counterfactual) %>%
   xlab("")
 ```
 
-<img src="banks_files/figure-html/fig5.3-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{banks_files/figure-latex/fig5.3-1} \end{center}
 
 Plot the difference-in-difference estimate for all years after 1930.
 
@@ -64,13 +66,18 @@ ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
   xlab("")
 ```
 
-<div class="figure" style="text-align: center">
-<img src="banks_files/figure-html/plot_bank_year_diff-1.png" alt="Difference between Eighth District and Sixth District Counterfactual" width="70%" />
-<p class="caption">(\#fig:plot_bank_year_diff)Difference between Eighth District and Sixth District Counterfactual</p>
-</div>
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{banks_files/figure-latex/plot-bank-year-diff-1} 
+
+}
+
+\caption{Difference between Eighth District and Sixth District Counterfactuals}(\#fig:plot-bank-year-diff)
+\end{figure}
 
 ## References
 
 - <http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do>
 - <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt>
+
 
