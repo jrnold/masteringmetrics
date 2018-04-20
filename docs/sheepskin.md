@@ -1,7 +1,7 @@
 
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # Sheepskin and Returns to Schooling
@@ -28,7 +28,7 @@ sheepskin <- mutate(sheepskin, test_lcs_pass = (minscore >= 0))
 
 ## Figure 1
 
-Figure 1. Regression discontinuity 
+Figure 1. Regression discontinuity
 
 ```r
 mod1_lhs <- lm(receivehsd ~ poly(minscore, 4),
@@ -61,15 +61,10 @@ ggplot(fig1_data, aes(x = minscore)) +
                      breaks = seq(0, 1, by = 0.2), limits = c(0, 1))
 ```
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{sheepskin_files/figure-latex/fig.6.3-1} 
-
-}
-
-\caption{Last-chance exams and Texas sheepskin}(\#fig:fig.6.3)
-\end{figure}
-
+<div class="figure" style="text-align: center">
+<img src="sheepskin_files/figure-html/fig.6.3-1.png" alt="Last-chance exams and Texas sheepskin" width="70%" />
+<p class="caption">(\#fig:fig.6.3)Last-chance exams and Texas sheepskin</p>
+</div>
 
 ## Figure 2
 
@@ -106,15 +101,10 @@ ggplot(fig2_data, aes(x = minscore)) +
                      limits = c(8000, 18000), labels = scales::comma_format())
 ```
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{sheepskin_files/figure-latex/fig.6.4-1} 
-
-}
-
-\caption{The effect of last-chance exam scores on earnings}(\#fig:fig.6.4)
-\end{figure}
-
+<div class="figure" style="text-align: center">
+<img src="sheepskin_files/figure-html/fig.6.4-1.png" alt="The effect of last-chance exam scores on earnings" width="70%" />
+<p class="caption">(\#fig:fig.6.4)The effect of last-chance exam scores on earnings</p>
+</div>
 
 ## References {-}
 

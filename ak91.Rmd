@@ -1,13 +1,12 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # Quarter of Birth and Returns to Schooling
 
-This replicates Tables 6.4 and 6.5, and Figures 6.1 and 6.2 of *Mastering 'Metrics*. 
+This replicates Tables 6.4 and 6.5, and Figures 6.1 and 6.2 of *Mastering 'Metrics*.
 These present an IV analysis of the returns to schooling using quarters of birth (QOB) as instruments for years of schooling [@AngristKrueger1991].
-
 
 ```{r setup,message=FALSE}
 library("AER")
@@ -30,7 +29,6 @@ ak91 <- mutate(ak91,
                yob_fct = factor(yob))
 ```
 
-
 Table 6.4. IV recipe for returns to schooling using a single QOB instrument.
 Regress log wages on 4th quarter.
 ```{r mod1}
@@ -48,7 +46,7 @@ mod3 <- ivreg(lnw ~ s | q4, data = ak91)
 coeftest(mod3, vcov = sandwich)
 ```
 
-## Table 6.5. 
+## Table 6.5
 
 Regression Estimates of Returns to Schooling using Quarter of Birth Instruments
 
@@ -70,7 +68,6 @@ Column 3. OLS. Controls for year of birth.
 mod6 <- lm(lnw ~ s + yob_fct, data = ak91)
 coeftest(mod6, vcov = sandwich)
 ```
-
 
 Column 4. IV reg using only the 4th quarter as an instrument. Controls for year of birth.
 ```{r}
@@ -114,8 +111,6 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
   scale_y_continuous("Log weekly wages") +
   theme(legend.position = "none")
 ```
-
-
 
 ## References {-}
 

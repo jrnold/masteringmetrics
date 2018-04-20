@@ -1,0 +1,30 @@
+{
+  "name": "masteringmetrics",
+  "version": "1.0.0",
+  "description": "This repository R code and text for [R Code for Mastering 'Metrics](https://jrnold.github.io/masteringmetrics/), which contains the R code to reproduce the analyses in *Mastering 'Metrics* by Joshua D. Angrist and Jörn-Steffen Pischke.",
+  "main": "",
+  "directories": {},
+  "dependencies": {
+    "broken-link-checker": "^0.7.8",
+    "remark-frontmatter": "^1.2.0",
+    "remark-lint-write-good": "^1.0.3",
+    "remark-preset-lint-consistent": "^2.0.1",
+    "remark-preset-lint-markdown-style-guide": "^2.1.1",
+    "remark-preset-lint-recommended": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "remark": "remark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrnold/masteringmetrics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrnold/masteringmetrics/issues"
+  },
+  "homepage": "https://github.com/jrnold/masteringmetrics#readme"
+}

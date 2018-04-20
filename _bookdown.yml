@@ -15,7 +15,7 @@ rmd_files:
 - "mlda-dd.Rmd"
 - "ch6.Rmd"
 - "twins.Rmd"
-- "child_labor.Rmd"
+- "child-labor.Rmd"
 - "ak91.Rmd"
 - "sheepskin.Rmd"
 - "references.Rmd"
@@ -26,4 +26,3 @@ after_chapter_script: "_after.R"
 book_filename: "masteringmetrics-r"
 delete_merged_file: true
 edit: "https://github.com/jrnold/masteringmetrics/edit/master/%s"
-

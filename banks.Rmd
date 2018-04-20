@@ -28,10 +28,10 @@ banks <- banks %>%
   mutate(diff86 = bib8[year == 1930] - bib6[year == 1930],
          counterfactual = if_else(year >= 1930, bib8 - diff86, NA_integer_)) %>%
   select(-diff86)
-         
+
 ```
 
-Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual. 
+Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual.
 This is equivalent to Figure 5.3 of @AngristPischke2014.
 ```{r fig5.3,fig.caption="Trends in the Sixth and Eighth Federal Reserve Districts, and the Sixth District DD Counterfactual."}
 select(banks, year, bib8, bib6, counterfactual) %>%
@@ -57,7 +57,5 @@ ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
 
 ## References
 
-- <http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do>
-- <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt>
-```{r include=FALSE, cache=FALSE}
-```
+-   <http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt>

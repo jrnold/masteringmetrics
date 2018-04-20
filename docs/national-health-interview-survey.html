@@ -6,20 +6,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
-  <meta name="description" content="<p>R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.</p>">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
+  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="http://jrnold.github.io/r4ds-exercise-solutions" />
   
-  <meta property="og:description" content="<p>R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.</p>" />
+  <meta property="og:description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke." />
   <meta name="github-repo" content="jrnold/r4ds-exercise-solutions" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="R Code for Mastering ’Metrics" />
   <meta name="twitter:site" content="@jrnld" />
-  <meta name="twitter:description" content="<p>R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.</p>" />
+  <meta name="twitter:description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke." />
   
 
 <meta name="author" content="Jeffrey B. Arnold">
@@ -49,41 +49,69 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 </head>
@@ -142,7 +170,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="child-labor-laws-as-an-iv.html"><a href="child-labor-laws-as-an-iv.html#references-7"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html"><i class="fa fa-check"></i><b>9</b> Quarter of Birth and Returns to Schooling</a><ul>
-<li class="chapter" data-level="9.1" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#table-6.5."><i class="fa fa-check"></i><b>9.1</b> Table 6.5.</a></li>
+<li class="chapter" data-level="9.1" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#table-6.5"><i class="fa fa-check"></i><b>9.1</b> Table 6.5</a></li>
 <li class="chapter" data-level="9.2" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#figures"><i class="fa fa-check"></i><b>9.2</b> Figures</a></li>
 <li class="chapter" data-level="" data-path="quarter-of-birth-and-returns-to-schooling.html"><a href="quarter-of-birth-and-returns-to-schooling.html#references-8"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
@@ -171,66 +199,68 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="national-health-interview-survey" class="section level1">
 <h1><span class="header-section-number">1</span> National Health Interview Survey</h1>
-<p>This reproduces the analyses in Table 1.1 of <span class="citation">J. D. Angrist and Pischke (2014)</span>. which compares people with and without health insurance in the 2009 National Health Interview Survey (NHIS).</p>
+<p>This reproduces the analyses in Table 1.1 of <span class="citation">Angrist and Pischke (2014)</span>.
+which compares people with and without health insurance in the 2009 National Health Interview Survey (NHIS).</p>
 <p>The code is derived from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/NHIS2009_hicompare.do">NHIS2009_hicompare.do</a>.</p>
 <p>Load the prerequisite packages.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;magrittr&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</code></pre></div>
-<p>Load the data (originally from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip" class="uri">http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip</a>), and adjust a few of the columns to account for differences in how Stata and R store data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;NHIS2009&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;magrittr&quot;</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a></code></pre></div>
+<p>Load the data (originally from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip" class="uri">http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip</a>), and adjust a few of the columns to account for differences in
+how Stata and R store data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;NHIS2009&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
 <p>Remove missing values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(marradult, perweight <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hi_hsb =</span> <span class="kw">mean</span>(hi_hsb1, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hi_hsb), <span class="op">!</span><span class="kw">is.na</span>(hi)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">female =</span> <span class="kw">sum</span>(fml)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>female)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(marradult, perweight <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hi_hsb =</span> <span class="kw">mean</span>(hi_hsb1, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hi_hsb), <span class="op">!</span><span class="kw">is.na</span>(hi)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">female =</span> <span class="kw">sum</span>(fml)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">filter</span>(female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>female)</a></code></pre></div>
 <p>For the sample only include married adults between 26 and 59 in age, and remove single person households.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="kw">between</span>(age, <span class="dv">26</span>, <span class="dv">59</span>),
-         marradult, adltempl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>)
-         </code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">between</span>(age, <span class="dv">26</span>, <span class="dv">59</span>),</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">         marradult, adltempl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
 <p>Keep only single family households.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="kw">length</span>(serial) <span class="op">&gt;</span><span class="st"> </span>1L) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ungroup</span>()</code></pre></div>
-<p>Tables of wives and husbands by health insurance. status. The weighting following the “analytic” weights in the original <code>.do</code> file which weights observations by <code>perweight</code> and normalizes the weights so that the sub-samples of males and females have the same number as the original sample.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHIS2009 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="co"># normalize person weights to match number of observations in each</span>
-<span class="st">  </span><span class="co"># group</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">perweight =</span> perweight <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(perweight) <span class="op">*</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(fml, hi) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_wt =</span> <span class="kw">sum</span>(perweight)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> n_wt <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n_wt))
-<span class="co">#&gt; # A tibble: 4 x 4</span>
-<span class="co">#&gt; # Groups:   fml [2]</span>
-<span class="co">#&gt;   fml      hi  n_wt  prop</span>
-<span class="co">#&gt;   &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 FALSE    0. 1281. 0.136</span>
-<span class="co">#&gt; 2 FALSE    1. 8114. 0.864</span>
-<span class="co">#&gt; 3 TRUE     0. 1131. 0.120</span>
-<span class="co">#&gt; 4 TRUE     1. 8264. 0.880</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">length</span>(serial) <span class="op">&gt;</span><span class="st"> </span>1L) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">ungroup</span>()</a></code></pre></div>
+<p>Tables of wives and husbands by health insurance. status.
+The weighting following the “analytic” weights in the original <code>.do</code> file which weights observations by <code>perweight</code> and normalizes the weights so that the sub-samples of males and females have the same number as the original sample.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">NHIS2009 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="co"># normalize person weights to match number of observations in each</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="co"># group</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">perweight =</span> perweight <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(perweight) <span class="op">*</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">group_by</span>(fml, hi) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_wt =</span> <span class="kw">sum</span>(perweight)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> n_wt <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n_wt))</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; # A tibble: 4 x 4</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; # Groups:   fml [2]</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   fml      hi  n_wt  prop</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 1 FALSE    0. 1281. 0.136</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 2 FALSE    1. 8114. 0.864</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 3 TRUE     0. 1131. 0.120</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 4 TRUE     1. 8264. 0.880</span></a></code></pre></div>
 <p>Compare sample statistics of mean and women, with and without health insurance.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hlth&quot;</span>, <span class="st">&quot;nwhite&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;yedu&quot;</span>, <span class="st">&quot;famsize&quot;</span>, <span class="st">&quot;empl&quot;</span>, <span class="st">&quot;inc&quot;</span>)
-NHIS2009_diff &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="co"># rlang::set_attrs with NULL removes attributes from columns.</span>
-<span class="st">  </span><span class="co"># this avoids a warning from gather about differing attributes</span>
-<span class="st">  </span><span class="kw">map_dfc</span>(<span class="op">~</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw">set_attrs</span>(.x, <span class="ot">NULL</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(fml, hi, <span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>fml, <span class="op">-</span>hi) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(fml, hi, variable) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">sd =</span> <span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gather</span>(stat, value, <span class="op">-</span>fml, <span class="op">-</span>hi, <span class="op">-</span>variable) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">unite</span>(stat_hi, stat, hi) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">spread</span>(stat_hi, value) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> mean_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mean_<span class="dv">0</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(NHIS2009_diff, <span class="dt">digits =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hlth&quot;</span>, <span class="st">&quot;nwhite&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;yedu&quot;</span>, <span class="st">&quot;famsize&quot;</span>, <span class="st">&quot;empl&quot;</span>, <span class="st">&quot;inc&quot;</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">NHIS2009_diff &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="co"># rlang::set_attrs with NULL removes attributes from columns.</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="co"># this avoids a warning from gather about differing attributes</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw">map_dfc</span>(<span class="op">~</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw">set_attrs</span>(.x, <span class="ot">NULL</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw">select</span>(fml, hi, <span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>fml, <span class="op">-</span>hi) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(fml, hi, variable) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">sd =</span> <span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">  </span><span class="kw">gather</span>(stat, value, <span class="op">-</span>fml, <span class="op">-</span>hi, <span class="op">-</span>variable) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">  </span><span class="kw">unite</span>(stat_hi, stat, hi) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">  </span><span class="kw">spread</span>(stat_hi, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> mean_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mean_<span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(NHIS2009_diff, <span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -410,7 +440,7 @@ gitbook.start({
 "link": "https://github.com/jrnold/masteringmetrics/edit/master/NHIS2009.Rmd",
 "text": "Edit"
 },
-"download": null,
+"download": ["masteringmetrics-r.pdf"],
 "toc": {
 "collapse": "section"
 }
@@ -423,7 +453,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

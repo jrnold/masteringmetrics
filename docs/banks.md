@@ -33,10 +33,9 @@ banks <- banks %>%
   mutate(diff86 = bib8[year == 1930] - bib6[year == 1930],
          counterfactual = if_else(year >= 1930, bib8 - diff86, NA_integer_)) %>%
   select(-diff86)
-         
 ```
 
-Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual. 
+Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual.
 This is equivalent to Figure 5.3 of @AngristPischke2014.
 
 ```r
@@ -52,9 +51,7 @@ select(banks, year, bib8, bib6, counterfactual) %>%
   xlab("")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{banks_files/figure-latex/fig5.3-1} \end{center}
+<img src="banks_files/figure-html/fig5.3-1.png" width="70%" style="display: block; margin: auto;" />
 
 Plot the difference-in-difference estimate for all years after 1930.
 
@@ -66,18 +63,13 @@ ggplot(filter(banks, year > 1930), aes(x = year, y = bib6 - counterfactual)) +
   xlab("")
 ```
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{banks_files/figure-latex/plot-bank-year-diff-1} 
-
-}
-
-\caption{Difference between Eighth District and Sixth District Counterfactuals}(\#fig:plot-bank-year-diff)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="banks_files/figure-html/plot-bank-year-diff-1.png" alt="Difference between Eighth District and Sixth District Counterfactuals" width="70%" />
+<p class="caption">(\#fig:plot-bank-year-diff)Difference between Eighth District and Sixth District Counterfactuals</p>
+</div>
 
 ## References
 
-- <http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do>
-- <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt>
-
+-   <http://masteringmetrics.com/wp-content/uploads/2015/02/master_banks.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_BankFailures.txt>
 

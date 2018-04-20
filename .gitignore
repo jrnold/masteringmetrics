@@ -31,3 +31,4 @@ bookdown*
 *.rds
 *.bib.sav
 data
+node_modules

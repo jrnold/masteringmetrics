@@ -1,13 +1,13 @@
 
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # MLDA Regression Discontinuity
 
-MLDA Regression Discontinuity (based on data from @CarpenterDobkin2009) from 
-Chapter 4 of *Mastering 'Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics. 
+MLDA Regression Discontinuity (based on data from @CarpenterDobkin2009) from
+Chapter 4 of *Mastering 'Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics.
 These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
 
 Load libraries.
@@ -63,9 +63,7 @@ mlda %>%
   labs(y = "Mortality rate (per 100,000)", x = "Age")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{mlda-rd_files/figure-latex/unnamed-chunk-4-1} \end{center}
+<img src="mlda-rd_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -112,7 +110,7 @@ run_reg <- function(y) {
     pluck("obs")
   out
 }
-   
+
 mlda_regs <- map_dfr(names(responses), run_reg) %>%
   mutate(response = recode(response, !!!as.list(responses)))
 ```
@@ -127,44 +125,28 @@ mlda_regs %>%
 ```
 
 
-\begin{tabular}{l|l|r|r|r|r}
-\hline
-response & stat & Ages 19-22, Linear & Ages 19-22, Quadratic & Ages 20-21, Linear & Ages 20-21, Quadratic\\
-\hline
-Alcohol & estimate & 0.442 & 0.799 & 0.740 & 1.028\\
-\hline
-Alcohol & std.error & 0.213 & 0.431 & 0.360 & 0.725\\
-\hline
-All deaths & estimate & 7.663 & 9.548 & 9.753 & 9.611\\
-\hline
-All deaths & std.error & 1.374 & 2.231 & 2.279 & 3.565\\
-\hline
-All internal causes & estimate & 0.392 & 1.073 & 1.692 & 1.249\\
-\hline
-All internal causes & std.error & 0.592 & 0.931 & 0.877 & 1.465\\
-\hline
-Homocide & estimate & 0.104 & 0.200 & 0.164 & -0.453\\
-\hline
-Homocide & std.error & 0.394 & 0.604 & 0.590 & 1.594\\
-\hline
-Motor vehicle accidents & estimate & 4.534 & 4.663 & 4.759 & 5.892\\
-\hline
-Motor vehicle accidents & std.error & 0.731 & 1.366 & 1.385 & 1.937\\
-\hline
-Other external causes & estimate & 0.838 & 1.797 & 1.414 & 1.625\\
-\hline
-Other external causes & std.error & 0.413 & 0.673 & 0.606 & 1.245\\
-\hline
-Suicide & estimate & 1.794 & 1.814 & 1.724 & 1.297\\
-\hline
-Suicide & std.error & 0.530 & 0.950 & 0.881 & 1.661\\
-\hline
-\end{tabular}
-The robust standard errors using the HC3 standard errors from 
+
+response                  stat         Ages 19-22, Linear   Ages 19-22, Quadratic   Ages 20-21, Linear   Ages 20-21, Quadratic
+------------------------  ----------  -------------------  ----------------------  -------------------  ----------------------
+Alcohol                   estimate                  0.442                   0.799                0.740                   1.028
+Alcohol                   std.error                 0.213                   0.431                0.360                   0.725
+All deaths                estimate                  7.663                   9.548                9.753                   9.611
+All deaths                std.error                 1.374                   2.231                2.279                   3.565
+All internal causes       estimate                  0.392                   1.073                1.692                   1.249
+All internal causes       std.error                 0.592                   0.931                0.877                   1.465
+Homocide                  estimate                  0.104                   0.200                0.164                  -0.453
+Homocide                  std.error                 0.394                   0.604                0.590                   1.594
+Motor vehicle accidents   estimate                  4.534                   4.663                4.759                   5.892
+Motor vehicle accidents   std.error                 0.731                   1.366                1.385                   1.937
+Other external causes     estimate                  0.838                   1.797                1.414                   1.625
+Other external causes     std.error                 0.413                   0.673                0.606                   1.245
+Suicide                   estimate                  1.794                   1.814                1.724                   1.297
+Suicide                   std.error                 0.530                   0.950                0.881                   1.661
+The robust standard errors using the HC3 standard errors from
 `sandwich::vcovHC` and differ from those reported in *Mastering 'Metrics*.
 
 ## References
 
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>
 

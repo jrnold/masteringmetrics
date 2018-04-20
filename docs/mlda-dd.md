@@ -1,7 +1,7 @@
 
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -30,7 +30,6 @@ In these regressions, we will use both indicator variables for year as well as a
 deaths <- mutate(deaths, year_fct = factor(year))
 ```
 
-
 ## Table 5.2
 
 Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983
@@ -43,7 +42,7 @@ dtypes <- c("all" = "All deaths",
             "internal" = "All internal causes")
 ```
 
-Estimate the DD for MLDA for all causes of death in 18-20 year olds. 
+Estimate the DD for MLDA for all causes of death in 18-20 year olds.
 Run the regression with `lm` and calculate the cluster robust standard errors
 using `sandwich::vcovCL`.
 Subset the data.
@@ -71,13 +70,10 @@ coef_test(mod, vcov = vcov) %>%
 ```
 
 
-\begin{tabular}{l|r|r}
-\hline
-term & estimate & std.error\\
-\hline
-legal & 10.8 & 4.48\\
-\hline
-\end{tabular}
+
+term     estimate   std.error
+------  ---------  ----------
+legal        10.8        4.48
 
 Function to calculate clustered standard errors and return a tidy data frame of the coefficients and standard errors.
 
@@ -90,7 +86,6 @@ cluster_se <- function(mod, cluster, type = "CR2") {
     select(term, estimate = beta, std.error = SE)
 }
 ```
-
 
 
 ```r
@@ -106,7 +101,7 @@ run_mlda_dd <- function(i) {
     lm(mrate ~ 0 + legal + year_fct + state, data = data, weights = pop),
     # nolint start
     # "Time trends, weights",
-    #   lm(mrate ~ 0 + legal + year_fct + state + state:year, 
+    #   lm(mrate ~ 0 + legal + year_fct + state + state:year,
     #      data = data, weights = pop)
     # nolint end
   ) %>%
@@ -131,36 +126,21 @@ mlda_dd %>%
 ```
 
 
-\begin{tabular}{l|l|r|r}
-\hline
-name & response & estimate & std.error\\
-\hline
-No trends, no weights & all & 10.80 & 4.48\\
-\hline
-Time trends, no weights & all & 8.47 & 4.74\\
-\hline
-No trends, weights & all & 12.41 & 4.78\\
-\hline
-No trends, no weights & MVA & 7.59 & 2.43\\
-\hline
-Time trends, no weights & MVA & 6.64 & 2.47\\
-\hline
-No trends, weights & MVA & 7.50 & 2.30\\
-\hline
-No trends, no weights & suicide & 0.59 & 0.57\\
-\hline
-Time trends, no weights & suicide & 0.47 & 0.74\\
-\hline
-No trends, weights & suicide & 1.49 & 0.92\\
-\hline
-No trends, no weights & internal & 1.33 & 1.53\\
-\hline
-Time trends, no weights & internal & 0.08 & 1.80\\
-\hline
-No trends, weights & internal & 1.89 & 1.83\\
-\hline
-\end{tabular}
 
+name                      response    estimate   std.error
+------------------------  ---------  ---------  ----------
+No trends, no weights     all            10.80        4.48
+Time trends, no weights   all             8.47        4.74
+No trends, weights        all            12.41        4.78
+No trends, no weights     MVA             7.59        2.43
+Time trends, no weights   MVA             6.64        2.47
+No trends, weights        MVA             7.50        2.30
+No trends, no weights     suicide         0.59        0.57
+Time trends, no weights   suicide         0.47        0.74
+No trends, weights        suicide         1.49        0.92
+No trends, no weights     internal        1.33        1.53
+Time trends, no weights   internal        0.08        1.80
+No trends, weights        internal        1.89        1.83
 
 ## Table 5.3
 
@@ -201,48 +181,30 @@ beertax %>%
 ```
 
 
-\begin{tabular}{l|l|l|r|r}
-\hline
-response & name & term & estimate & std.error\\
-\hline
-all & No time trends & legal & 10.98 & 4.60\\
-\hline
-all & No time trends & beertaxa & 1.51 & 9.02\\
-\hline
-all & Time trends & legal & 10.03 & 4.57\\
-\hline
-all & Time trends & beertaxa & -5.52 & 30.40\\
-\hline
-MVA & No time trends & legal & 7.59 & 2.51\\
-\hline
-MVA & No time trends & beertaxa & 3.82 & 5.27\\
-\hline
-MVA & Time trends & legal & 6.89 & 2.47\\
-\hline
-MVA & Time trends & beertaxa & 26.88 & 18.76\\
-\hline
-suicide & No time trends & legal & 0.45 & 0.58\\
-\hline
-suicide & No time trends & beertaxa & -3.05 & 1.61\\
-\hline
-suicide & Time trends & legal & 0.38 & 0.72\\
-\hline
-suicide & Time trends & beertaxa & -12.13 & 8.28\\
-\hline
-internal & No time trends & legal & 1.46 & 1.56\\
-\hline
-internal & No time trends & beertaxa & -1.36 & 3.02\\
-\hline
-internal & Time trends & legal & 0.88 & 1.68\\
-\hline
-internal & Time trends & beertaxa & -10.31 & 10.90\\
-\hline
-\end{tabular}
+
+response   name             term        estimate   std.error
+---------  ---------------  ---------  ---------  ----------
+all        No time trends   legal          10.98        4.60
+all        No time trends   beertaxa        1.51        9.02
+all        Time trends      legal          10.03        4.57
+all        Time trends      beertaxa       -5.52       30.40
+MVA        No time trends   legal           7.59        2.51
+MVA        No time trends   beertaxa        3.82        5.27
+MVA        Time trends      legal           6.89        2.47
+MVA        Time trends      beertaxa       26.88       18.76
+suicide    No time trends   legal           0.45        0.58
+suicide    No time trends   beertaxa       -3.05        1.61
+suicide    Time trends      legal           0.38        0.72
+suicide    Time trends      beertaxa      -12.13        8.28
+internal   No time trends   legal           1.46        1.56
+internal   No time trends   beertaxa       -1.36        3.02
+internal   Time trends      legal           0.88        1.68
+internal   Time trends      beertaxa      -10.31       10.90
 
 *Note:* I had trouble getting `sandwich::vcovCL` to estimate clustered standard errors for this regression.
 
 ## References
 
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do>
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA_DD.txt>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA_DD.txt>
 

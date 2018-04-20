@@ -1,6 +1,6 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # Child Labor Laws as an IV
@@ -55,7 +55,6 @@ mod4 <- lm(lnwkwage ~ year + yob_fct + sob + sob:yob + cl7 + cl8 + cl9,
 # coef_test(mod4, vcov = vcovCR(mod2), cluster = child_labor[["state"]])
 ```
 
-
 ## IV returns
 
 Column 3. Log weekly wages.
@@ -73,7 +72,6 @@ mod6 <- ivreg(lnwkwage ~ year + yob_fct + sob + sob:yob + indEduc |
               data = child_labor, weights = weight)
 # coef_test(mod6, vcov = vcovCR(mod2), cluster = child_labor[["state"]])
 ```
-
 
 ## References {-}
 

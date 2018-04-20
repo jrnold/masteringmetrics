@@ -1,7 +1,7 @@
 
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # Twins and Returns to Schooling
@@ -134,5 +134,4 @@ summary(mod4, vcov = sandwich, diagnostics = TRUE)
 
 -   <http://masteringmetrics.com/wp-content/uploads/2015/02/ReadMe_Twinsburg.txt>
 -   <http://masteringmetrics.com/wp-content/uploads/2015/02/twins.do>
-
 

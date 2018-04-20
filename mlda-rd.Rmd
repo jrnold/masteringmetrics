@@ -1,12 +1,12 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # MLDA Regression Discontinuity
 
-MLDA Regression Discontinuity (based on data from @CarpenterDobkin2009) from 
-Chapter 4 of *Mastering 'Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics. 
+MLDA Regression Discontinuity (based on data from @CarpenterDobkin2009) from
+Chapter 4 of *Mastering 'Metrics*,  Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics.
 These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.
 
 Load libraries.
@@ -100,7 +100,7 @@ run_reg <- function(y) {
     pluck("obs")
   out
 }
-   
+
 mlda_regs <- map_dfr(names(responses), run_reg) %>%
   mutate(response = recode(response, !!!as.list(responses)))
 ```
@@ -112,10 +112,10 @@ mlda_regs %>%
   spread(model_name, value) %>%
   knitr::kable()
 ```
-The robust standard errors using the HC3 standard errors from 
+The robust standard errors using the HC3 standard errors from
 `sandwich::vcovHC` and differ from those reported in *Mastering 'Metrics*.
 
 ## References
 
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/master_cd_rd.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA.txt>

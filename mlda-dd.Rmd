@@ -1,6 +1,6 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -26,7 +26,6 @@ In these regressions, we will use both indicator variables for year as well as a
 deaths <- mutate(deaths, year_fct = factor(year))
 ```
 
-
 ## Table 5.2
 
 Regression DD Estimates of MLDA-Induced Deaths among 18-20 year-olds, from 1970-1983
@@ -38,7 +37,7 @@ dtypes <- c("all" = "All deaths",
             "internal" = "All internal causes")
 ```
 
-Estimate the DD for MLDA for all causes of death in 18-20 year olds. 
+Estimate the DD for MLDA for all causes of death in 18-20 year olds.
 Run the regression with `lm` and calculate the cluster robust standard errors
 using `sandwich::vcovCL`.
 Subset the data.
@@ -73,7 +72,6 @@ cluster_se <- function(mod, cluster, type = "CR2") {
 }
 ```
 
-
 ```{r run_mlda_dd}
 run_mlda_dd <- function(i) {
   data <- filter(deaths, year <= 1983, agegr == "18-20 yrs", dtype == i) # nolint
@@ -87,7 +85,7 @@ run_mlda_dd <- function(i) {
     lm(mrate ~ 0 + legal + year_fct + state, data = data, weights = pop),
     # nolint start
     # "Time trends, weights",
-    #   lm(mrate ~ 0 + legal + year_fct + state + state:year, 
+    #   lm(mrate ~ 0 + legal + year_fct + state + state:year,
     #      data = data, weights = pop)
     # nolint end
   ) %>%
@@ -108,7 +106,6 @@ mlda_dd <- map_df(names(dtypes), run_mlda_dd)
 mlda_dd %>%
   knitr::kable(digits = 2)
 ```
-
 
 ## Table 5.3
 
@@ -149,5 +146,5 @@ beertax %>%
 
 ## References
 
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do>
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA_DD.txt>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/analysis.do>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_MLDA_DD.txt>

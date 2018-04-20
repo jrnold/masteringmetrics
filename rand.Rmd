@@ -1,6 +1,6 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 # RAND Health Insurance Experiment (HIE)
@@ -36,7 +36,6 @@ Load the `rand` data.
 data("rand_sample", package = "masteringmetrics")
 ```
 
-
 Calculate the number in each plan:
 ```{r plantypes}
 plantypes <- count(rand_sample, plantype)
@@ -45,16 +44,14 @@ plantypes <- count(rand_sample, plantype)
 knitr::kable(plantypes)
 ```
 
-
 For each variable variables, estimate the the difference in means between heath insurance plan types.
 ```{r}
 varlist <- c("female", "blackhisp", "age", "educper",
              "income1cpi", "hosp", "ghindx", "cholest", "diastol",
              "systol", "mhi", "ghindxx",
              "cholestx", "diastolx", "systolx", "mhix")
-		
-```
 
+```
 
 Create column (1) with the mean and standard deviation of the "Catastrophic" plan,
 ```{r catastrophic_stats}
@@ -111,9 +108,8 @@ ggplot(filter(plantype_diffs, term != "(Intercept)"),
   geom_hline(yintercept = 0, colour = "white", size = 1) +
   geom_pointrange() +
   facet_grid(response ~ ., scales = "free_y")
-  
-```
 
+```
 
 ## Table 1.4
 
@@ -130,7 +126,7 @@ rand_person_spend <- mutate(rand_person_spend,
 ```
 
 Adjust spending for inflation.
-The CPI adjustment values below are based on the June CPI from 1991 (see table found at http://www.seattle.gov/financedepartment/cpi/historical.htm ).
+The CPI adjustment values below are based on the June CPI from 1991 (see table found at <http://www.seattle.gov/financedepartment/cpi/historical.htm>).
 
 ```{r cpi}
 cpi <- tribble(
@@ -240,6 +236,6 @@ ggplot(filter(person_diffs, term != "(Intercept)"),
 
 ## References {-}
 
-- <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
-- <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
+-   <https://www.icpsr.umich.edu/icpsrweb/NACDA/studies/6439/version/1>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/ReadMe_RAND.txt>
+-   <http://masteringmetrics.com/wp-content/uploads/2015/01/Code.zip>
