@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
   <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
@@ -201,41 +201,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">5</span> Mississippi Bank Failures in the Great Depression</h1>
 <p>A difference-in-difference analysis of Mississippi bank failures during the Great Depression <span class="citation">(Richardson and Troost 2009)</span>.
 This replicates Figures 5.1–5.3 in <em>Mastering ’Metrics</em>.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;lubridate&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;lubridate&quot;</span>)</code></pre>
 <p>Load the <code>banks</code> data.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;banks&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;banks&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre>
 <p>Only use yearly data in the difference-in-difference estimates.
 Use the number of banks on July 1st of each year.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">banks &lt;-<span class="st"> </span>banks <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">month</span>(date) <span class="op">==</span><span class="st"> </span>7L, <span class="kw">mday</span>(date) <span class="op">==</span><span class="st"> </span>1L) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb56-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(year, <span class="kw">matches</span>(<span class="st">&quot;bi[ob][68]&quot;</span>))</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">banks &lt;-<span class="st"> </span>banks <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">month</span>(date) <span class="op">==</span><span class="st"> </span>7L, <span class="kw">mday</span>(date) <span class="op">==</span><span class="st"> </span>1L) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(year, <span class="kw">matches</span>(<span class="st">&quot;bi[ob][68]&quot;</span>))</code></pre>
 <p>Generate the counterfactual using the difference between the number of banks in district 8 and district 6.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">banks &lt;-<span class="st"> </span>banks <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(year) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff86 =</span> bib8[year <span class="op">==</span><span class="st"> </span><span class="dv">1930</span>] <span class="op">-</span><span class="st"> </span>bib6[year <span class="op">==</span><span class="st"> </span><span class="dv">1930</span>],</a>
-<a class="sourceLine" id="cb57-4" data-line-number="4">         <span class="dt">counterfactual =</span> <span class="kw">if_else</span>(year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1930</span>, bib8 <span class="op">-</span><span class="st"> </span>diff86, <span class="ot">NA_integer_</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb57-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>diff86)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">banks &lt;-<span class="st"> </span>banks <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(year) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff86 =</span> bib8[year <span class="op">==</span><span class="st"> </span><span class="dv">1930</span>] <span class="op">-</span><span class="st"> </span>bib6[year <span class="op">==</span><span class="st"> </span><span class="dv">1930</span>],
+         <span class="dt">counterfactual =</span> <span class="kw">if_else</span>(year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1930</span>, bib8 <span class="op">-</span><span class="st"> </span>diff86, <span class="ot">NA_integer_</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>diff86)</code></pre>
 <p>Plot the lines of the Distinct 8 banks in business, District 6 banks in business, and the District 6 counterfactual.
 This is equivalent to Figure 5.3 of <span class="citation">Angrist and Pischke (2014)</span>.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">select</span>(banks, year, bib8, bib6, counterfactual) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>year, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">recode</span>(variable, <span class="dt">bib8 =</span> <span class="st">&quot;8th district&quot;</span>,</a>
-<a class="sourceLine" id="cb58-4" data-line-number="4">                           <span class="dt">bib6 =</span> <span class="st">&quot;6th district&quot;</span>,</a>
-<a class="sourceLine" id="cb58-5" data-line-number="5">                           <span class="dt">counterfactual =</span> <span class="st">&quot;Counterfactual&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb58-6" data-line-number="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> value, <span class="dt">colour =</span> variable)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-9" data-line-number="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Banks in Business&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-10" data-line-number="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(banks, year, bib8, bib6, counterfactual) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>year, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">recode</span>(variable, <span class="dt">bib8 =</span> <span class="st">&quot;8th district&quot;</span>,
+                           <span class="dt">bib6 =</span> <span class="st">&quot;6th district&quot;</span>,
+                           <span class="dt">counterfactual =</span> <span class="st">&quot;Counterfactual&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> value, <span class="dt">colour =</span> variable)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Banks in Business&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</code></pre>
 <p><img src="banks_files/figure-html/fig5.3-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Plot the difference-in-difference estimate for all years after 1930.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">filter</span>(banks, year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1930</span>), <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> bib6 <span class="op">-</span><span class="st"> </span>counterfactual)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;DID (Number of Banks)&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb59-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">filter</span>(banks, year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1930</span>), <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> bib6 <span class="op">-</span><span class="st"> </span>counterfactual)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;DID (Number of Banks)&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:plot-bank-year-diff"></span>
 <img src="banks_files/figure-html/plot-bank-year-diff-1.png" alt="Difference between Eighth District and Sixth District Counterfactuals" width="70%" />
 <p class="caption">

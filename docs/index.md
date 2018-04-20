@@ -21,12 +21,15 @@ editor_options:
 This work contains R code to reproduce many of the analyses in *Mastering 'Metrics* by Joshua D. Angrist and Jörn-Steffen Pischke [@AngristPischke2014].
 This work provides R translations of the replication code available at [masteringmetrics.com](http://masteringmetrics.com/resources/).
 
+The R code used in the examples heavily depends on [tidyverse](https://www.tidyverse.org/) packages.
+I suggest starting with Grolemund and Wickham, [R for Data Science](http://r4ds.had.co.nz/) if you are unfamiliar with the tidyverse.
+
 ## Install {-}
 
-To install all packages used in the examples in this work
-and the datasets from *Mastering 'Metrics* run
+To install all R packages and datasets needed to run the examples in *Mastering 'Metrics* run:
 
 ```r
+# install.packages("devtools")
 devtools::install_github("jrnold/masteringmetrics", subdir = "masteringmetrics")
 ```
 

@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
   <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
@@ -201,48 +201,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">8</span> Child Labor Laws as an IV</h1>
 <p>2SLS estimates of the returns to schooling using child labor laws as instruments for years of schooling <span class="citation">(Acemoglu and Angrist 2000)</span>.
 This replicates Table 6.3 of <em>Mastering ’Metrics</em>.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;AER&quot;</span>)</a>
-<a class="sourceLine" id="cb80-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</a>
-<a class="sourceLine" id="cb80-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)</a>
-<a class="sourceLine" id="cb80-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb80-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;AER&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;clubSandwich&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</code></pre>
 <p>Load the <code>child_labor</code> data.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;child_labor&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a>
-<a class="sourceLine" id="cb81-2" data-line-number="2">child_labor &lt;-<span class="st"> </span><span class="kw">mutate</span>(child_labor,</a>
-<a class="sourceLine" id="cb81-3" data-line-number="3">                      <span class="dt">year =</span> <span class="kw">factor</span>(year),</a>
-<a class="sourceLine" id="cb81-4" data-line-number="4">                      <span class="dt">yob_fct =</span> <span class="kw">factor</span>(yob),</a>
-<a class="sourceLine" id="cb81-5" data-line-number="5">                      <span class="dt">sob =</span> <span class="kw">factor</span>(sob))</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;child_labor&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)
+child_labor &lt;-<span class="st"> </span><span class="kw">mutate</span>(child_labor,
+                      <span class="dt">year =</span> <span class="kw">factor</span>(year),
+                      <span class="dt">yob_fct =</span> <span class="kw">factor</span>(yob),
+                      <span class="dt">sob =</span> <span class="kw">factor</span>(sob))</code></pre>
 <div id="first-stages-and-reduced-forms" class="section level2">
 <h2><span class="header-section-number">8.1</span> First stages and reduced forms</h2>
 <p>Column 1. Years of Schooling.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(indEduc <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
-<a class="sourceLine" id="cb82-2" data-line-number="2">           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a>
-<a class="sourceLine" id="cb82-3" data-line-number="3"><span class="co"># coef_test(mod1, vcov = vcovCR(mod1, cluster = child_labor[[&quot;sob&quot;]]))</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(indEduc <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,
+           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)
+<span class="co"># coef_test(mod1, vcov = vcovCR(mod1, cluster = child_labor[[&quot;sob&quot;]]))</span></code></pre>
 <p>Column 2. Years of Schooling. State of birth dummies x linear year of birth trends.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(indEduc <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>sob<span class="op">:</span>yob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2">           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a>
-<a class="sourceLine" id="cb83-3" data-line-number="3"><span class="co"># coef_test(mod2, vcov = vcovCR(mod2, cluster = child_labor[[&quot;sob&quot;]]))</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(indEduc <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>sob<span class="op">:</span>yob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,
+           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)
+<span class="co"># coef_test(mod2, vcov = vcovCR(mod2, cluster = child_labor[[&quot;sob&quot;]]))</span></code></pre>
 <p>Column 3. Log weekly wages.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1">mod3 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
-<a class="sourceLine" id="cb84-2" data-line-number="2">           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a>
-<a class="sourceLine" id="cb84-3" data-line-number="3"><span class="co"># coef_test(mod3, vcov = vcovCR(mod1), cluster = child_labor[[&quot;state&quot;]])</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mod3 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,
+           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)
+<span class="co"># coef_test(mod3, vcov = vcovCR(mod1), cluster = child_labor[[&quot;state&quot;]])</span></code></pre>
 <p>Column 4. Log weekly wages. State of birth dummies x linear year of birth trends.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>sob<span class="op">:</span>yob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
-<a class="sourceLine" id="cb85-2" data-line-number="2">           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co"># coef_test(mod4, vcov = vcovCR(mod2), cluster = child_labor[[&quot;state&quot;]])</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>sob<span class="op">:</span>yob <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,
+           <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)
+<span class="co"># coef_test(mod4, vcov = vcovCR(mod2), cluster = child_labor[[&quot;state&quot;]])</span></code></pre>
 </div>
 <div id="iv-returns" class="section level2">
 <h2><span class="header-section-number">8.2</span> IV returns</h2>
 <p>Column 3. Log weekly wages.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1">mod5 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>indEduc <span class="op">|</span></a>
-<a class="sourceLine" id="cb86-2" data-line-number="2"><span class="st">               </span>. <span class="op">-</span><span class="st"> </span>indEduc <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
-<a class="sourceLine" id="cb86-3" data-line-number="3">              <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a>
-<a class="sourceLine" id="cb86-4" data-line-number="4"><span class="co"># coef_test(mod5, vcov = vcovCR(mod1), cluster = child_labor[[&quot;state&quot;]])</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mod5 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>indEduc <span class="op">|</span>
+<span class="st">               </span>. <span class="op">-</span><span class="st"> </span>indEduc <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,
+              <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)
+<span class="co"># coef_test(mod5, vcov = vcovCR(mod1), cluster = child_labor[[&quot;state&quot;]])</span></code></pre>
 <p>Column 4. Log weekly wages. State of birth dummies x linear year of birth trends.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">mod6 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>sob<span class="op">:</span>yob <span class="op">+</span><span class="st"> </span>indEduc <span class="op">|</span></a>
-<a class="sourceLine" id="cb87-2" data-line-number="2"><span class="st">               </span>. <span class="op">-</span><span class="st"> </span>indEduc <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,</a>
-<a class="sourceLine" id="cb87-3" data-line-number="3">              <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)</a>
-<a class="sourceLine" id="cb87-4" data-line-number="4"><span class="co"># coef_test(mod6, vcov = vcovCR(mod2), cluster = child_labor[[&quot;state&quot;]])</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mod6 &lt;-<span class="st"> </span><span class="kw">ivreg</span>(lnwkwage <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>yob_fct <span class="op">+</span><span class="st"> </span>sob <span class="op">+</span><span class="st"> </span>sob<span class="op">:</span>yob <span class="op">+</span><span class="st"> </span>indEduc <span class="op">|</span>
+<span class="st">               </span>. <span class="op">-</span><span class="st"> </span>indEduc <span class="op">+</span><span class="st"> </span>cl7 <span class="op">+</span><span class="st"> </span>cl8 <span class="op">+</span><span class="st"> </span>cl9,
+              <span class="dt">data =</span> child_labor, <span class="dt">weights =</span> weight)
+<span class="co"># coef_test(mod6, vcov = vcovCR(mod2), cluster = child_labor[[&quot;state&quot;]])</span></code></pre>
 </div>
 <div id="references-7" class="section level2 unnumbered">
 <h2>References</h2>

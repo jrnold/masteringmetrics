@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
   <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
@@ -203,64 +203,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 which compares people with and without health insurance in the 2009 National Health Interview Survey (NHIS).</p>
 <p>The code is derived from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/NHIS2009_hicompare.do">NHIS2009_hicompare.do</a>.</p>
 <p>Load the prerequisite packages.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;magrittr&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;magrittr&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</code></pre>
 <p>Load the data (originally from <a href="http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip" class="uri">http://masteringmetrics.com/wp-content/uploads/2015/01/Data.zip</a>), and adjust a few of the columns to account for differences in
 how Stata and R store data.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;NHIS2009&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;NHIS2009&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre>
 <p>Remove missing values.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(marradult, perweight <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hi_hsb =</span> <span class="kw">mean</span>(hi_hsb1, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hi_hsb), <span class="op">!</span><span class="kw">is.na</span>(hi)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">female =</span> <span class="kw">sum</span>(fml)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">filter</span>(female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>female)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(marradult, perweight <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hi_hsb =</span> <span class="kw">mean</span>(hi_hsb1, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(hi_hsb), <span class="op">!</span><span class="kw">is.na</span>(hi)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">female =</span> <span class="kw">sum</span>(fml)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>female)</code></pre>
 <p>For the sample only include married adults between 26 and 59 in age, and remove single person households.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">between</span>(age, <span class="dv">26</span>, <span class="dv">59</span>),</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">         marradult, adltempl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">between</span>(age, <span class="dv">26</span>, <span class="dv">59</span>),
+         marradult, adltempl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>)</code></pre>
 <p>Keep only single family households.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">length</span>(serial) <span class="op">&gt;</span><span class="st"> </span>1L) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">ungroup</span>()</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">NHIS2009 &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(serial) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">length</span>(serial) <span class="op">&gt;</span><span class="st"> </span>1L) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>()</code></pre>
 <p>Tables of wives and husbands by health insurance. status.
 The weighting following the “analytic” weights in the original <code>.do</code> file which weights observations by <code>perweight</code> and normalizes the weights so that the sub-samples of males and females have the same number as the original sample.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">NHIS2009 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="co"># normalize person weights to match number of observations in each</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="co"># group</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">perweight =</span> perweight <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(perweight) <span class="op">*</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">group_by</span>(fml, hi) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_wt =</span> <span class="kw">sum</span>(perweight)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> n_wt <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n_wt))</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; # A tibble: 4 x 4</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; # Groups:   fml [2]</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   fml      hi  n_wt  prop</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 1 FALSE    0. 1281. 0.136</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 2 FALSE    1. 8114. 0.864</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 3 TRUE     0. 1131. 0.120</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 4 TRUE     1. 8264. 0.880</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">NHIS2009 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># normalize person weights to match number of observations in each</span>
+<span class="st">  </span><span class="co"># group</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">perweight =</span> perweight <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(perweight) <span class="op">*</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(fml, hi) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_wt =</span> <span class="kw">sum</span>(perweight)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(fml) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> n_wt <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n_wt))
+<span class="co">#&gt; # A tibble: 4 x 4</span>
+<span class="co">#&gt; # Groups:   fml [2]</span>
+<span class="co">#&gt;   fml      hi  n_wt  prop</span>
+<span class="co">#&gt;   &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 FALSE    0. 1281. 0.136</span>
+<span class="co">#&gt; 2 FALSE    1. 8114. 0.864</span>
+<span class="co">#&gt; 3 TRUE     0. 1131. 0.120</span>
+<span class="co">#&gt; 4 TRUE     1. 8264. 0.880</span></code></pre>
 <p>Compare sample statistics of mean and women, with and without health insurance.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hlth&quot;</span>, <span class="st">&quot;nwhite&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;yedu&quot;</span>, <span class="st">&quot;famsize&quot;</span>, <span class="st">&quot;empl&quot;</span>, <span class="st">&quot;inc&quot;</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">NHIS2009_diff &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="co"># rlang::set_attrs with NULL removes attributes from columns.</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="co"># this avoids a warning from gather about differing attributes</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw">map_dfc</span>(<span class="op">~</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw">set_attrs</span>(.x, <span class="ot">NULL</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw">select</span>(fml, hi, <span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>fml, <span class="op">-</span>hi) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(fml, hi, variable) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">sd =</span> <span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">  </span><span class="kw">gather</span>(stat, value, <span class="op">-</span>fml, <span class="op">-</span>hi, <span class="op">-</span>variable) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">  </span><span class="kw">unite</span>(stat_hi, stat, hi) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">  </span><span class="kw">spread</span>(stat_hi, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> mean_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mean_<span class="dv">0</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(NHIS2009_diff, <span class="dt">digits =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hlth&quot;</span>, <span class="st">&quot;nwhite&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;yedu&quot;</span>, <span class="st">&quot;famsize&quot;</span>, <span class="st">&quot;empl&quot;</span>, <span class="st">&quot;inc&quot;</span>)
+NHIS2009_diff &lt;-<span class="st"> </span>NHIS2009 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># rlang::set_attrs with NULL removes attributes from columns.</span>
+<span class="st">  </span><span class="co"># this avoids a warning from gather about differing attributes</span>
+<span class="st">  </span><span class="kw">map_dfc</span>(<span class="op">~</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw">set_attrs</span>(.x, <span class="ot">NULL</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(fml, hi, <span class="kw">one_of</span>(varlist)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>fml, <span class="op">-</span>hi) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(fml, hi, variable) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">sd =</span> <span class="kw">sd</span>(value, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(stat, value, <span class="op">-</span>fml, <span class="op">-</span>hi, <span class="op">-</span>variable) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">unite</span>(stat_hi, stat, hi) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">spread</span>(stat_hi, value) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">diff =</span> mean_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>mean_<span class="dv">0</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(NHIS2009_diff, <span class="dt">digits =</span> <span class="dv">3</span>)</code></pre>
 <table>
 <thead>
 <tr class="header">

@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
   <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
@@ -201,9 +201,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> Minneapolis Domestic Violence Experiment</h1>
 <p>This replicates Table 3.3 of <em>Mastering ’Metrics</em>, which replicates the Minneapolis Domestic Violence Experiment <span class="citation">(Sherman and Berk 1984,<span class="citation">@Angrist2006</span>)</span>.</p>
 <p>Load necessary packages.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre>
 <p>Load the MDVE data.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;mdve&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;mdve&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre>
 <p>Randomized assignments (i.e. what are police assigned to do) are in the <code>assigned</code> column.
 Actual outcomes (i.e. what action do the police actually take) is in the <code>outcome</code> column.
 gen outcome = “Arrest” if T_FINAL == 1
@@ -211,84 +211,84 @@ replace outcome = “Advise” if T_FINAL == 2
 replace outcome = “Separate” if T_FINAL == 3
 replace outcome = “Other” if T_FINAL == 4
 gen total = 1</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">mdve &lt;-<span class="st"> </span><span class="kw">mutate</span>(mdve,</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">               <span class="dt">assigned =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3">      T_RANDOM <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> &quot;Arrest&quot;</span>,</a>
-<a class="sourceLine" id="cb39-4" data-line-number="4">      T_RANDOM <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> &quot;Advise&quot;</span>,</a>
-<a class="sourceLine" id="cb39-5" data-line-number="5">      T_RANDOM <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> &quot;Separate&quot;</span></a>
-<a class="sourceLine" id="cb39-6" data-line-number="6">    ),</a>
-<a class="sourceLine" id="cb39-7" data-line-number="7">      <span class="dt">outcome =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb39-8" data-line-number="8">        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> &quot;Arrest&quot;</span>,</a>
-<a class="sourceLine" id="cb39-9" data-line-number="9">        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> &quot;Advise&quot;</span>,</a>
-<a class="sourceLine" id="cb39-10" data-line-number="10">        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> &quot;Separate&quot;</span>,</a>
-<a class="sourceLine" id="cb39-11" data-line-number="11">        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">4</span> <span class="op">~</span><span class="st"> &quot;Other&quot;</span></a>
-<a class="sourceLine" id="cb39-12" data-line-number="12">      ),</a>
-<a class="sourceLine" id="cb39-13" data-line-number="13">      <span class="dt">coddled_a =</span> assigned <span class="op">!=</span><span class="st"> &quot;Arrest&quot;</span>,</a>
-<a class="sourceLine" id="cb39-14" data-line-number="14">      <span class="dt">coddled_o =</span> outcome <span class="op">!=</span><span class="st"> &quot;Arrest&quot;</span></a>
-<a class="sourceLine" id="cb39-15" data-line-number="15">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb39-16" data-line-number="16"><span class="st">  </span><span class="kw">filter</span>(outcome <span class="op">!=</span><span class="st"> &quot;Other&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mdve &lt;-<span class="st"> </span><span class="kw">mutate</span>(mdve,
+               <span class="dt">assigned =</span> <span class="kw">case_when</span>(
+      T_RANDOM <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> &quot;Arrest&quot;</span>,
+      T_RANDOM <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> &quot;Advise&quot;</span>,
+      T_RANDOM <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> &quot;Separate&quot;</span>
+    ),
+      <span class="dt">outcome =</span> <span class="kw">case_when</span>(
+        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> &quot;Arrest&quot;</span>,
+        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> &quot;Advise&quot;</span>,
+        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> &quot;Separate&quot;</span>,
+        T_FINAL <span class="op">==</span><span class="st"> </span><span class="dv">4</span> <span class="op">~</span><span class="st"> &quot;Other&quot;</span>
+      ),
+      <span class="dt">coddled_a =</span> assigned <span class="op">!=</span><span class="st"> &quot;Arrest&quot;</span>,
+      <span class="dt">coddled_o =</span> outcome <span class="op">!=</span><span class="st"> &quot;Arrest&quot;</span>
+    ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(outcome <span class="op">!=</span><span class="st"> &quot;Other&quot;</span>)</code></pre>
 <p>Assigned and delivered treatments in the MDVE:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">mdve_summary &lt;-</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="st">  </span>mdve <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(assigned, outcome) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(assigned) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="kw">print</span>(mdve_summary, <span class="dt">n =</span> <span class="kw">nrow</span>(mdve_summary))</a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="co">#&gt; # A tibble: 8 x 4</span></a>
-<a class="sourceLine" id="cb40-8" data-line-number="8"><span class="co">#&gt; # Groups:   assigned [3]</span></a>
-<a class="sourceLine" id="cb40-9" data-line-number="9"><span class="co">#&gt;   assigned outcome      n      p</span></a>
-<a class="sourceLine" id="cb40-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb40-11" data-line-number="11"><span class="co">#&gt; 1 Advise   Advise      84 0.778 </span></a>
-<a class="sourceLine" id="cb40-12" data-line-number="12"><span class="co">#&gt; 2 Advise   Arrest      19 0.176 </span></a>
-<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="co">#&gt; 3 Advise   Separate     5 0.0463</span></a>
-<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="co">#&gt; 4 Arrest   Arrest      91 0.989 </span></a>
-<a class="sourceLine" id="cb40-15" data-line-number="15"><span class="co">#&gt; 5 Arrest   Separate     1 0.0109</span></a>
-<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="co">#&gt; 6 Separate Advise       5 0.0439</span></a>
-<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="co">#&gt; 7 Separate Arrest      26 0.228 </span></a>
-<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="co">#&gt; 8 Separate Separate    83 0.728</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mdve_summary &lt;-
+<span class="st">  </span>mdve <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(assigned, outcome) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(assigned) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))
+<span class="kw">print</span>(mdve_summary, <span class="dt">n =</span> <span class="kw">nrow</span>(mdve_summary))
+<span class="co">#&gt; # A tibble: 8 x 4</span>
+<span class="co">#&gt; # Groups:   assigned [3]</span>
+<span class="co">#&gt;   assigned outcome      n      p</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Advise   Advise      84 0.778 </span>
+<span class="co">#&gt; 2 Advise   Arrest      19 0.176 </span>
+<span class="co">#&gt; 3 Advise   Separate     5 0.0463</span>
+<span class="co">#&gt; 4 Arrest   Arrest      91 0.989 </span>
+<span class="co">#&gt; 5 Arrest   Separate     1 0.0109</span>
+<span class="co">#&gt; 6 Separate Advise       5 0.0439</span>
+<span class="co">#&gt; 7 Separate Arrest      26 0.228 </span>
+<span class="co">#&gt; 8 Separate Separate    83 0.728</span></code></pre>
 <p>Assigned proportions in the MDVE:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">mdve_assigned &lt;-<span class="st"> </span>mdve <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(assigned) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4">mdve_assigned</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="co">#&gt;   assigned     n     p</span></a>
-<a class="sourceLine" id="cb41-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb41-8" data-line-number="8"><span class="co">#&gt; 1 Advise     108 0.344</span></a>
-<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="co">#&gt; 2 Arrest      92 0.293</span></a>
-<a class="sourceLine" id="cb41-10" data-line-number="10"><span class="co">#&gt; 3 Separate   114 0.363</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mdve_assigned &lt;-<span class="st"> </span>mdve <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(assigned) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))
+mdve_assigned
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;   assigned     n     p</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Advise     108 0.344</span>
+<span class="co">#&gt; 2 Arrest      92 0.293</span>
+<span class="co">#&gt; 3 Separate   114 0.363</span></code></pre>
 <p>Delivered treatments in the MDVE:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">mdve_outcome &lt;-<span class="st"> </span>mdve <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(outcome) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))</a>
-<a class="sourceLine" id="cb42-4" data-line-number="4">mdve_outcome</a>
-<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="co">#&gt;   outcome      n     p</span></a>
-<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="co">#&gt; 1 Advise      89 0.283</span></a>
-<a class="sourceLine" id="cb42-9" data-line-number="9"><span class="co">#&gt; 2 Arrest     136 0.433</span></a>
-<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="co">#&gt; 3 Separate    89 0.283</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mdve_outcome &lt;-<span class="st"> </span>mdve <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(outcome) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))
+mdve_outcome
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;   outcome      n     p</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Advise      89 0.283</span>
+<span class="co">#&gt; 2 Arrest     136 0.433</span>
+<span class="co">#&gt; 3 Separate    89 0.283</span></code></pre>
 <p>Probability of being coddled, given being assigned the coddled treatment:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">mdve_coddled &lt;-<span class="st"> </span>mdve <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(coddled_a, coddled_o) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(coddled_a) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))</a>
-<a class="sourceLine" id="cb43-5" data-line-number="5">mdve_coddled</a>
-<a class="sourceLine" id="cb43-6" data-line-number="6"><span class="co">#&gt; # A tibble: 4 x 4</span></a>
-<a class="sourceLine" id="cb43-7" data-line-number="7"><span class="co">#&gt; # Groups:   coddled_a [2]</span></a>
-<a class="sourceLine" id="cb43-8" data-line-number="8"><span class="co">#&gt;   coddled_a coddled_o     n      p</span></a>
-<a class="sourceLine" id="cb43-9" data-line-number="9"><span class="co">#&gt;   &lt;lgl&gt;     &lt;lgl&gt;     &lt;int&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb43-10" data-line-number="10"><span class="co">#&gt; 1 FALSE     FALSE        91 0.989 </span></a>
-<a class="sourceLine" id="cb43-11" data-line-number="11"><span class="co">#&gt; 2 FALSE     TRUE          1 0.0109</span></a>
-<a class="sourceLine" id="cb43-12" data-line-number="12"><span class="co">#&gt; 3 TRUE      FALSE        45 0.203 </span></a>
-<a class="sourceLine" id="cb43-13" data-line-number="13"><span class="co">#&gt; 4 TRUE      TRUE        177 0.797</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mdve_coddled &lt;-<span class="st"> </span>mdve <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(coddled_a, coddled_o) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(coddled_a) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))
+mdve_coddled
+<span class="co">#&gt; # A tibble: 4 x 4</span>
+<span class="co">#&gt; # Groups:   coddled_a [2]</span>
+<span class="co">#&gt;   coddled_a coddled_o     n      p</span>
+<span class="co">#&gt;   &lt;lgl&gt;     &lt;lgl&gt;     &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 FALSE     FALSE        91 0.989 </span>
+<span class="co">#&gt; 2 FALSE     TRUE          1 0.0109</span>
+<span class="co">#&gt; 3 TRUE      FALSE        45 0.203 </span>
+<span class="co">#&gt; 4 TRUE      TRUE        177 0.797</span></code></pre>
 <p>IV first stage,
 <span class="math display">\[
 E[D_i | Z_i = 1] - E[D_i | Z_i = 0] .
 \]</span></p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">filter</span>(mdve_coddled, coddled_o, coddled_a)<span class="op">$</span>p <span class="op">-</span></a>
-<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(mdve_coddled, coddled_o, <span class="op">!</span>coddled_a)<span class="op">$</span>p</a>
-<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="co">#&gt; [1] 0.786</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(mdve_coddled, coddled_o, coddled_a)<span class="op">$</span>p <span class="op">-</span>
+<span class="st">  </span><span class="kw">filter</span>(mdve_coddled, coddled_o, <span class="op">!</span>coddled_a)<span class="op">$</span>p
+<span class="co">#&gt; [1] 0.786</span></code></pre>
 <p>The response variable is not provided, so the full 2SLS is not estimated here.</p>
 <div id="references-2" class="section level2">
 <h2><span class="header-section-number">3.1</span> References</h2>

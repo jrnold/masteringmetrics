@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
   <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
@@ -203,84 +203,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Chapter 4 of <em>Mastering ’Metrics</em>, Table 4.1 and Figures 4.2, 4.4, and 4.5 in Mastering Metrics.
 These present sharp RD estimates of the effect of the minimum legal drinking age (MLDA) on mortality.</p>
 <p>Load libraries.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;rlang&quot;</span>)</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)</a>
-<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;haven&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;rlang&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</code></pre>
 <p>Load MLDA data</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;mlda&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;mlda&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre>
 <p>Add an indicator variable for individuals over 21 years of age.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">mlda &lt;-<span class="st"> </span><span class="kw">mutate</span>(mlda,</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">               <span class="dt">age =</span> agecell <span class="op">-</span><span class="st"> </span><span class="dv">21</span>,</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">               <span class="dt">over21 =</span> <span class="kw">as.integer</span>(agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">21</span>))</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mlda &lt;-<span class="st"> </span><span class="kw">mutate</span>(mlda,
+               <span class="dt">age =</span> agecell <span class="op">-</span><span class="st"> </span><span class="dv">21</span>,
+               <span class="dt">over21 =</span> <span class="kw">as.integer</span>(agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">21</span>))</code></pre>
 <p>Add a variable for other causes of death.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">mlda &lt;-<span class="st"> </span><span class="kw">mutate</span>(mlda, <span class="dt">ext_oth =</span> external <span class="op">-</span><span class="st"> </span>homicide <span class="op">-</span><span class="st"> </span>suicide <span class="op">-</span><span class="st"> </span>mva)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">mlda &lt;-<span class="st"> </span><span class="kw">mutate</span>(mlda, <span class="dt">ext_oth =</span> external <span class="op">-</span><span class="st"> </span>homicide <span class="op">-</span><span class="st"> </span>suicide <span class="op">-</span><span class="st"> </span>mva)</code></pre>
 <p>For “all causes”, “motor vehicle accidents”, and “internal causes” deaths plot the linear and quadratic trends on each side of age 21.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All Causes&quot;</span>,</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">             <span class="st">&quot;mva&quot;</span> =<span class="st"> &quot;Motor Vehicle Accidents&quot;</span>,</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">             <span class="st">&quot;internal&quot;</span> =<span class="st"> &quot;Internal Causes&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">mlda <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(agecell, over21, <span class="kw">one_of</span>(<span class="kw">names</span>(varlist))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>(response, value, <span class="op">-</span>agecell, <span class="op">-</span>over21, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">response =</span> <span class="kw">recode</span>(response, <span class="op">!!!</span><span class="kw">as.list</span>(varlist))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> agecell, <span class="dt">y =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb50-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">group =</span> over21), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
-<a class="sourceLine" id="cb50-8" data-line-number="8">              <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb50-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">group =</span> over21), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
-<a class="sourceLine" id="cb50-10" data-line-number="10">              <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb50-11" data-line-number="11"><span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>., <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb50-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Mortality rate (per 100,000)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Age&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">varlist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All Causes&quot;</span>,
+             <span class="st">&quot;mva&quot;</span> =<span class="st"> &quot;Motor Vehicle Accidents&quot;</span>,
+             <span class="st">&quot;internal&quot;</span> =<span class="st"> &quot;Internal Causes&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">mlda <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(agecell, over21, <span class="kw">one_of</span>(<span class="kw">names</span>(varlist))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(response, value, <span class="op">-</span>agecell, <span class="op">-</span>over21, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">response =</span> <span class="kw">recode</span>(response, <span class="op">!!!</span><span class="kw">as.list</span>(varlist))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> agecell, <span class="dt">y =</span> value)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">group =</span> over21), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,
+              <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">group =</span> over21), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,
+              <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(response <span class="op">~</span><span class="st"> </span>., <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Mortality rate (per 100,000)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Age&quot;</span>)</code></pre>
 <p><img src="mlda-rd_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">responses &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All deaths&quot;</span>,</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">               <span class="st">&quot;mva&quot;</span> =<span class="st"> &quot;Motor vehicle accidents&quot;</span>,</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">               <span class="st">&quot;suicide&quot;</span> =<span class="st"> &quot;Suicide&quot;</span>,</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">               <span class="st">&quot;homicide&quot;</span> =<span class="st"> &quot;Homocide&quot;</span>,</a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">               <span class="st">&quot;ext_oth&quot;</span> =<span class="st"> &quot;Other external causes&quot;</span>,</a>
-<a class="sourceLine" id="cb51-6" data-line-number="6">               <span class="st">&quot;internal&quot;</span> =<span class="st"> &quot;All internal causes&quot;</span>,</a>
-<a class="sourceLine" id="cb51-7" data-line-number="7">               <span class="st">&quot;alcohol&quot;</span> =<span class="st"> &quot;Alcohol&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">responses &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span> =<span class="st"> &quot;All deaths&quot;</span>,
+               <span class="st">&quot;mva&quot;</span> =<span class="st"> &quot;Motor vehicle accidents&quot;</span>,
+               <span class="st">&quot;suicide&quot;</span> =<span class="st"> &quot;Suicide&quot;</span>,
+               <span class="st">&quot;homicide&quot;</span> =<span class="st"> &quot;Homocide&quot;</span>,
+               <span class="st">&quot;ext_oth&quot;</span> =<span class="st"> &quot;Other external causes&quot;</span>,
+               <span class="st">&quot;internal&quot;</span> =<span class="st"> &quot;All internal causes&quot;</span>,
+               <span class="st">&quot;alcohol&quot;</span> =<span class="st"> &quot;Alcohol&quot;</span>)</code></pre>
 <p>Define a function to run four regressions for a given response variable, <code>y</code>.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">run_reg &lt;-<span class="st"> </span><span class="cf">function</span>(y) {</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2">  mods &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3">    <span class="st">&quot;Ages 19-22, Linear&quot;</span> =</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>over21), <span class="dt">data =</span> mlda),</a>
-<a class="sourceLine" id="cb52-5" data-line-number="5">    <span class="st">&quot;Ages 19-22, Quadratic&quot;</span> =</a>
-<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>over21), <span class="dt">data =</span> mlda),</a>
-<a class="sourceLine" id="cb52-7" data-line-number="7">    <span class="st">&quot;Ages 20-21, Linear&quot;</span> =</a>
-<a class="sourceLine" id="cb52-8" data-line-number="8"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>over21),</a>
-<a class="sourceLine" id="cb52-9" data-line-number="9">             <span class="dt">data =</span> <span class="kw">filter</span>(mlda, agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>, agecell <span class="op">&lt;=</span><span class="st"> </span><span class="dv">22</span>)),</a>
-<a class="sourceLine" id="cb52-10" data-line-number="10">    <span class="st">&quot;Ages 20-21, Quadratic&quot;</span> =</a>
-<a class="sourceLine" id="cb52-11" data-line-number="11"><span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>over21),</a>
-<a class="sourceLine" id="cb52-12" data-line-number="12">             <span class="dt">data =</span> <span class="kw">filter</span>(mlda, agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>, agecell <span class="op">&lt;=</span><span class="st"> </span><span class="dv">22</span>))</a>
-<a class="sourceLine" id="cb52-13" data-line-number="13">  )</a>
-<a class="sourceLine" id="cb52-14" data-line-number="14">  out &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb52-15" data-line-number="15">    <span class="dt">model_name =</span> <span class="kw">names</span>(mods),</a>
-<a class="sourceLine" id="cb52-16" data-line-number="16">    <span class="dt">model =</span> mods,</a>
-<a class="sourceLine" id="cb52-17" data-line-number="17">    <span class="dt">ages =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;19-22&quot;</span>, <span class="st">&quot;20-21&quot;</span>), <span class="dt">each =</span> <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb52-18" data-line-number="18">    <span class="dt">trend =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Linear&quot;</span>, <span class="st">&quot;Quadratic&quot;</span>), <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb52-19" data-line-number="19">    <span class="dt">model_num =</span> <span class="kw">seq_along</span>(mods)</a>
-<a class="sourceLine" id="cb52-20" data-line-number="20">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-21" data-line-number="21"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">coefs =</span> <span class="kw">map</span>(model, <span class="op">~</span><span class="st"> </span><span class="kw">tidy</span>(<span class="kw">coeftest</span>(.x, <span class="kw">vcovHC</span>(.x))))) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># nolint</span></a>
-<a class="sourceLine" id="cb52-22" data-line-number="22"><span class="st">    </span><span class="kw">unnest</span>(coefs, <span class="dt">.drop =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-23" data-line-number="23"><span class="st">    </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;over21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-24" data-line-number="24"><span class="st">    </span><span class="kw">select</span>(model_name, model, term, estimate, std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-25" data-line-number="25"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> y)</a>
-<a class="sourceLine" id="cb52-26" data-line-number="26">  <span class="co"># sample size = df.residuals + residuals</span></a>
-<a class="sourceLine" id="cb52-27" data-line-number="27">  out[[<span class="st">&quot;obs&quot;</span>]] &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(mods, glance) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-28" data-line-number="28"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">obs =</span> df.residual <span class="op">+</span><span class="st"> </span>df) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-29" data-line-number="29"><span class="st">    </span><span class="kw">pluck</span>(<span class="st">&quot;obs&quot;</span>)</a>
-<a class="sourceLine" id="cb52-30" data-line-number="30">  out</a>
-<a class="sourceLine" id="cb52-31" data-line-number="31">}</a>
-<a class="sourceLine" id="cb52-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb52-33" data-line-number="33">mlda_regs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(<span class="kw">names</span>(responses), run_reg) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb52-34" data-line-number="34"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">response =</span> <span class="kw">recode</span>(response, <span class="op">!!!</span><span class="kw">as.list</span>(responses)))</a></code></pre></div>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">mlda_regs <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(model_name, response, estimate, std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>(stat, value, estimate, std.error) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="st">  </span><span class="kw">spread</span>(model_name, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">run_reg &lt;-<span class="st"> </span><span class="cf">function</span>(y) {
+  mods &lt;-<span class="st"> </span><span class="kw">list</span>(
+    <span class="st">&quot;Ages 19-22, Linear&quot;</span> =
+<span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>over21), <span class="dt">data =</span> mlda),
+    <span class="st">&quot;Ages 19-22, Quadratic&quot;</span> =
+<span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>over21), <span class="dt">data =</span> mlda),
+    <span class="st">&quot;Ages 20-21, Linear&quot;</span> =
+<span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span>age <span class="op">*</span><span class="st"> </span>over21),
+             <span class="dt">data =</span> <span class="kw">filter</span>(mlda, agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>, agecell <span class="op">&lt;=</span><span class="st"> </span><span class="dv">22</span>)),
+    <span class="st">&quot;Ages 20-21, Quadratic&quot;</span> =
+<span class="st">      </span><span class="kw">lm</span>(<span class="kw">quo</span>(<span class="op">!!</span><span class="kw">sym</span>(y) <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(age, <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span>over21),
+             <span class="dt">data =</span> <span class="kw">filter</span>(mlda, agecell <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>, agecell <span class="op">&lt;=</span><span class="st"> </span><span class="dv">22</span>))
+  )
+  out &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+    <span class="dt">model_name =</span> <span class="kw">names</span>(mods),
+    <span class="dt">model =</span> mods,
+    <span class="dt">ages =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;19-22&quot;</span>, <span class="st">&quot;20-21&quot;</span>), <span class="dt">each =</span> <span class="dv">2</span>),
+    <span class="dt">trend =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Linear&quot;</span>, <span class="st">&quot;Quadratic&quot;</span>), <span class="dv">2</span>),
+    <span class="dt">model_num =</span> <span class="kw">seq_along</span>(mods)
+  ) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">coefs =</span> <span class="kw">map</span>(model, <span class="op">~</span><span class="st"> </span><span class="kw">tidy</span>(<span class="kw">coeftest</span>(.x, <span class="kw">vcovHC</span>(.x))))) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># nolint</span>
+<span class="st">    </span><span class="kw">unnest</span>(coefs, <span class="dt">.drop =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;over21&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(model_name, model, term, estimate, std.error) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">response =</span> y)
+  <span class="co"># sample size = df.residuals + residuals</span>
+  out[[<span class="st">&quot;obs&quot;</span>]] &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(mods, glance) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">obs =</span> df.residual <span class="op">+</span><span class="st"> </span>df) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pluck</span>(<span class="st">&quot;obs&quot;</span>)
+  out
+}
+
+mlda_regs &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(<span class="kw">names</span>(responses), run_reg) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">response =</span> <span class="kw">recode</span>(response, <span class="op">!!!</span><span class="kw">as.list</span>(responses)))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">mlda_regs <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(model_name, response, estimate, std.error) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(stat, value, estimate, std.error) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">spread</span>(model_name, value) <span class="op">%&gt;%</span>
+<span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</code></pre>
 <table>
 <thead>
 <tr class="header">

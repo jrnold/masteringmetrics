@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R Code for Mastering ’Metrics</title>
   <meta name="description" content="R code to reproduce analyses in Mastering Metrics by Angrist and Pischke.">
-  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R Code for Mastering ’Metrics" />
   <meta property="og:type" content="book" />
@@ -199,17 +199,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">R Code for Mastering ’Metrics</h1>
-<h4 class="author"><em>Jeffrey B. Arnold</em></h4>
+<p class="author"><em>Jeffrey B. Arnold</em></p>
 </div>
 <div id="welcome" class="section level1 unnumbered">
 <h1>Welcome</h1>
 <p>This work contains R code to reproduce many of the analyses in <em>Mastering ’Metrics</em> by Joshua D. Angrist and Jörn-Steffen Pischke <span class="citation">(Angrist and Pischke 2014)</span>.
 This work provides R translations of the replication code available at <a href="http://masteringmetrics.com/resources/">masteringmetrics.com</a>.</p>
+<p>The R code used in the examples heavily depends on <a href="https://www.tidyverse.org/">tidyverse</a> packages.
+I suggest starting with Grolemund and Wickham, <a href="http://r4ds.had.co.nz/">R for Data Science</a> if you are unfamiliar with the tidyverse.</p>
 <div id="install" class="section level2 unnumbered">
 <h2>Install</h2>
-<p>To install all packages used in the examples in this work
-and the datasets from <em>Mastering ’Metrics</em> run</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;jrnold/masteringmetrics&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</a></code></pre></div>
+<p>To install all R packages and datasets needed to run the examples in <em>Mastering ’Metrics</em> run:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;jrnold/masteringmetrics&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;masteringmetrics&quot;</span>)</code></pre>
 </div>
 <div id="license" class="section level2 unnumbered">
 <h2>License</h2>
@@ -220,107 +222,107 @@ The R Code in this work is licensed under the <a href="https://opensource.org/li
 <h2>Colonophon</h2>
 <p>The book is powered by <a href="https://bookdown.org" class="uri">https://bookdown.org</a> which makes it easy to turn R markdown files into HTML, PDF, and EPUB.</p>
 <p>This book was built with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">session_info</span>(<span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Session info -------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;  setting  value                       </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;  version  R version 3.4.4 (2018-03-15)</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;  system   x86_64, darwin15.6.0        </span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  ui       X11                         </span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  language (EN)                        </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;  collate  en_US.UTF-8                 </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  tz       America/Los_Angeles         </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  date     2018-04-15</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; Packages -----------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;  package      * version    date       source                          </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  assertthat     0.2.0      2017-04-11 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  backports      1.1.2      2017-12-13 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  base64enc      0.1-3      2015-07-28 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;  BH             1.66.0-1   2018-02-13 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;  bindr          0.1.1      2018-03-13 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;  bindrcpp       0.2        2017-06-17 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt;  broom          0.4.4      2018-03-29 cran (@0.4.4)                   </span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;  callr          2.0.2      2018-02-11 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;  cellranger     1.1.0      2016-07-27 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt;  cli            1.0.0      2017-11-05 cran (@1.0.0)                   </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;  colorspace     1.3-2      2016-12-14 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt;  compiler       3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt;  crayon         1.3.4      2017-09-16 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt;  curl           3.1        2017-12-12 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt;  DBI            0.8        2018-03-02 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt;  dbplyr         1.2.1      2018-02-19 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt;  debugme        1.1.0      2017-10-22 CRAN (R 3.4.2)                  </span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;  dichromat      2.0-0      2013-01-24 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;  digest         0.6.15     2018-01-28 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt;  dplyr          0.7.4      2017-09-28 CRAN (R 3.4.2)                  </span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt;  evaluate       0.10.1     2017-06-24 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt;  forcats        0.3.0      2018-02-19 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt;  foreign        0.8-69     2017-06-22 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt;  ggplot2        2.2.1      2016-12-30 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt;  glue           1.2.0      2017-10-29 CRAN (R 3.4.2)                  </span></a>
-<a class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt;  graphics     * 3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt;  grDevices    * 3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt;  grid           3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt;  gtable         0.2.0      2016-02-26 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt;  haven          1.1.1.9000 2018-03-31 Github (tidyverse/haven@746eb3e)</span></a>
-<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;  highr          0.6        2016-05-09 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt;  hms            0.4.2      2018-03-10 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt;  htmltools      0.3.6      2017-04-28 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt;  httr           1.3.1      2017-08-20 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt;  jsonlite       1.5        2017-06-01 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt;  knitr          1.20       2018-02-20 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt;  labeling       0.3        2014-08-23 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-50" data-line-number="50"><span class="co">#&gt;  lattice        0.20-35    2017-03-25 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="co">#&gt;  lazyeval       0.2.1      2017-10-29 CRAN (R 3.4.2)                  </span></a>
-<a class="sourceLine" id="cb2-52" data-line-number="52"><span class="co">#&gt;  lubridate      1.7.3      2018-02-27 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-53" data-line-number="53"><span class="co">#&gt;  magrittr       1.5        2014-11-22 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-54" data-line-number="54"><span class="co">#&gt;  markdown       0.8        2017-04-20 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-55" data-line-number="55"><span class="co">#&gt;  MASS           7.3-49     2018-02-23 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-56" data-line-number="56"><span class="co">#&gt;  methods        3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-57" data-line-number="57"><span class="co">#&gt;  mime           0.5        2016-07-07 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-58" data-line-number="58"><span class="co">#&gt;  mnormt         1.5-5      2016-10-15 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-59" data-line-number="59"><span class="co">#&gt;  modelr         0.1.1      2017-07-24 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-60" data-line-number="60"><span class="co">#&gt;  munsell        0.4.3      2016-02-13 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-61" data-line-number="61"><span class="co">#&gt;  nlme           3.1-131.1  2018-02-16 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-62" data-line-number="62"><span class="co">#&gt;  openssl        1.0.1      2018-03-03 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-63" data-line-number="63"><span class="co">#&gt;  parallel       3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-64" data-line-number="64"><span class="co">#&gt;  pillar         1.2.1      2018-02-27 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-65" data-line-number="65"><span class="co">#&gt;  pkgconfig      2.0.1      2017-03-21 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-66" data-line-number="66"><span class="co">#&gt;  plogr          0.2.0      2018-03-25 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-67" data-line-number="67"><span class="co">#&gt;  plyr           1.8.4      2016-06-08 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-68" data-line-number="68"><span class="co">#&gt;  praise         1.0.0      2015-08-11 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-69" data-line-number="69"><span class="co">#&gt;  psych          1.7.8      2017-09-09 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-70" data-line-number="70"><span class="co">#&gt;  purrr          0.2.4      2017-10-18 cran (@0.2.4)                   </span></a>
-<a class="sourceLine" id="cb2-71" data-line-number="71"><span class="co">#&gt;  R6             2.2.2      2017-06-17 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-72" data-line-number="72"><span class="co">#&gt;  RColorBrewer   1.1-2      2014-12-07 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-73" data-line-number="73"><span class="co">#&gt;  Rcpp           0.12.16    2018-03-13 cran (@0.12.16)                 </span></a>
-<a class="sourceLine" id="cb2-74" data-line-number="74"><span class="co">#&gt;  readr          1.1.1      2017-05-16 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-75" data-line-number="75"><span class="co">#&gt;  readxl         1.0.0      2017-04-18 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-76" data-line-number="76"><span class="co">#&gt;  rematch        1.0.1      2016-04-21 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-77" data-line-number="77"><span class="co">#&gt;  reprex         0.1.2      2018-01-26 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-78" data-line-number="78"><span class="co">#&gt;  reshape2       1.4.3      2017-12-11 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-79" data-line-number="79"><span class="co">#&gt;  rlang          0.2.0      2018-02-20 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-80" data-line-number="80"><span class="co">#&gt;  rmarkdown      1.9        2018-03-01 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-81" data-line-number="81"><span class="co">#&gt;  rprojroot      1.3-2      2018-01-03 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-82" data-line-number="82"><span class="co">#&gt;  rstudioapi     0.7        2017-09-07 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-83" data-line-number="83"><span class="co">#&gt;  rvest          0.3.2      2016-06-17 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-84" data-line-number="84"><span class="co">#&gt;  scales         0.5.0      2017-08-24 CRAN (R 3.4.1)                  </span></a>
-<a class="sourceLine" id="cb2-85" data-line-number="85"><span class="co">#&gt;  selectr        0.3-2      2018-03-05 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-86" data-line-number="86"><span class="co">#&gt;  stats        * 3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-87" data-line-number="87"><span class="co">#&gt;  stringi        1.1.7      2018-03-12 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-88" data-line-number="88"><span class="co">#&gt;  stringr        1.3.0      2018-02-19 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-89" data-line-number="89"><span class="co">#&gt;  testthat       2.0.0      2017-12-13 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-90" data-line-number="90"><span class="co">#&gt;  tibble         1.4.2      2018-01-22 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-91" data-line-number="91"><span class="co">#&gt;  tidyr          0.8.0      2018-01-29 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-92" data-line-number="92"><span class="co">#&gt;  tidyselect     0.2.4      2018-02-26 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-93" data-line-number="93"><span class="co">#&gt;  tidyverse      1.2.1      2017-11-14 CRAN (R 3.4.2)                  </span></a>
-<a class="sourceLine" id="cb2-94" data-line-number="94"><span class="co">#&gt;  tools          3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-95" data-line-number="95"><span class="co">#&gt;  utf8           1.1.3      2018-01-03 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-96" data-line-number="96"><span class="co">#&gt;  utils        * 3.4.4      2018-03-15 local                           </span></a>
-<a class="sourceLine" id="cb2-97" data-line-number="97"><span class="co">#&gt;  viridisLite    0.3.0      2018-02-01 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-98" data-line-number="98"><span class="co">#&gt;  whisker        0.3-2      2013-04-28 CRAN (R 3.4.0)                  </span></a>
-<a class="sourceLine" id="cb2-99" data-line-number="99"><span class="co">#&gt;  withr          2.1.2      2018-03-15 CRAN (R 3.4.4)                  </span></a>
-<a class="sourceLine" id="cb2-100" data-line-number="100"><span class="co">#&gt;  xml2           1.2.0      2018-01-24 CRAN (R 3.4.3)                  </span></a>
-<a class="sourceLine" id="cb2-101" data-line-number="101"><span class="co">#&gt;  yaml           2.1.18     2018-03-08 cran (@2.1.18)</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">session_info</span>(<span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>))
+<span class="co">#&gt; Session info -------------------------------------------------------------</span>
+<span class="co">#&gt;  setting  value                       </span>
+<span class="co">#&gt;  version  R version 3.4.4 (2018-03-15)</span>
+<span class="co">#&gt;  system   x86_64, darwin15.6.0        </span>
+<span class="co">#&gt;  ui       X11                         </span>
+<span class="co">#&gt;  language (EN)                        </span>
+<span class="co">#&gt;  collate  en_US.UTF-8                 </span>
+<span class="co">#&gt;  tz       America/Los_Angeles         </span>
+<span class="co">#&gt;  date     2018-04-15</span>
+<span class="co">#&gt; Packages -----------------------------------------------------------------</span>
+<span class="co">#&gt;  package      * version    date       source                          </span>
+<span class="co">#&gt;  assertthat     0.2.0      2017-04-11 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  backports      1.1.2      2017-12-13 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  base64enc      0.1-3      2015-07-28 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  BH             1.66.0-1   2018-02-13 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  bindr          0.1.1      2018-03-13 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  bindrcpp       0.2        2017-06-17 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  broom          0.4.4      2018-03-29 cran (@0.4.4)                   </span>
+<span class="co">#&gt;  callr          2.0.2      2018-02-11 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  cellranger     1.1.0      2016-07-27 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  cli            1.0.0      2017-11-05 cran (@1.0.0)                   </span>
+<span class="co">#&gt;  colorspace     1.3-2      2016-12-14 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  compiler       3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  crayon         1.3.4      2017-09-16 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  curl           3.1        2017-12-12 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  DBI            0.8        2018-03-02 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  dbplyr         1.2.1      2018-02-19 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  debugme        1.1.0      2017-10-22 CRAN (R 3.4.2)                  </span>
+<span class="co">#&gt;  dichromat      2.0-0      2013-01-24 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  digest         0.6.15     2018-01-28 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  dplyr          0.7.4      2017-09-28 CRAN (R 3.4.2)                  </span>
+<span class="co">#&gt;  evaluate       0.10.1     2017-06-24 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  forcats        0.3.0      2018-02-19 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  foreign        0.8-69     2017-06-22 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  ggplot2        2.2.1      2016-12-30 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  glue           1.2.0      2017-10-29 CRAN (R 3.4.2)                  </span>
+<span class="co">#&gt;  graphics     * 3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  grDevices    * 3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  grid           3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  gtable         0.2.0      2016-02-26 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  haven          1.1.1.9000 2018-03-31 Github (tidyverse/haven@746eb3e)</span>
+<span class="co">#&gt;  highr          0.6        2016-05-09 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  hms            0.4.2      2018-03-10 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  htmltools      0.3.6      2017-04-28 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  httr           1.3.1      2017-08-20 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  jsonlite       1.5        2017-06-01 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  knitr          1.20       2018-02-20 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  labeling       0.3        2014-08-23 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  lattice        0.20-35    2017-03-25 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  lazyeval       0.2.1      2017-10-29 CRAN (R 3.4.2)                  </span>
+<span class="co">#&gt;  lubridate      1.7.3      2018-02-27 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  magrittr       1.5        2014-11-22 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  markdown       0.8        2017-04-20 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  MASS           7.3-49     2018-02-23 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  methods        3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  mime           0.5        2016-07-07 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  mnormt         1.5-5      2016-10-15 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  modelr         0.1.1      2017-07-24 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  munsell        0.4.3      2016-02-13 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  nlme           3.1-131.1  2018-02-16 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  openssl        1.0.1      2018-03-03 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  parallel       3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  pillar         1.2.1      2018-02-27 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  pkgconfig      2.0.1      2017-03-21 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  plogr          0.2.0      2018-03-25 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  plyr           1.8.4      2016-06-08 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  praise         1.0.0      2015-08-11 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  psych          1.7.8      2017-09-09 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  purrr          0.2.4      2017-10-18 cran (@0.2.4)                   </span>
+<span class="co">#&gt;  R6             2.2.2      2017-06-17 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  RColorBrewer   1.1-2      2014-12-07 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  Rcpp           0.12.16    2018-03-13 cran (@0.12.16)                 </span>
+<span class="co">#&gt;  readr          1.1.1      2017-05-16 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  readxl         1.0.0      2017-04-18 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  rematch        1.0.1      2016-04-21 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  reprex         0.1.2      2018-01-26 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  reshape2       1.4.3      2017-12-11 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  rlang          0.2.0      2018-02-20 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  rmarkdown      1.9        2018-03-01 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  rprojroot      1.3-2      2018-01-03 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  rstudioapi     0.7        2017-09-07 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  rvest          0.3.2      2016-06-17 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  scales         0.5.0      2017-08-24 CRAN (R 3.4.1)                  </span>
+<span class="co">#&gt;  selectr        0.3-2      2018-03-05 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  stats        * 3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  stringi        1.1.7      2018-03-12 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  stringr        1.3.0      2018-02-19 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  testthat       2.0.0      2017-12-13 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  tibble         1.4.2      2018-01-22 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  tidyr          0.8.0      2018-01-29 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  tidyselect     0.2.4      2018-02-26 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  tidyverse      1.2.1      2017-11-14 CRAN (R 3.4.2)                  </span>
+<span class="co">#&gt;  tools          3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  utf8           1.1.3      2018-01-03 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  utils        * 3.4.4      2018-03-15 local                           </span>
+<span class="co">#&gt;  viridisLite    0.3.0      2018-02-01 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  whisker        0.3-2      2013-04-28 CRAN (R 3.4.0)                  </span>
+<span class="co">#&gt;  withr          2.1.2      2018-03-15 CRAN (R 3.4.4)                  </span>
+<span class="co">#&gt;  xml2           1.2.0      2018-01-24 CRAN (R 3.4.3)                  </span>
+<span class="co">#&gt;  yaml           2.1.18     2018-03-08 cran (@2.1.18)</span></code></pre>
 
 </div>
 </div>
