@@ -26,7 +26,6 @@ figures
 *.log
 *.fdb_latexmk
 _bookdown_files
-libs
 bookdown*
 *.rds
 *.bib.sav
